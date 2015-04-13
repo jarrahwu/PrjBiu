@@ -1,0 +1,20 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@android:id/background">
+        <shape>
+            <stroke android:width="1dip" android:color="#d5d5d5"/>
+            <corners android:radius="5dip" />
+            <solid android:color="@color/transparent"/>
+        </shape>
+    </item>
+
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <corners android:radius="5dip" />
+                <solid android:color="#5fc700"/>
+            </shape>
+        </clip>
+    </item>
+
+</layer-list><!-- From: file:/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/drawable/green_progress_drawable.xml -->

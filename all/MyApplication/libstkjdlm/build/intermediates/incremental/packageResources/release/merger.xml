@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res"><file name="green_progress_drawable" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/drawable/green_progress_drawable.xml" qualifiers="" type="drawable"/><file name="sel_app_check" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/drawable/sel_app_check.xml" qualifiers="" type="drawable"/><file name="shape_white_conner_stroke" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/drawable/shape_white_conner_stroke.xml" qualifiers="" type="drawable"/><file name="ic_launcher" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/drawable-hdpi/ic_launcher.png" qualifiers="hdpi-v4" type="drawable"/><file name="ic_launcher" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/drawable-mdpi/ic_launcher.png" qualifiers="mdpi-v4" type="drawable"/><file name="bg_net_work_tips" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/drawable-xhdpi/bg_net_work_tips.9.png" qualifiers="xhdpi-v4" type="drawable"/><file name="bg_switch_selected" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/drawable-xhdpi/bg_switch_selected.9.png" qualifiers="xhdpi-v4" type="drawable"/><file name="bg_switch_unselected" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/drawable-xhdpi/bg_switch_unselected.9.png" qualifiers="xhdpi-v4" type="drawable"/><file name="btn_selected" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/drawable-xhdpi/btn_selected.png" qualifiers="xhdpi-v4" type="drawable"/><file name="btn_unselected" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/drawable-xhdpi/btn_unselected.png" qualifiers="xhdpi-v4" type="drawable"/><file name="ic_launcher" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/drawable-xhdpi/ic_launcher.png" qualifiers="xhdpi-v4" type="drawable"/><file name="ic_warning" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/drawable-xhdpi/ic_warning.png" qualifiers="xhdpi-v4" type="drawable"/><file name="ic_launcher" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/drawable-xxhdpi/ic_launcher.png" qualifiers="xxhdpi-v4" type="drawable"/><file name="activity_download_manager" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/layout/activity_download_manager.xml" qualifiers="" type="layout"/><file name="fragment_downloaded" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/layout/fragment_downloaded.xml" qualifiers="" type="layout"/><file name="fragment_downloading" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/layout/fragment_downloading.xml" qualifiers="" type="layout"/><file name="item_app_downloaded" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/layout/item_app_downloaded.xml" qualifiers="" type="layout"/><file name="item_app_downloading" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/layout/item_app_downloading.xml" qualifiers="" type="layout"/><file name="view_switch_tab" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/layout/view_switch_tab.xml" qualifiers="" type="layout"/><file name="option_menu" path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/menu/option_menu.xml" qualifiers="" type="menu"/><file path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/values/color.xml" qualifiers=""><color name="transparent">#00000000</color></file><file path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/values/dimens.xml" qualifiers=""><dimen name="PagerTabUnderlineHeight">1dip</dimen><dimen name="activityPaddingLeft">7dip</dimen><dimen name="PagerTabPadding">20dip</dimen><dimen name="SlidingMenuShadowWith">5dip</dimen><dimen name="stdHeight">48dip</dimen><dimen name="ListItemPaddingTop">5dip</dimen><dimen name="ListItemPaddingBottom">5dip</dimen><dimen name="activityPaddingRight">7dip</dimen><dimen name="ListItemPaddingLeft">12dip</dimen><dimen name="PagerIndicatorTabHeight">48dip</dimen><dimen name="PagerIndicatorHeight">3dip</dimen><dimen name="ListItemPaddingRight">12dip</dimen><dimen name="activityPaddingTop">7dip</dimen><dimen name="activityPaddingBottom">7dip</dimen><dimen name="BtnHeight">48dip</dimen><dimen name="BtnWidth">70dip</dimen><dimen name="SlidingMenuBehindOffset">10dip</dimen><dimen name="stdWidth">48dip</dimen></file><file path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/values/strings.xml" qualifiers=""><string name="download_manager">下载管理器</string><string name="start_download">开始下载</string><string name="app_name">StkjDlmLib</string><string name="delete">删除</string><string name="app_cannot_open">程序无法打开</string><string name="downloading">正在下载</string><string name="downloaded">已下载</string><string name="noWifiWarning">当前无WIFI下载会消耗数据流量</string><string name="unfinished">未完成</string></file><file path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/values/styles.xml" qualifiers=""><style name="ListItem" parent="MatchSize">
+        <item name="android:paddingTop">@dimen/ListItemPaddingTop</item>
+        <item name="android:paddingBottom">@dimen/ListItemPaddingBottom</item>
+    </style><style name="NetworkTipsTextView">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">15dip</item>
+        <item name="android:layout_marginRight">15dip</item>
+        <item name="android:background">@drawable/bg_net_work_tips</item>
+        <item name="android:drawableLeft">@drawable/ic_warning</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">5dip</item>
+        <item name="android:paddingBottom">5dip</item>
+        <item name="android:paddingLeft">15dip</item>
+        <item name="android:text">@string/noWifiWarning</item>
+        <item name="android:textColor">#ff0000</item>
+        <item name="android:textSize">14sp</item>
+    </style><style name="ListView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:footerDividersEnabled">false</item>
+        <item name="android:headerDividersEnabled">false</item>
+        <item name="android:cacheColorHint">#FF000000</item>
+    </style><style name="MatchSize">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+    </style><style name="AppCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/sel_app_check</item>
+        <item name="android:layout_width">20dip</item>
+        <item name="android:layout_height">20dip</item>
+    </style><style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style><style name="RecommendBtn" parent="MatchSize">
+        <item name="android:background">@drawable/shape_white_conner_stroke</item>
+        <item name="android:textColor">#52b5ff</item>
+        <item name="android:gravity">center</item>
+    </style><style name="ListItem.Padding">
+        <item name="android:paddingLeft">@dimen/ListItemPaddingLeft</item>
+        <item name="android:paddingRight">@dimen/ListItemPaddingRight</item>
+    </style><style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style></file><file path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/values-v11/styles.xml" qualifiers="v11"><style name="AppBaseTheme" parent="android:Theme.Holo.Light">
+        <!-- API 11 theme customizations can go here. -->
+    </style></file><file path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/main/res/values-v14/styles.xml" qualifiers="v14"><style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- API 14 theme customizations can go here. -->
+    </style></file></source><source path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/build/generated/res/rs/release"/><source path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/build/generated/res/generated/release"/></dataSet><dataSet config="release"><source path="/Users/jarrahwu/Documents/AndroidStudioProject/MyApplication/libstkjdlm/src/release/res"/></dataSet><mergedItems/></merger>
