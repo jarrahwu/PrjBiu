@@ -20,4 +20,4 @@
         android:background="@drawable/bg_switch_unselected"
         android:text="@string/downloaded"/>
 </LinearLayout>
-<!-- From: file:/Users/jarrahwu/Documents/JarrahGithub/PrjBiu/all/MyApplication/libstkjdlm/src/main/res/layout/view_switch_tab.xml -->
+<!-- From: file:/C:/Android/Git/PrjBiu/all/MyApplication/libstkjdlm/src/main/res/layout/view_switch_tab.xml -->

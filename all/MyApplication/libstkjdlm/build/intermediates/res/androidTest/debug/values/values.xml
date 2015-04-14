@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/jarrahwu/Documents/JarrahGithub/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/res/values/values.xml -->
+    <!-- From: file:/C:/Android/Git/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="actionBarDivider"/>
     <attr format="reference" name="actionBarItemBackground"/>
@@ -74,7 +74,7 @@
     <color name="abc_search_url_text_normal">#7fa87f</color>
     <color name="abc_search_url_text_pressed">@android:color/black</color>
     <color name="abc_search_url_text_selected">@android:color/black</color>
-    <!-- From: file:/Users/jarrahwu/Documents/JarrahGithub/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/bundles/debug/res/values/values.xml -->
+    <!-- From: file:/C:/Android/Git/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/bundles/debug/res/values/values.xml -->
     <eat-comment/>
     <color name="transparent">#00000000</color>
     <declare-styleable name="ActionBar"><attr name="navigationMode"><enum name="normal" value="0"/><enum name="listMode" value="1"/><enum name="tabMode" value="2"/></attr><attr name="displayOptions"><flag name="useLogo" value="0x1"/><flag name="showHome" value="0x2"/><flag name="homeAsUp" value="0x4"/><flag name="showTitle" value="0x8"/><flag name="showCustom" value="0x10"/><flag name="disableHome" value="0x20"/></attr><attr name="title"/><attr format="string" name="subtitle"/><attr format="reference" name="titleTextStyle"/><attr format="reference" name="subtitleTextStyle"/><attr format="reference" name="icon"/><attr format="reference" name="logo"/><attr format="reference" name="divider"/><attr format="reference" name="background"/><attr format="reference|color" name="backgroundStacked"/><attr format="reference|color" name="backgroundSplit"/><attr format="reference" name="customNavigationLayout"/><attr name="height"/><attr format="reference" name="homeLayout"/><attr format="reference" name="progressBarStyle"/><attr format="reference" name="indeterminateProgressStyle"/><attr format="dimension" name="progressBarPadding"/><attr format="dimension" name="itemPadding"/></declare-styleable>
@@ -105,7 +105,7 @@
     <dimen name="PagerTabUnderlineHeight">1dip</dimen>
     <dimen name="SlidingMenuBehindOffset">10dip</dimen>
     <dimen name="SlidingMenuShadowWith">5dip</dimen>
-    <!-- From: file:/Users/jarrahwu/Documents/JarrahGithub/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/res/values/values.xml -->
+    <!-- From: file:/C:/Android/Git/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/res/values/values.xml -->
     <eat-comment/>
     <dimen name="abc_action_bar_default_height">48dip</dimen>
     <dimen name="abc_action_bar_icon_vertical_padding">8dip</dimen>
@@ -124,23 +124,23 @@
     <dimen name="abc_panel_menu_list_width">296dp</dimen>
     <dimen name="abc_search_view_preferred_width">320dip</dimen>
     <dimen name="abc_search_view_text_min_width">160dip</dimen>
-    <!-- From: file:/Users/jarrahwu/Documents/JarrahGithub/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/bundles/debug/res/values/values.xml -->
+    <!-- From: file:/C:/Android/Git/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/bundles/debug/res/values/values.xml -->
     <eat-comment/>
     <dimen name="activityPaddingBottom">7dip</dimen>
     <dimen name="activityPaddingLeft">7dip</dimen>
     <dimen name="activityPaddingRight">7dip</dimen>
     <dimen name="activityPaddingTop">7dip</dimen>
-    <!-- From: file:/Users/jarrahwu/Documents/JarrahGithub/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/res/values/values.xml -->
+    <!-- From: file:/C:/Android/Git/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/res/values/values.xml -->
     <eat-comment/>
     <item name="dialog_fixed_height_major" type="dimen">80%</item>
     <item name="dialog_fixed_height_minor" type="dimen">100%</item>
     <item name="dialog_fixed_width_major" type="dimen">320dp</item>
     <item name="dialog_fixed_width_minor" type="dimen">320dp</item>
-    <!-- From: file:/Users/jarrahwu/Documents/JarrahGithub/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/bundles/debug/res/values/values.xml -->
+    <!-- From: file:/C:/Android/Git/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/bundles/debug/res/values/values.xml -->
     <eat-comment/>
     <dimen name="stdHeight">48dip</dimen>
     <dimen name="stdWidth">48dip</dimen>
-    <!-- From: file:/Users/jarrahwu/Documents/JarrahGithub/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/res/values/values.xml -->
+    <!-- From: file:/C:/Android/Git/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/res/values/values.xml -->
     <eat-comment/>
     <item name="action_bar_activity_content" type="id"/>
     <item name="action_menu_divider" type="id"/>
@@ -162,7 +162,7 @@
     <string name="abc_searchview_description_voice">Voice search</string>
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
-    <!-- From: file:/Users/jarrahwu/Documents/JarrahGithub/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/bundles/debug/res/values/values.xml -->
+    <!-- From: file:/C:/Android/Git/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/bundles/debug/res/values/values.xml -->
     <eat-comment/>
     <string name="app_cannot_open">程序无法打开</string>
     <string name="app_name">StkjDlmLib</string>
@@ -227,7 +227,7 @@
         <item name="android:textColor">#52b5ff</item>
         <item name="android:gravity">center</item>
     </style>
-    <!-- From: file:/Users/jarrahwu/Documents/JarrahGithub/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/res/values/values.xml -->
+    <!-- From: file:/C:/Android/Git/PrjBiu/all/MyApplication/libstkjdlm/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/res/values/values.xml -->
     <eat-comment/>
     <style name="TextAppearance.AppCompat.Base.CompactMenu.Dialog" parent="android:TextAppearance.Medium">
         <item name="android:textColor">@android:color/primary_text_light</item>
