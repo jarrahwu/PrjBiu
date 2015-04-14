@@ -4,25 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity" >
-
-    <FrameLayout
-        android:id="@+id/container"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1" >
-
-        <com.baidu.mapapi.map.MapView
-            android:id="@+id/bmapView"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:clickable="true" />
-
-    </FrameLayout>
-
-    <include
-        android:id="@+id/bottomTabBar"
-        android:layout_width="match_parent"
-        android:layout_height="50dip"
-        layout="@layout/bottom_tab_bar" />
+        android:layout_height="match_parent"
+        android:background="@drawable/splash"/>
 
 </LinearLayout>
