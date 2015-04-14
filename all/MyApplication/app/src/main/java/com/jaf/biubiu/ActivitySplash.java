@@ -13,7 +13,7 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.MapView;
 
 
-public class ActivityMain extends ActionBarActivity {
+public class ActivitySplash extends ActionBarActivity {
 
 
     private MapView mMapView;
