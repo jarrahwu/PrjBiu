@@ -16,15 +16,15 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <!-- baidu map end-->
 
+    <!-- baidu map end -->
     <application
-        android:allowBackup="true"
         android:name="com.jaf.jcore.Application"
+        android:allowBackup="true"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".ActivityMain"
+            android:name=".ActivityTab"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,19 +33,25 @@
             </intent-filter>
         </activity>
 
-        <!-- mac
+        <!--
+        mac
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="IDfIXmuExVeL0nwqGhYCAD4e" />
         -->
+
 
         <!-- pc -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="j2wfd39lV4OipVnqVT4Ehqv3" />
 
-        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
         </service>
+
     </application>
 
 </manifest>
