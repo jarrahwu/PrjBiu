@@ -30,7 +30,8 @@ import java.util.ArrayList;
  */
 public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 
-	private Http mHttp;
+    private static final boolean DBG = true;
+    private Http mHttp;
 
 	private String mRequestTag;
 
@@ -85,7 +86,6 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 	}
 
 	public void request(String url, AbsLoader<T, DT> loader) {
-
 		if (isLoading)
 			return;
 
@@ -94,6 +94,16 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 		mHttp.url(url).get(mCallBack);
 		setRequestUrl(url);
 	}
+
+    public void request(String url, AbsLoader<T, DT> loader, JSONObject jo) {
+        if (isLoading)
+            return;
+        isLoading = true;
+        mLoader = loader;
+        mHttp.url(url).JSON(jo).post(mCallBack);
+        setRequestUrl(url);
+    }
+
 
 	public void setRequestUrl(String url) {
 		if (mUrl == null)
@@ -123,6 +133,11 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 		@Override
 		public void onResponse(JSONObject response) {
 			super.onResponse(response);
+
+            if(DBG) {
+                Util.e(response);
+            }
+
 			mPullToRefreshAdapterViewBase.onRefreshComplete();
 			isLoading = false;
 			if (mLoader != null) {
@@ -140,22 +155,21 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 		}
 	}
 
-	final class WorkerAdapter extends BaseAdapter<DT, T> {
+	final class WorkerAdapter extends AdapterWrapper<DT, T> {
 
 		public WorkerAdapter(Context context) {
 			super(context);
 		}
 
-		@Override
-		public void onDispatchData(int position, DT data, T itemView) {
-			mLoader.updateItemUI(position, data, itemView);
-		}
+        @Override
+        protected void onBindView(int position, DT item, T view) {
+            mLoader.updateItemUI(position, item, view);
+        }
 
-		@Override
-		public T newView(LayoutInflater inflater, int position,
-				View convertView, ViewGroup parent) {
-			return mLoader.makeItem(inflater, position, convertView, parent);
-		}
+        @Override
+        public T newView(int position, LayoutInflater lf, View convertView, ViewGroup parent) {
+            return mLoader.makeItem(getLayoutInflater(), position, convertView, parent);
+        }
 	}
 
 	public interface AbsLoader<I extends View, DT> {
@@ -204,10 +218,11 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 				Toast.makeText(Application.getInstance(), "没有更多数据",
 						Toast.LENGTH_SHORT).show();
 			} else {
-				mAdapter.append(data);
+				mAdapter.addAll(data);
 			}
 		} else {
-			mAdapter.setData(data);
+            mAdapter.clear();;
+			mAdapter.addAll(data);
 		}
 	}
 

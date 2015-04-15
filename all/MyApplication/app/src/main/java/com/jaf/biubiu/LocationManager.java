@@ -25,7 +25,7 @@ public class LocationManager {
         return sLocationManager;
     }
 
-    public void requestLocation(BDLocationListener l) {
+    public void requestLocation(JLsn l) {
         mLocationClient.registerLocationListener(l);
         mLocationClient.start();
     }

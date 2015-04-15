@@ -4,6 +4,7 @@ package com.jaf.jcore;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -33,6 +34,19 @@ public class JacksonWrapper {
 		}
 		return ret;
 	}
+
+    public static JSONObject bean2Json(Object o) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JSONObject ret = null;
+        try {
+            ret = new JSONObject(objectMapper.writeValueAsString(o));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
 	
 	/**
 	 * 读取json 文件 然后转换为对象处理

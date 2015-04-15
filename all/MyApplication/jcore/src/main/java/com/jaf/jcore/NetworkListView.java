@@ -9,6 +9,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.jaf.jcore.Constant.Debug;
 import com.jaf.jcore.AbsWorker.AbsLoader;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class NetworkListView<V extends View, DT> extends PullToRefreshListView
@@ -65,7 +67,7 @@ public class NetworkListView<V extends View, DT> extends PullToRefreshListView
 		mWorker.notifyDataSetChanged();
 	}
 
-	public void request(String url, AbsLoader<V, DT> loader, String token) {
-		mWorker.request(url, loader, token);
+	public void request(String url, AbsLoader<V, DT> loader, JSONObject jo) {
+		mWorker.request(url, loader, jo);
 	}
 }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -12,7 +11,7 @@ import com.jaf.jcore.BindView;
 import com.jaf.jcore.BindableActivity;
 
 
-public class ActivityTab extends BindableActivity implements Constant.BottomTabBar{
+public class ActivityTab extends BindableActivity implements Constant.BottomTabBar {
 
     private Fragment mLastShowing;
     private Fragment[] mTabFragments;
@@ -31,6 +30,8 @@ public class ActivityTab extends BindableActivity implements Constant.BottomTabB
         initFragments();
         switchFragment(FIRST_TAB);
     }
+
+
 
 
     private void initBottomBar() {
