@@ -5,6 +5,7 @@ import android.util.Base64;
 
 import com.jaf.bean.BeanRequest;
 import com.jaf.bean.BeanRequestNearby;
+import com.jaf.bean.BeanRequestTopic;
 import com.jaf.jcore.Application;
 import com.jaf.jcore.JacksonWrapper;
 
@@ -48,5 +49,15 @@ public class U implements Constant{
             e.printStackTrace();
             return "N/A";
         }
+    }
+
+    public static JSONObject buildTopic() {
+        BeanRequestTopic brt = new BeanRequestTopic();
+        brt.setAppVersion(VER);
+        brt.setCmd(CMD.LIST_NEARBY);
+        brt.setDvcId(Device.getId(Application.getInstance().getApplicationContext()));
+        brt.setLatitude(Application.getInstance().getAppExtraInfo().lat);
+        brt.setLongitude(Application.getInstance().getAppExtraInfo().lon);
+        return JacksonWrapper.bean2Json(brt);
     }
 }
