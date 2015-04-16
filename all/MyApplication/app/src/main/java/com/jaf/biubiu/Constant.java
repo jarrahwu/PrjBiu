@@ -18,13 +18,13 @@ public interface Constant {
 
     public interface CMD {
         public static final int USER_REG = 0x1001;
-        public static final int USER_INFO = 0x1004;
+        public static final int USER_INFO = 4100;
         public static final int USER_LOC = 0x1005;
 
         public static final int LIST_NEARBY = 0X2004;
 
         public static final int REPORT_ABUSE = 0X5001;
 
-        public static final int LIST_TOPIC = 0X2102;
+        public static final int LIST_TOPIC = 8450;
     }
 }

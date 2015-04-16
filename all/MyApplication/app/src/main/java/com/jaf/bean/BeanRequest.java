@@ -9,6 +9,11 @@ public class BeanRequest {
     private int longitude;
     private String dvcId;
     private int cmd;
+    private String platform;
+
+    public String getPlatform() {
+        return "Android";
+    }
 
     public String getAppVersion() {
         return appVersion;

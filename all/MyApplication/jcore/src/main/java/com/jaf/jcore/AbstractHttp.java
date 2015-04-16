@@ -3,6 +3,7 @@ package com.jaf.jcore;
 import org.json.JSONObject;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 
@@ -14,8 +15,9 @@ import com.android.volley.RequestQueue;
 public abstract class AbstractHttp<T extends AbstractHttp<T>> {
 
 	private static final int NO_EXPIRE = -1;
+    private static final boolean DBG = true;
 
-	public T mSelf;
+    public T mSelf;
 
 	private HttpCallBack mCb;
 
@@ -112,6 +114,9 @@ public abstract class AbstractHttp<T extends AbstractHttp<T>> {
 	}
 
 	public T JSON(JSONObject jsonObject) {
+        if(DBG) {
+            Log.d("HTTP", "JSON POST :" + jsonObject);
+        }
 		mPostObject = jsonObject;
 		return self();
 	}

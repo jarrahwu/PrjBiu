@@ -7,11 +7,11 @@ public class L {
     private static final String TAG = "bbut";
     private static final boolean DBG = true;
 
-    public static void e(String s) {
-        if(DBG) android.util.Log.e(TAG, s);
+    public static void dbg(String s) {
+        if(DBG) android.util.Log.d(TAG, s);
     }
 
-    public static void e(String f, Object... args) {
-        e(String.format(f, args));
+    public static void dbg(String f, Object... args) {
+        dbg(String.format(f, args));
     }
 }

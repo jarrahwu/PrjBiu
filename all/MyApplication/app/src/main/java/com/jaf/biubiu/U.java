@@ -6,6 +6,7 @@ import android.util.Base64;
 import com.jaf.bean.BeanRequest;
 import com.jaf.bean.BeanRequestNearby;
 import com.jaf.bean.BeanRequestTopic;
+import com.jaf.bean.BeanRequestUser;
 import com.jaf.jcore.Application;
 import com.jaf.jcore.JacksonWrapper;
 
@@ -41,7 +42,7 @@ public class U implements Constant{
     }
 
     public static String b642s(String str) {
-        byte[] data = Base64.decode(str, Base64.NO_WRAP);
+        byte[] data = Base64.decode(str, Base64.DEFAULT);
         try {
             String text = new String(data, "UTF-8");
             return text;
@@ -54,10 +55,18 @@ public class U implements Constant{
     public static JSONObject buildTopic() {
         BeanRequestTopic brt = new BeanRequestTopic();
         brt.setAppVersion(VER);
-        brt.setCmd(CMD.LIST_NEARBY);
+        brt.setCmd(CMD.LIST_TOPIC);
         brt.setDvcId(Device.getId(Application.getInstance().getApplicationContext()));
         brt.setLatitude(Application.getInstance().getAppExtraInfo().lat);
         brt.setLongitude(Application.getInstance().getAppExtraInfo().lon);
         return JacksonWrapper.bean2Json(brt);
+    }
+
+    public static JSONObject buildUser() {
+        BeanRequestUser bru = new BeanRequestUser();
+        bru.setDvcId(Device.getId(Application.getInstance().getApplicationContext()));
+        bru.setCmd(CMD.USER_INFO);
+        bru.setAppVersion(VER);
+        return JacksonWrapper.bean2Json(bru);
     }
 }

@@ -74,12 +74,12 @@ public class ActivitySplash extends BindableActivity {
 //        LocationManager.getInstance().requestLocation(new LocationManager.JLsn(){
 //            @Override
 //            public void onResult(double latitude, double longitude) {
-//                Log.e("lat", "" + latitude);
-//                Log.e("lon", "" + longitude);
+//                Log.dbg("lat", "" + latitude);
+//                Log.dbg("lon", "" + longitude);
 //            }
 //        });
 //
-//        L.e(Device.getId(this));
+//        L.dbg(Device.getId(this));
 //    }
 //
 //

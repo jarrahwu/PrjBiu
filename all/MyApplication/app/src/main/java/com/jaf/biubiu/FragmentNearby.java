@@ -62,7 +62,7 @@ public class FragmentNearby extends BindableFragment implements Constant{
 
             @Override
             public ArrayList<BeanNearbyItem> parseJSON2ArrayList(JSONObject response) {
-                L.e(response.toString());
+                L.dbg(response.toString());
                 ResponseNearby responseNearby = JacksonWrapper.json2Bean(response, ResponseNearby.class);
                 return responseNearby.getReturnData().getContData();
             }
@@ -89,7 +89,6 @@ public class FragmentNearby extends BindableFragment implements Constant{
                 super.onResult(latitude, longitude);
                 Application.getInstance().setAppExtraInfo(Device.getId(Application.getInstance().getApplicationContext()), latitude, longitude);
                 registerDevice();
-
             }
         });
     }
@@ -101,6 +100,7 @@ public class FragmentNearby extends BindableFragment implements Constant{
             @Override
             public void onResponse(JSONObject response) {
                 super.onResponse(response);
+                L.dbg(TAG + " register : " + response);
                 //request url when located and registered
                 JSONObject jo = U.buildNeayBy(info.lat, info.lon, true, 0);
                 mNetworkListView.request(API, loader, jo);

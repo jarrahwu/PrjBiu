@@ -14,6 +14,7 @@ public class ResponseNearby {
     private int statusCode;
     private ReturnData returnData;
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ReturnData {
         private ArrayList<BeanNearbyItem> contData;
 
