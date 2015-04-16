@@ -66,7 +66,7 @@ public class FragmentTopic extends BindableFragment implements Constant.CMD{
                 return new TextView(getActivity());
             }
         };
-        mNetworkListView.request(Constant.API, loader, U.buildTopic());
+        mNetworkListView.request(Constant.API, loader, U.buildTopic(true, 0, 1));
     }
 
     public static Fragment newInstance(Bundle arg) {

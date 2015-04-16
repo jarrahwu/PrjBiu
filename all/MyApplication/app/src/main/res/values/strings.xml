@@ -8,4 +8,11 @@
     <string name="topic">话题</string>
     <string name="message">消息</string>
     <string name="me">我</string>
+    <string name="gotLike">我得到的赞</string>
+    <string name="zero">0</string>
+    <string name="ge">个</string>
+    <string name="myQusestion">我的提问</string>
+    <string name="myAnswer">我的回答</string>
+    <string name="userBeyondPercent">超过当前区域%1$d%%的 biubiu 客</string>
+    <string name="title_activity_activity_question">ActivityQuestion</string>
 </resources>

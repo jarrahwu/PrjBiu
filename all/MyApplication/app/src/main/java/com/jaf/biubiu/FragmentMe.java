@@ -1,10 +1,19 @@
 package com.jaf.biubiu;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.jaf.bean.BeanUser;
 import com.jaf.bean.ResponseUser;
+import com.jaf.jcore.AdapterWrapper;
+import com.jaf.jcore.ArrayAdapterCompat;
+import com.jaf.jcore.BindView;
 import com.jaf.jcore.BindableFragment;
 import com.jaf.jcore.Http;
 import com.jaf.jcore.HttpCallBack;
@@ -20,6 +29,17 @@ public class FragmentMe extends BindableFragment{
     private static final String TAG = "Fragment Me";
     private BeanUser mBeanUser;
 
+    @BindView(id = R.id.meList)
+    private ListView mListView;
+
+    @BindView(id = R.id.percent)
+    private TextView mPercent;
+
+    @BindView(id = R.id.percentText)
+    private TextView mPercentText;
+
+    private Adapter mAdapter;
+
     public static Fragment newInstance(Bundle arg) {
         return new FragmentMe();
     }
@@ -32,12 +52,31 @@ public class FragmentMe extends BindableFragment{
     @Override
     protected void onViewDidLoad(Bundle savedInstanceState) {
         super.onViewDidLoad(savedInstanceState);
+        requestUserInfo();
+        initUserInfo();
+        setupTop();
+        setupMeList();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        requestUserInfo();
+    private void initUserInfo() {
+        mBeanUser = new BeanUser();
+        mBeanUser.setRank(0);
+        mBeanUser.setAnswerNum(0);
+        mBeanUser.setQuestionNum(0);
+    }
+
+    private void setupTop() {
+        mPercent.setText(mBeanUser.getRankRate() + "%");
+        mPercentText.setText(getString(R.string.userBeyondPercent, mBeanUser.getRankRate()));
+    }
+
+    private void setupMeList() {
+        mAdapter = new Adapter(getActivity());
+        mListView.setAdapter(mAdapter);
+        String qNum = mBeanUser == null ? "0" : String.valueOf(mBeanUser.getQuestionNum());
+        String aNum = mBeanUser == null ? "0" : String.valueOf(mBeanUser.getAnswerNum());
+        mAdapter.add(MeItem.newItem(getString(R.string.myQusestion), qNum));
+        mAdapter.add(MeItem.newItem(getString(R.string.myAnswer), aNum));
     }
 
     private void requestUserInfo() {
@@ -50,9 +89,43 @@ public class FragmentMe extends BindableFragment{
                 if (responseUser != null) {
                     mBeanUser = responseUser.getReturnData();
                     L.dbg(TAG + " " + response.toString());
+                    setupTop();;
+                    setupMeList();
                 }
             }
         });
+    }
+
+    public static class Adapter extends AdapterWrapper<MeItem, View> {
+
+        public Adapter(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected void onBindView(int position, MeItem item, View view) {
+            TextView desc = (TextView) view.findViewById(R.id.meDesc);
+            TextView count = (TextView) view.findViewById(R.id.meCount);
+            desc.setText(item.text);
+            count.setText(item.count);
+        }
+
+        @Override
+        public View newView(int position, LayoutInflater lf, View convertView, ViewGroup parent) {
+            return lf.inflate(R.layout.item_me_desc, null);
+        }
+    }
+
+    public static class MeItem {
+        String text;
+        String count;
+
+        public static MeItem newItem(String text, String count) {
+            MeItem i = new MeItem();
+            i.text = text;
+            i.count = count;
+            return i;
+        }
     }
 
 }

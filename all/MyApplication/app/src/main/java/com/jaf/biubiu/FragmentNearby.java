@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jaf.bean.BeanNearbyItem;
+import com.jaf.bean.BeanRequestQuestionList;
 import com.jaf.bean.ResponseNearby;
 import com.jaf.jcore.AbsWorker;
 import com.jaf.jcore.Application;
@@ -68,9 +69,17 @@ public class FragmentNearby extends BindableFragment implements Constant{
             }
 
             @Override
-            public void updateItemUI(int position, BeanNearbyItem data, View itemView) {
+            public void updateItemUI(int position, final BeanNearbyItem data, View itemView) {
                 TextView tv = (TextView) itemView;
                 tv.setText(U.b642s(data.getQuest()));
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ActivityQuestion.Extra extra = new ActivityQuestion.Extra();
+                        extra.questId = data.getQuestId();
+                        ActivityQuestion.start(getActivity(), extra);
+                    }
+                });
             }
 
             @Override
@@ -96,13 +105,13 @@ public class FragmentNearby extends BindableFragment implements Constant{
     private void registerDevice() {
         Http http = new Http(TAG);
         final Application.AppExtraInfo info = Application.getInstance().getAppExtraInfo();
-        http.url(Constant.API).JSON(U.buidRequest(Constant.CMD.USER_REG,info.lat, info.lon)).post(new HttpCallBack() {
+        http.url(Constant.API).JSON(U.buildRequest(Constant.CMD.USER_REG, info.lat, info.lon)).post(new HttpCallBack() {
             @Override
             public void onResponse(JSONObject response) {
                 super.onResponse(response);
                 L.dbg(TAG + " register : " + response);
                 //request url when located and registered
-                JSONObject jo = U.buildNeayBy(info.lat, info.lon, true, 0);
+                JSONObject jo = U.buildNearby(info.lat, info.lon, true, 0);
                 mNetworkListView.request(API, loader, jo);
             }
         });

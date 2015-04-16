@@ -17,7 +17,7 @@ public interface Constant {
     public static final String VER = "2.1";
 
     public interface CMD {
-        public static final int USER_REG = 0x1001;
+        public static final int USER_REG = 4097;
         public static final int USER_INFO = 4100;
         public static final int USER_LOC = 0x1005;
 
@@ -26,5 +26,6 @@ public interface Constant {
         public static final int REPORT_ABUSE = 0X5001;
 
         public static final int LIST_TOPIC = 8450;
+        public static final int LIST_QUESTION = 8197;
     }
 }
