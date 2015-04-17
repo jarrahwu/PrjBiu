@@ -70,6 +70,7 @@ public class FragmentMe extends BindableFragment{
     }
 
     private void setupTop() {
+        if(mBeanUser == null) return;
         mProgressBar.setProgress(mBeanUser.getRankRate());
         mPercent.setText(mBeanUser.getRankRate() + "%");
         mPercentText.setText(getString(R.string.userBeyondPercent, mBeanUser.getRankRate()));

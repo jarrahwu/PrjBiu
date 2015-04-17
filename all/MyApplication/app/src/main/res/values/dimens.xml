@@ -8,4 +8,5 @@
     <dimen name="listLeft">15dip</dimen>
     <dimen name="iconSize">60dip</dimen>
     <dimen name="listTop">15dip</dimen>
+    <dimen name="actionBarIconSize">40dp</dimen>
 </resources>

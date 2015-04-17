@@ -12,13 +12,14 @@ import android.widget.TextView;
 
 import com.jaf.bean.BeanNearbyItem;
 import com.jaf.bean.BeanRequestQuestionList;
+import com.jaf.jcore.BaseActionBarActivity;
 import com.jaf.jcore.BindView;
 import com.jaf.jcore.BindableActivity;
 
 import java.io.Serializable;
 
 
-public class ActivityQuestion extends BindableActivity {
+public class ActivityQuestion extends BaseActionBarActivity {
 
     private static final String KEY_ARGS = "question_data";
     private FragmentQuestionList mFragmentQuestionList;

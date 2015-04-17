@@ -3,7 +3,6 @@ package com.jaf.biubiu;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
 import android.support.v7.app.ActionBarActivity;
 
 import com.jaf.jcore.BindableActivity;

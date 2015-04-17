@@ -2,12 +2,15 @@ package com.jaf.jcore;
 
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import com.stkj.support.actionbar.ActionBarActivity;
 
 public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		Bindable<BaseActionBarActivity> {
@@ -28,8 +31,8 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 	protected void setupActionBar() {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-//		actionBar.setBackgroundDrawable(getResources().getDrawable(
-//				com.jaf.jcore.R.drawable.bg_top_actionbar));
+        Drawable d = new ColorDrawable(Color.parseColor("#54cbff"));
+        actionBar.setBackgroundDrawable(d);
 		
 		int actionBarTitleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
 		if (actionBarTitleId > 0) {

@@ -1,1 +1,1 @@
-include ':app', ':libbottomtab', ':jcore', ':libpulltorefresh', ':libstkjdlm'
+include ':app', ':libbottomtab', ':jcore', ':libpulltorefresh', ':libstkjdlm', ':libactionbar'
