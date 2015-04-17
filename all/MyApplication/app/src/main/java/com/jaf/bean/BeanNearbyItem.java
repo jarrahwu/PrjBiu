@@ -2,11 +2,13 @@ package com.jaf.bean;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import java.io.Serializable;
+
 /**
  * Created by jarrah on 2015/4/15.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BeanNearbyItem {
+public class BeanNearbyItem implements Serializable{
     private int ansNum;
     private int isImpeach;
     private int isMine;

@@ -12,6 +12,8 @@
         android:layout_weight="1" >
     </FrameLayout>
 
+    <View
+        style="@style/GreyLine"/>
     <include
         android:id="@+id/bottomTabBar"
         android:layout_width="match_parent"

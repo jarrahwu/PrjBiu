@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jaf.bean.BeanUser;
@@ -38,6 +39,9 @@ public class FragmentMe extends BindableFragment{
     @BindView(id = R.id.percentText)
     private TextView mPercentText;
 
+    @BindView(id = R.id.progressBar)
+    private ProgressBar mProgressBar;
+
     private Adapter mAdapter;
 
     public static Fragment newInstance(Bundle arg) {
@@ -66,6 +70,7 @@ public class FragmentMe extends BindableFragment{
     }
 
     private void setupTop() {
+        mProgressBar.setProgress(mBeanUser.getRankRate());
         mPercent.setText(mBeanUser.getRankRate() + "%");
         mPercentText.setText(getString(R.string.userBeyondPercent, mBeanUser.getRankRate()));
     }

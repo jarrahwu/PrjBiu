@@ -5,7 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_activity_tab">ActivityTab</string>
     <string name="nearby">附近</string>
-    <string name="topic">话题</string>
+    <string name="topic">板块</string>
     <string name="message">消息</string>
     <string name="me">我</string>
     <string name="gotLike">我得到的赞</string>
@@ -15,4 +15,11 @@
     <string name="myAnswer">我的回答</string>
     <string name="userBeyondPercent">超过当前区域%1$d%%的 biubiu 客</string>
     <string name="title_activity_activity_question">ActivityQuestion</string>
+    <string name="bestAnswerHere">妙答在此~</string>
+    <string name="send">发送</string>
+    <string name="anonymity">匿名</string>
+    <string name="distance">%1$dkm</string>
+    <string name="topicCount">%1$d条内容</string>
+    <string name="tagDistance">距</string>
+    <string name="tagSchool">校</string>
 </resources>

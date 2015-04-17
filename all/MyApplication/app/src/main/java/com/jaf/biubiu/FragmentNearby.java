@@ -77,6 +77,7 @@ public class FragmentNearby extends BindableFragment implements Constant{
                     public void onClick(View v) {
                         ActivityQuestion.Extra extra = new ActivityQuestion.Extra();
                         extra.questId = data.getQuestId();
+                        extra.fromNearby = data;
                         ActivityQuestion.start(getActivity(), extra);
                     }
                 });

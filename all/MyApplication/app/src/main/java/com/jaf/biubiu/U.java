@@ -1,7 +1,9 @@
 package com.jaf.biubiu;
 
 
+import android.app.Activity;
 import android.util.Base64;
+import android.view.inputmethod.InputMethodManager;
 
 import com.jaf.bean.BeanRequest;
 import com.jaf.bean.BeanRequestNearby;
@@ -93,5 +95,10 @@ public class U implements Constant{
         brq.setLastId(lastId);
         brq.setQuestId(questId);
         return brq;
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 }

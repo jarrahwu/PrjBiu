@@ -1,11 +1,52 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.jaf.biubiu.ActivityQuestion">
+
+    <LinearLayout
+        android:paddingLeft="@dimen/listLeft"
+        android:paddingRight="@dimen/listLeft"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="25dip"
+        android:paddingBottom="@dimen/dfPadding"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/questionText"
+            android:maxLength="200"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            android:gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/author"
+                android:layout_weight="1"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content" />
+
+            <include layout="@layout/layout_like_panel" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"
+        android:layout_weight="1"></FrameLayout>
 
-</RelativeLayout>
+    <include layout="@layout/layout_edit_panel" />
+
+</LinearLayout>

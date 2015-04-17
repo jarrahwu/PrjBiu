@@ -1,6 +1,7 @@
 package com.jaf.biubiu;
 
 import android.os.Bundle;
+import android.support.v4.widget.SlidingPaneLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +28,9 @@ public class FragmentQuestionList extends BindableFragment{
     private static final String KEY_ARGS = "args";
 
     @BindView(id = R.id.questionList)
-    private NetworkListView<View, BeanAnswerItem> mListView;
+    private NetworkListView<ViewAnswerItem, BeanAnswerItem> mListView;
 
-    private com.jaf.jcore.AbsWorker.AbsLoader<android.view.View,com.jaf.bean.BeanAnswerItem> mLoader;
+    private com.jaf.jcore.AbsWorker.AbsLoader<ViewAnswerItem,com.jaf.bean.BeanAnswerItem> mLoader;
 
     public FragmentQuestionList() {}
 
@@ -58,7 +59,7 @@ public class FragmentQuestionList extends BindableFragment{
 
     private void setupList() {
         JSONObject jo = JacksonWrapper.bean2Json(getData());
-        mLoader = new AbsWorker.AbsLoader<View, BeanAnswerItem>() {
+        mLoader = new AbsWorker.AbsLoader<ViewAnswerItem, BeanAnswerItem>() {
             @Override
             public String parseNextUrl(JSONObject response) {
                 return null;
@@ -77,14 +78,13 @@ public class FragmentQuestionList extends BindableFragment{
             }
 
             @Override
-            public void updateItemUI(int position, BeanAnswerItem data, View itemView) {
-                TextView tv = (TextView) itemView;
-                tv.setText(data.getAns());
+            public void updateItemUI(int position, BeanAnswerItem data, ViewAnswerItem itemView) {
+                itemView.setData(data);
             }
 
             @Override
-            public View makeItem(LayoutInflater inflater, int position, View convertView, ViewGroup parent) {
-                return new TextView(getActivity());
+            public ViewAnswerItem makeItem(LayoutInflater inflater, int position, View convertView, ViewGroup parent) {
+                return new ViewAnswerItem(getActivity());
             }
         };
         mListView.request(Constant.API, mLoader, jo);

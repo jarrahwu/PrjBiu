@@ -25,8 +25,8 @@ import java.util.ArrayList;
 public class FragmentTopic extends BindableFragment implements Constant.CMD{
 
     @BindView(id = R.id.topicList)
-    private NetworkListView<View, BeanTopicItem> mNetworkListView;
-    private com.jaf.jcore.AbsWorker.AbsLoader<android.view.View,com.jaf.bean.BeanTopicItem> loader;
+    private NetworkListView<ViewTopicItem, BeanTopicItem> mNetworkListView;
+    private com.jaf.jcore.AbsWorker.AbsLoader<ViewTopicItem,com.jaf.bean.BeanTopicItem> loader;
 
     public FragmentTopic() {}
 
@@ -38,7 +38,7 @@ public class FragmentTopic extends BindableFragment implements Constant.CMD{
     @Override
     protected void onViewDidLoad(Bundle savedInstanceState) {
         super.onViewDidLoad(savedInstanceState);
-        loader = new AbsWorker.AbsLoader<View, BeanTopicItem>() {
+        loader = new AbsWorker.AbsLoader<ViewTopicItem, BeanTopicItem>() {
             @Override
             public String parseNextUrl(JSONObject response) {
                 return null;
@@ -56,14 +56,13 @@ public class FragmentTopic extends BindableFragment implements Constant.CMD{
             }
 
             @Override
-            public void updateItemUI(int position, BeanTopicItem data, View itemView) {
-                TextView tv = (TextView) itemView;
-                tv.setText(data.getOwnerNick());
+            public void updateItemUI(int position, BeanTopicItem data, ViewTopicItem itemView) {
+                itemView.setData(data);
             }
 
             @Override
-            public View makeItem(LayoutInflater inflater, int position, View convertView, ViewGroup parent) {
-                return new TextView(getActivity());
+            public ViewTopicItem makeItem(LayoutInflater inflater, int position, View convertView, ViewGroup parent) {
+                return new ViewTopicItem(getActivity());
             }
         };
         mNetworkListView.request(Constant.API, loader, U.buildTopic(true, 0, 1));

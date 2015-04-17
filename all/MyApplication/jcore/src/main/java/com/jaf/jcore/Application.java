@@ -4,6 +4,7 @@ package com.jaf.jcore;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.androidquery.AQuery;
 
 import java.util.concurrent.CancellationException;
 
@@ -60,6 +61,15 @@ public class Application extends android.app.Application  {
         mAppExtraInfo.dvcId = dvcId;
         mAppExtraInfo.lat = lat;
         mAppExtraInfo.lon = lon;
+    }
+
+
+    private AQuery aQuery;
+    public AQuery getAQuery() {
+        if(aQuery == null) {
+            aQuery = new AQuery(this);
+        }
+        return aQuery;
     }
 
     public AppExtraInfo getAppExtraInfo() {
