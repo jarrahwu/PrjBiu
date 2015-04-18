@@ -15,6 +15,7 @@
         android:textSize="20sp" />
 
     <ImageView
+        android:layout_marginRight="@dimen/dfPadding"
         android:scaleType="centerInside"
         android:id="@+id/barOption"
         android:layout_width="@dimen/actionBarIconSize"

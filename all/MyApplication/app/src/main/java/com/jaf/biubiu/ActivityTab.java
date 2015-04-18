@@ -94,7 +94,7 @@ public class ActivityTab extends BaseActionBarActivity implements Constant.Botto
         updateActionBar(fragmentIndex);
     }
 
-    private void updateActionBar(int index) {
+    private void updateActionBar(final int index) {
         int textResId = R.string.app_name;
         int iconRes = R.drawable.sel_edit_btn;
         switch (index) {
@@ -113,6 +113,18 @@ public class ActivityTab extends BaseActionBarActivity implements Constant.Botto
         }
         mHolder.option.setImageResource(iconRes);
         mHolder.title.setText(textResId);
+
+        mHolder.option.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (index == 0) {
+                    ActivityPublish.start(ActivityTab.this);
+                }
+                if (index == 3) {
+                    ActivitySetting.start(ActivityTab.this);
+                }
+            }
+        });
     }
 
     public static class ActionBarViewHolder {

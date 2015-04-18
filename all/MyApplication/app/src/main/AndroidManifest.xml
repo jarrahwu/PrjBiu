@@ -26,8 +26,8 @@
         <activity
             android:name=".ActivitySplash"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.FullScreen"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.FullScreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,18 +38,15 @@
             android:name=".ActivityTab"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
-        <!--
-        mac
+        <!-- mac -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="IDfIXmuExVeL0nwqGhYCAD4e" />
-        -->
-
 
         <!-- pc -->
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="j2wfd39lV4OipVnqVT4Ehqv3" />
+        <!-- <meta-data -->
+        <!-- android:name="com.baidu.lbsapi.API_KEY" -->
+        <!-- android:value="j2wfd39lV4OipVnqVT4Ehqv3" /> -->
 
         <service
             android:name="com.baidu.location.f"
@@ -57,9 +54,21 @@
             android:process=":remote" />
 
         <activity
-            android:screenOrientation="portrait"
             android:name=".ActivityQuestion"
-            android:label="@string/title_activity_question" >
+            android:label="@string/title_activity_question"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ActivityPublish"
+            android:label="@string/title_activity_activity_publish"
+            android:parentActivityName="com.jaf.jcore.BaseActionBarActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.jaf.jcore.BaseActionBarActivity" />
+        </activity>
+        <activity
+            android:name=".ActivitySetting"
+            android:label="@string/title_activity_activity_setting" >
         </activity>
     </application>
 

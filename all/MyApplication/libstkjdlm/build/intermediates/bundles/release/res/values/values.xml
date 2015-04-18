@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Android/Git/PrjBiu/PrjBiu/all/MyApplication/libstkjdlm/src/main/res/values/color.xml -->
+    <!-- From: file:/Users/jarrahwu/Documents/JarrahGithub/PrjBiu/PrjBiu/all/MyApplication/libstkjdlm/src/main/res/values/color.xml -->
     <eat-comment/>
     <color name="transparent">#00000000</color>
-    <!-- From: file:/C:/Android/Git/PrjBiu/PrjBiu/all/MyApplication/libstkjdlm/src/main/res/values/dimens.xml -->
+    <!-- From: file:/Users/jarrahwu/Documents/JarrahGithub/PrjBiu/PrjBiu/all/MyApplication/libstkjdlm/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="BtnHeight">48dip</dimen>
     <dimen name="BtnWidth">70dip</dimen>
@@ -23,7 +23,7 @@
     <dimen name="activityPaddingTop">7dip</dimen>
     <dimen name="stdHeight">48dip</dimen>
     <dimen name="stdWidth">48dip</dimen>
-    <!-- From: file:/C:/Android/Git/PrjBiu/PrjBiu/all/MyApplication/libstkjdlm/src/main/res/values/strings.xml -->
+    <!-- From: file:/Users/jarrahwu/Documents/JarrahGithub/PrjBiu/PrjBiu/all/MyApplication/libstkjdlm/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="app_cannot_open">程序无法打开</string>
     <string name="app_name">StkjDlmLib</string>
@@ -34,7 +34,7 @@
     <string name="noWifiWarning">当前无WIFI下载会消耗数据流量</string>
     <string name="start_download">开始下载</string>
     <string name="unfinished">未完成</string>
-    <!-- From: file:/C:/Android/Git/PrjBiu/PrjBiu/all/MyApplication/libstkjdlm/src/main/res/values/styles.xml -->
+    <!-- From: file:/Users/jarrahwu/Documents/JarrahGithub/PrjBiu/PrjBiu/all/MyApplication/libstkjdlm/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--

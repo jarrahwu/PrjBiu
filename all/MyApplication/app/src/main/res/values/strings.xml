@@ -24,4 +24,11 @@
     <string name="tagSchool">校</string>
     <string name="lookAround">随便看看</string>
     <string name="mine">我的</string>
+    <string name="title_activity_activity_publish">奇思妙想</string>
+    <string name="signName">--署名</string>
+    <string name="title_activity_activity_setting">设置</string>
+    <string name="userFeedback">用户反馈</string>
+    <string name="aboutUs">关于biubiu</string>
+    <string name="contactUs">联系我们</string>
+    <string name="userTerms">用户协议</string>
 </resources>
