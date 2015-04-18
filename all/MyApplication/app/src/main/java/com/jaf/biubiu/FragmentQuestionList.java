@@ -1,7 +1,7 @@
 package com.jaf.biubiu;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.widget.SlidingPaneLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +31,8 @@ public class FragmentQuestionList extends BindableFragment{
     private NetworkListView<ViewAnswerItem, BeanAnswerItem> mListView;
 
     private com.jaf.jcore.AbsWorker.AbsLoader<ViewAnswerItem,com.jaf.bean.BeanAnswerItem> mLoader;
+    private View mHeader;
+    private HeaderHolder mHeaderHolder;
 
     public FragmentQuestionList() {}
 
@@ -51,9 +53,25 @@ public class FragmentQuestionList extends BindableFragment{
     protected void onViewDidLoad(Bundle savedInstanceState) {
         super.onViewDidLoad(savedInstanceState);
         if (getData() != null) {
+            setupHeader();
             setupList();
         }else {
             L.dbg("get data is null!");
+        }
+    }
+
+    private void setupHeader() {
+        mHeaderHolder = new HeaderHolder();
+        mHeader = getActivity().getLayoutInflater().inflate(R.layout.layout_question_top, null);
+        mHeaderHolder.author = (TextView) mHeader.findViewById(R.id.author);
+        mHeaderHolder.title = (TextView) mHeader.findViewById(R.id.questionText);
+        mListView.getRefreshableView().addHeaderView(mHeader);
+
+        Activity activity  = getActivity();
+        if(activity instanceof  ActivityQuestion) {
+            ActivityQuestion activityQuestion = (ActivityQuestion) activity;
+            mHeaderHolder.author.setText(activityQuestion.getData().fromNearby.getSign());
+            mHeaderHolder.title.setText(activityQuestion.getData().fromNearby.getQuest());
         }
     }
 
@@ -92,5 +110,10 @@ public class FragmentQuestionList extends BindableFragment{
 
     public BeanRequestQuestionList getData() {
         return (BeanRequestQuestionList) getArguments().getSerializable(KEY_ARGS);
+    }
+
+    static class HeaderHolder {
+        TextView title;
+        TextView author;
     }
 }
