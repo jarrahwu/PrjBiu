@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/wbgColor</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="homeAsUpIndicator">@drawable/ic_nav_back_white</item>
     </style>
 
     <style name="AppTheme.FullScreen">

@@ -53,10 +53,10 @@ public class ActionBarActivity extends android.support.v7.app.ActionBarActivity 
 		
 		setBarTitle(getTitle());
 		
-		enableBarTtileAsUp(IS_TITLE_AS_UP);
+		enableTitleDisplayHomeAsUp(IS_TITLE_AS_UP);
 	}
 	
-	public void enableBarTtileAsUp(boolean isEnable) {
+	public void enableTitleDisplayHomeAsUp(boolean isEnable) {
 		if (isEnable && mActionBarView != null) {
 			mActionBarView.findViewById(R.id.barTitle).setOnClickListener(new OnClickListener() {
 				
@@ -65,7 +65,9 @@ public class ActionBarActivity extends android.support.v7.app.ActionBarActivity 
 					onTitleClick(v);
 				}
 			});
-		}
+		}else{
+            mActionBarView.findViewById(R.id.barTitle).setOnClickListener(null);
+        }
 	}
 	
 	

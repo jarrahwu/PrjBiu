@@ -6,14 +6,12 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.androidquery.AQuery;
 
-import java.util.concurrent.CancellationException;
-
 public class Application extends android.app.Application  {
 
 	private static Application INSTANCE;
 	private RequestQueue mRequestQueue;
 	private ImageLoader mImageLoader;
-    private AppExtraInfo mAppExtraInfo;
+    public AppExtraInfo mAppExtraInfo;
 
 	@Override
 	public void onCreate() {
@@ -54,6 +52,8 @@ public class Application extends android.app.Application  {
         public double lat;
         public double lon;
         public String dvcId;
+        public String city;
+        public String addrStr;
     }
 
     public void setAppExtraInfo(String dvcId, double lat, double lon) {

@@ -3,6 +3,8 @@ package com.jaf.biubiu;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.SDKInitializer;
 import com.jaf.jcore.Application;
 
 /**
@@ -15,7 +17,16 @@ public class LocationManager {
     LocationClient mLocationClient;
 
     public LocationManager() {
+        SDKInitializer.initialize(Application.getInstance().getApplicationContext());
+        LocationClientOption option = new LocationClientOption();
+        option.setIsNeedAddress(true);
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+        option.setOpenGps(true);                                //是否打开GPS
+        option.setCoorType("bd09ll");                           //设置返回值的坐标类型。
+        option.setProdName("LocationDemo");                     //设置产品线名称。强烈建议您使用自定义的产品线名称，方便我们以后为您提供更高效准确的定位服务。
+        option.setScanSpan(1000);
         mLocationClient = new LocationClient(Application.getInstance().getApplicationContext());
+        mLocationClient.setLocOption(option);
     }
 
     public synchronized static LocationManager getInstance() {
@@ -28,17 +39,28 @@ public class LocationManager {
     public void requestLocation(JLsn l) {
         mLocationClient.registerLocationListener(l);
         mLocationClient.start();
+        mLocationClient.requestLocation();
     }
+
 
     public static class JLsn implements  BDLocationListener {
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
-            LocationManager.getInstance().mLocationClient.unRegisterLocationListener(this);
+            if(bdLocation == null) {
+                L.dbg("baidu sdk no location info ");
+                onNoResult(bdLocation);
+                return;
+            }
+            L.dbg("baidu sdk addr:%s city:%s", bdLocation.getAddrStr(), bdLocation.getCity());
+            onResult(bdLocation.getLatitude(), bdLocation.getLongitude(), bdLocation);
             LocationManager.getInstance().mLocationClient.stop();
-            onResult(bdLocation.getLatitude(), bdLocation.getLongitude());
+            LocationManager.getInstance().mLocationClient.unRegisterLocationListener(this);
         }
 
-        public void onResult(double latitude, double longitude) {
+        public void onNoResult(BDLocation bdLocation) {
+        }
+
+        public void onResult(double latitude, double longitude, BDLocation location) {
 
         }
     }

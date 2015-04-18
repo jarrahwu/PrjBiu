@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jaf.biubiu" >
+    package="com.jaf.biubiu">
 
     <!-- baidu map -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -17,17 +17,18 @@
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
+
     <!-- baidu map end -->
     <application
         android:name="com.jaf.jcore.Application"
         android:allowBackup="true"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".ActivitySplash"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.FullScreen" >
+            android:theme="@style/AppTheme.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -56,20 +57,13 @@
         <activity
             android:name=".ActivityQuestion"
             android:label="@string/title_activity_question"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ActivityPublish"
-            android:label="@string/title_activity_activity_publish"
-            android:parentActivityName="com.jaf.jcore.BaseActionBarActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.jaf.jcore.BaseActionBarActivity" />
-        </activity>
+            android:label="@string/title_activity_publish"></activity>
         <activity
             android:name=".ActivitySetting"
-            android:label="@string/title_activity_activity_setting" >
-        </activity>
+            android:label="@string/title_activity_activity_setting"></activity>
     </application>
 
 </manifest>

@@ -4,131 +4,160 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.jaf.jcore.Application;
 import com.jaf.jcore.BaseActionBarActivity;
 import com.jaf.jcore.BindView;
 
+public class ActivityTab extends BaseActionBarActivity
+		implements
+			Constant.BottomTabBar {
 
-public class ActivityTab extends BaseActionBarActivity implements Constant.BottomTabBar {
+	private Fragment mLastShowing;
+	private Fragment[] mTabFragments;
 
-    private Fragment mLastShowing;
-    private Fragment[] mTabFragments;
+	@BindView(id = R.id.bottomTabBar)
+	private RadioGroup mBottomTabBar;
 
-    @BindView(id = R.id.bottomTabBar)
-    private RadioGroup mBottomTabBar;
-
-    private View mActionBarView;
-    private ActionBarViewHolder mHolder;
-
-    @Override
-    protected int onLoadViewResource() {
-        return R.layout.activity_tab;
-    }
+	private View mActionBarView;
+	private ActionBarViewHolder mHolder;
 
     @Override
-    protected void onViewDidLoad(Bundle savedInstanceState) {
+	protected int onLoadViewResource() {
+		return R.layout.activity_tab;
+	}
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        initBottomBar();
-        initFragments();
-        switchFragment(FIRST_TAB);
+        enableTitleDisplayHomeAsUp(false);
     }
 
     @Override
-    protected View getActionBarView() {
-        mActionBarView = getLayoutInflater().inflate(R.layout.view_activity_tab_action_bar, null);
-        mHolder = new ActionBarViewHolder();
-        mHolder.title = (TextView) mActionBarView.findViewById(R.id.barTitle);
-        mHolder.option = (ImageView) mActionBarView.findViewById(R.id.barOption);
-        return mActionBarView;
-    }
+	protected void onViewDidLoad(Bundle savedInstanceState) {
+		initBottomBar();
+		initFragments();
+		switchFragment(FIRST_TAB);
+	}
+
+    @Override
+	protected View getActionBarView() {
+		mActionBarView = getLayoutInflater().inflate(
+				R.layout.view_activity_tab_action_bar, null);
+		mHolder = new ActionBarViewHolder();
+		mHolder.title = (TextView) mActionBarView.findViewById(R.id.barTitle);
+		mHolder.option = (ImageView) mActionBarView
+				.findViewById(R.id.barOption);
+		return mActionBarView;
+	}
+
 
     private void initBottomBar() {
-        final int firstTabId = FIRST_TAB;
-        for (int i = 0; i < mBottomTabBar.getChildCount(); i++) {
-            String text = getString(TAB_TITLES[i]);
-            id(firstTabId + i, RadioButton.class).setText(text);
+		final int firstTabId = FIRST_TAB;
+		for (int i = 0; i < mBottomTabBar.getChildCount(); i++) {
+			String text = getString(TAB_TITLES[i]);
+			id(firstTabId + i, RadioButton.class).setText(text);
+		}
+
+		mBottomTabBar
+				.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        switchFragment(checkedId);
+                    }
+                });
+	}
+
+	private void initFragments() {
+		FragmentManager fm = getSupportFragmentManager();
+		FragmentTransaction trs = fm.beginTransaction();
+		if (mTabFragments == null) {
+			mTabFragments = new Fragment[TAB_COUNT];
+			for (int i = 0; i < TAB_COUNT; i++) {
+				mTabFragments[i] = TabFragmentFactory.createMain(i, null);
+				trs.add(R.id.container, mTabFragments[i], "" + i);
+				trs.hide(mTabFragments[i]);
+			}
+		}
+		trs.commit();
+	}
+
+	private void switchFragment(int tabId) {
+		final int fragmentIndex = tabId - FIRST_TAB;
+		final Fragment f = mTabFragments[fragmentIndex];
+		FragmentManager fm = getSupportFragmentManager();
+		FragmentTransaction trans = fm.beginTransaction();
+
+		if (mLastShowing != null) {
+			trans.hide(mLastShowing);
+		}
+		trans.show(f);
+		mLastShowing = f;
+		trans.commit();
+
+		updateActionBar(fragmentIndex);
+	}
+
+	private void updateActionBar(final int index) {
+		int textResId = R.string.app_name;
+		int iconRes = R.drawable.sel_edit_btn;
+		switch (index) {
+			case 1 :
+				textResId = R.string.lookAround;
+				iconRes = R.drawable.sel_add_btn;
+				break;
+			case 2 :
+				textResId = R.string.message;
+				iconRes = 0;
+				break;
+			case 3 :
+				textResId = R.string.mine;
+				iconRes = R.drawable.sel_setting_btn;
+				break;
+		}
+        //title
+        String title = getString(textResId);
+        String city = Application.getInstance().getAppExtraInfo().city;
+        if(index == 0 && !TextUtils.isEmpty(city)) {
+            title = city;
         }
-
-        mBottomTabBar.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switchFragment(checkedId);
-            }
-        });
-    }
-
-
-    private void initFragments() {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction trs = fm.beginTransaction();
-        if (mTabFragments == null) {
-            mTabFragments = new Fragment[TAB_COUNT];
-            for (int i = 0; i < TAB_COUNT; i++) {
-                mTabFragments[i] = TabFragmentFactory.createMain(i, null);
-                trs.add(R.id.container, mTabFragments[i], "" + i);
-                trs.hide(mTabFragments[i]);
-            }
+		mHolder.title.setText(title);
+        //title left
+        int d = 0;
+        if (index == 0) {
+            d = R.drawable.ic_lbs_white;
         }
-        trs.commit();
-    }
+        if (index == 1) {
 
-    private void switchFragment(int tabId) {
-        final int fragmentIndex = tabId - FIRST_TAB;
-        final Fragment f = mTabFragments[fragmentIndex];
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction trans = fm.beginTransaction();
-
-        if (mLastShowing != null) {
-            trans.hide(mLastShowing);
         }
-        trans.show(f);
-        mLastShowing = f;
-        trans.commit();
+        mHolder.title.setCompoundDrawablesWithIntrinsicBounds(d, 0, 0, 0);
 
-        updateActionBar(fragmentIndex);
-    }
-
-    private void updateActionBar(final int index) {
-        int textResId = R.string.app_name;
-        int iconRes = R.drawable.sel_edit_btn;
-        switch (index) {
-            case 1:
-                textResId = R.string.lookAround;
-                iconRes = R.drawable.sel_add_btn;
-                break;
-            case 2:
-                textResId = R.string.message;
-                iconRes = 0;
-                break;
-            case 3:
-                textResId = R.string.mine;
-                iconRes = R.drawable.sel_setting_btn;
-                break;
-        }
+        //option
         mHolder.option.setImageResource(iconRes);
-        mHolder.title.setText(textResId);
 
-        mHolder.option.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (index == 0) {
-                    ActivityPublish.start(ActivityTab.this);
-                }
-                if (index == 3) {
-                    ActivitySetting.start(ActivityTab.this);
-                }
-            }
-        });
-    }
+		mHolder.option.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (index == 0) {
+					ActivityPublish.start(ActivityTab.this);
+				}
+				if (index == 3) {
+					ActivitySetting.start(ActivityTab.this);
+				}
+			}
+		});
+	}
 
-    public static class ActionBarViewHolder {
-        TextView title;
-        ImageView option;
-    }
+	public static class ActionBarViewHolder {
+		TextView title;
+		ImageView option;
+	}
 }

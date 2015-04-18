@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.jaf.bean.BeanRequest;
 import com.jaf.bean.BeanRequestNearby;
+import com.jaf.bean.BeanRequestPublish;
 import com.jaf.bean.BeanRequestQuestionList;
 import com.jaf.bean.BeanRequestTopic;
 import com.jaf.bean.BeanRequestUser;
@@ -88,7 +89,7 @@ public class U implements Constant{
 
     public static BeanRequestQuestionList buildQuestionArg(boolean fresh, int lastId, int questId) {
         BeanRequestQuestionList brq = new BeanRequestQuestionList();
-        brq.setAppVersion("3.1");
+        brq.setAppVersion(VER);
         brq.setCmd(CMD.LIST_QUESTION);
         brq.setDvcId(Device.getId(Application.getInstance().getApplicationContext()));
         brq.setIdType(fresh ? 0 : 1);
@@ -100,5 +101,25 @@ public class U implements Constant{
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    public static BeanRequestPublish buildPublishQuestion(String sign, String locDesc, int questType, int unionId, String quest) {
+        BeanRequestPublish brp = new BeanRequestPublish();
+        brp = (BeanRequestPublish) buildBaseRequest(brp, CMD.PUBLISH_QUESTION);
+        brp.setSign(sign);
+        brp.setSelfLocDesc(locDesc);
+        brp.setQuestType(questType);
+        brp.setUnionId(unionId);
+        brp.setQuest(quest);
+        return brp;
+    }
+
+    public static BeanRequest buildBaseRequest(BeanRequest br, int cmd) {
+        br.setAppVersion(VER);
+        br.setCmd(cmd);
+        br.setDvcId(Device.getId(Application.getInstance().getApplicationContext()));
+        br.setLatitude(Application.getInstance().getAppExtraInfo().lat);
+        br.setLongitude(Application.getInstance().getAppExtraInfo().lon);
+        return br;
     }
 }

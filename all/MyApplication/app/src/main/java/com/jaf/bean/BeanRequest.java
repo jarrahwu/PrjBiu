@@ -44,7 +44,7 @@ public class BeanRequest {
     }
 
     public void setLatitude(double latitude) {
-        this.latitude = (int) (latitude * 1000000);
+        this.latitude = (int) (latitude * 100000);
     }
 
     public int getLongitude() {
@@ -52,6 +52,6 @@ public class BeanRequest {
     }
 
     public void setLongitude(double longitude) {
-        this.longitude = (int) (longitude * 1000000);
+        this.longitude = (int) (longitude * 100000);
     }
 }

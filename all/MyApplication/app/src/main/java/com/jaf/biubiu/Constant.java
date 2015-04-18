@@ -27,5 +27,7 @@ public interface Constant {
 
         public static final int LIST_TOPIC = 8450;
         public static final int LIST_QUESTION = 8197;
+
+        public static final int PUBLISH_QUESTION = 8198;
     }
 }

@@ -2,13 +2,14 @@ package com.jaf.biubiu;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
 import com.jaf.bean.BeanNearbyItem;
-import com.jaf.bean.BeanRequestQuestionList;
 import com.jaf.bean.ResponseNearby;
 import com.jaf.jcore.AbsWorker;
 import com.jaf.jcore.Application;
@@ -95,9 +96,14 @@ public class FragmentNearby extends BindableFragment implements Constant{
     private void requestListWhenLocated() {
         LocationManager.getInstance().requestLocation(new LocationManager.JLsn() {
             @Override
-            public void onResult(double latitude, double longitude) {
-                super.onResult(latitude, longitude);
+            public void onResult(double latitude, double longitude, BDLocation location) {
                 Application.getInstance().setAppExtraInfo(Device.getId(Application.getInstance().getApplicationContext()), latitude, longitude);
+                Application.getInstance().mAppExtraInfo.city = location.getCity();
+                String city = getString(R.string.app_name);
+                if(!TextUtils.isEmpty(Application.getInstance().mAppExtraInfo.city)) {
+                    city = location.getCity();
+                }
+                getActivity().setTitle(city);
                 registerDevice();
             }
         });
