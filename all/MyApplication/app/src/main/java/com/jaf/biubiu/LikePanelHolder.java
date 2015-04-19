@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
+import com.jaf.bean.BeanNearbyItem;
 import com.jaf.jcore.Http;
 import com.jaf.jcore.HttpCallBack;
 
@@ -26,6 +27,43 @@ public class LikePanelHolder implements View.OnClickListener {
     public void listenForChecking() {
         unLike.setOnClickListener(this);
         like.setOnClickListener(this);
+    }
+
+
+    // 方便header 使用
+    public void setData(BeanNearbyItem beanAnswerItem) {
+        if (beanAnswerItem != null) {
+            like.setText(String.valueOf(beanAnswerItem.getLikeNum()));
+            unLike.setText(String.valueOf(beanAnswerItem.getUnlikeNum()));
+
+
+            boolean likeEnable = true;
+            boolean isUnlike;
+            boolean isLike;
+
+            switch (beanAnswerItem.getLikeFlag()) {
+                case 1://zan
+                    likeEnable = false;
+                    isLike = true;
+                    isUnlike = false;
+                    break;
+                case 2://cai
+                    likeEnable = false;
+                    isUnlike = true;
+                    isLike = false;
+                    break;
+                default://no status
+                    likeEnable= true;
+                    isUnlike = false;
+                    isLike = false;
+                    break;
+            }
+            like.setChecked(isLike);
+            unLike.setChecked(isUnlike);
+
+            like.setEnabled(likeEnable);
+            unLike.setEnabled(likeEnable);
+        }
     }
 
 //    public void stopListen() {

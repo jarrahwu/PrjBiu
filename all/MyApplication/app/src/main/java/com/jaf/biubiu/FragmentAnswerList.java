@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jaf.bean.BeanAnswerItem;
+import com.jaf.bean.BeanNearbyItem;
 import com.jaf.bean.BeanRequestAnswerList;
 import com.jaf.bean.ResponseQuestion;
 import com.jaf.jcore.AbsWorker;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 
 /**
  * Created by jarrah on 2015/4/16.
+ * 附近 , 板块 公共
  */
 public class FragmentAnswerList extends BindableFragment {
 
@@ -34,8 +36,9 @@ public class FragmentAnswerList extends BindableFragment {
 	private View mHeader;
 	private HeaderHolder mHeaderHolder;
 	private ArrayList<BeanAnswerItem> mDataSource;
+    private BeanNearbyItem mFromNearby;
 
-	public FragmentAnswerList() {
+    public FragmentAnswerList() {
 	}
 
 	public static FragmentAnswerList newInstance(BeanRequestAnswerList b) {
@@ -55,14 +58,14 @@ public class FragmentAnswerList extends BindableFragment {
 	protected void onViewDidLoad(Bundle savedInstanceState) {
 		super.onViewDidLoad(savedInstanceState);
 		if (getData() != null) {
-			setupHeader();
+			headerViewFromNearby();
 			setupList();
 		} else {
 			L.dbg("get data is null!");
 		}
 	}
 
-	private void setupHeader() {
+	private void headerViewFromNearby() {
 		mHeaderHolder = new HeaderHolder();
 		mHeader = getActivity().getLayoutInflater().inflate(
 				R.layout.layout_question_top, null);
@@ -74,11 +77,38 @@ public class FragmentAnswerList extends BindableFragment {
 		Activity activity = getActivity();
 		if (activity instanceof ActivityDetail) {
 			ActivityDetail activityDetail = (ActivityDetail) activity;
-			mHeaderHolder.author.setText(activityDetail.getData().fromNearby
-					.getSign());
-			mHeaderHolder.title.setText(activityDetail.getData().fromNearby
-					.getQuest());
+            mFromNearby = activityDetail.getData().fromNearby;
+            if(mFromNearby == null) return;
+			mHeaderHolder.author.setText(mFromNearby.getSign());
+			mHeaderHolder.title.setText(mFromNearby.getQuest());
+			LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
+			extra.aid = 0;
+            extra.qid = mFromNearby.getQuestId();
+			LikePanelHolder likePanelHolder = new LikePanelHolder(extra,
+					mHeader) {
+                @Override
+                public void onPostSuccess(boolean isLike) {
+                    super.onPostSuccess(isLike);
+                    int count = isLike ? Integer.valueOf(like.getText()
+                            .toString()) : Integer.valueOf(unLike.getText()
+                            .toString());
+                    count++;
+
+                    if (isLike) {
+                        mFromNearby.setLikeNum(count);
+                        mFromNearby.setLikeFlag(1);
+                    } else {
+                        mFromNearby.setUnlikeNum(count);
+                        mFromNearby.setLikeFlag(2);
+                    }
+                    setData(mFromNearby);
+                }
+            };
+            likePanelHolder.listenForChecking();
+            likePanelHolder.setData(mFromNearby);
+
 		}
+
 	}
 
 	private void setupList() {
