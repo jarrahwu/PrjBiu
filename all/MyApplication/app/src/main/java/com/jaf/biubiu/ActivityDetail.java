@@ -54,11 +54,11 @@ public class ActivityDetail extends BaseActionBarActivity {
 			if (extra.fromNearby != null) {
 				BeanRequestAnswerList arg = U.buildAnswerArgs(true, 0,
 						extra.questId);
-				mDisplayFragment = FragmentAnswerList.newInstance(arg);
+				mDisplayFragment = FragmentQANearby.newInstance(arg);
 			} else if (extra.fromTopic != null) { // 板块
                 setTitle(extra.topicTitle);
                 findViewById(R.id.editPanel).setVisibility(View.GONE);
-                mDisplayFragment = FragmentQuestionList
+                mDisplayFragment = FragmentQATopic
 						.newInstance(extra.fromTopic);
             }
 
@@ -120,7 +120,7 @@ public class ActivityDetail extends BaseActionBarActivity {
             public void onResponse(JSONObject response) {
                 super.onResponse(response);
                 L.dbg("reply success");
-                FragmentAnswerList fa = (FragmentAnswerList) mDisplayFragment;
+                FragmentQANearby fa = (FragmentQANearby) mDisplayFragment;
                 fa.refreshAnswer();
                 mEditText.setText("");
                 U.hideSoftKeyboard(ActivityDetail.this);
