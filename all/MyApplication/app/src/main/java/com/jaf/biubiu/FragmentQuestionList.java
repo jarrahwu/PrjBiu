@@ -1,15 +1,15 @@
 package com.jaf.biubiu;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jaf.bean.BeanAnswerItem;
-import com.jaf.bean.BeanRequestQuestionList;
-import com.jaf.bean.ResponseQuestion;
+import com.jaf.bean.BeanNearbyItem;
+import com.jaf.bean.BeanRequestTopicQuestionList;
+import com.jaf.bean.ResponseTopicQuestions;
 import com.jaf.jcore.AbsWorker;
 import com.jaf.jcore.BindView;
 import com.jaf.jcore.BindableFragment;
@@ -18,30 +18,30 @@ import com.jaf.jcore.NetworkListView;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Created by jarrah on 2015/4/16.
+ * Created by jarrah on 2015/4/14.
  */
-public class FragmentQuestionList extends BindableFragment{
+public class FragmentQuestionList extends BindableFragment implements Constant{
 
-    private static final String KEY_ARGS = "args";
-
-    @BindView(id = R.id.questionList)
-    private NetworkListView<ViewAnswerItem, BeanAnswerItem> mListView;
-
-    private com.jaf.jcore.AbsWorker.AbsLoader<ViewAnswerItem,com.jaf.bean.BeanAnswerItem> mLoader;
-    private View mHeader;
-    private HeaderHolder mHeaderHolder;
+    private static final String TAG = "FragmentQuestionList";
+    public static final String KEY_REQUEST = "request_json";
 
     public FragmentQuestionList() {}
 
-    public static FragmentQuestionList newInstance(BeanRequestQuestionList b) {
-        Bundle args = new Bundle();
-        args.putSerializable(KEY_ARGS, b);
-        FragmentQuestionList fragmentQuestionList = new FragmentQuestionList();
-        fragmentQuestionList.setArguments(args);
-        return fragmentQuestionList;
+    @BindView(id = R.id.networkListView)
+    private NetworkListView<View, BeanNearbyItem> mNetworkListView;
+
+    private AbsWorker.AbsLoader<View, BeanNearbyItem> loader;
+
+    public static Fragment newInstance(BeanRequestTopicQuestionList arg) {
+        FragmentQuestionList f = new FragmentQuestionList();
+        Bundle b = new Bundle();
+        b.putSerializable(KEY_REQUEST, arg);
+        f.setArguments(b);
+        return f;
     }
 
     @Override
@@ -50,70 +50,58 @@ public class FragmentQuestionList extends BindableFragment{
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     protected void onViewDidLoad(Bundle savedInstanceState) {
         super.onViewDidLoad(savedInstanceState);
-        if (getData() != null) {
-            setupHeader();
-            setupList();
-        }else {
-            L.dbg("get data is null!");
-        }
-    }
 
-    private void setupHeader() {
-        mHeaderHolder = new HeaderHolder();
-        mHeader = getActivity().getLayoutInflater().inflate(R.layout.layout_question_top, null);
-        mHeaderHolder.author = (TextView) mHeader.findViewById(R.id.author);
-        mHeaderHolder.title = (TextView) mHeader.findViewById(R.id.questionText);
-        mListView.getRefreshableView().addHeaderView(mHeader);
-
-        Activity activity  = getActivity();
-        if(activity instanceof  ActivityQuestion) {
-            ActivityQuestion activityQuestion = (ActivityQuestion) activity;
-            mHeaderHolder.author.setText(activityQuestion.getData().fromNearby.getSign());
-            mHeaderHolder.title.setText(activityQuestion.getData().fromNearby.getQuest());
-        }
-    }
-
-    private void setupList() {
-        JSONObject jo = JacksonWrapper.bean2Json(getData());
-        mLoader = new AbsWorker.AbsLoader<ViewAnswerItem, BeanAnswerItem>() {
+        loader = new AbsWorker.AbsLoader<View, BeanNearbyItem>() {
             @Override
             public String parseNextUrl(JSONObject response) {
                 return null;
             }
 
             @Override
-            public ArrayList<BeanAnswerItem> parseJSON2ArrayList(JSONObject response) {
-                ResponseQuestion responseQuestion = JacksonWrapper.json2Bean(response, ResponseQuestion.class);
-                L.dbg("FragmentQuestionList response :" + response);
-                if (responseQuestion != null) {
-                    return responseQuestion.getReturnData().getContData();
-                }else {
-                    L.dbg("responseQuestion is null !");
-                    return null;
-                }
+            public ArrayList<BeanNearbyItem> parseJSON2ArrayList(JSONObject response) {
+                L.dbg("fragment question  response " + response.toString());
+                ResponseTopicQuestions r = JacksonWrapper.json2Bean(response, ResponseTopicQuestions.class);
+                return r.getReturnData().getContData();
             }
 
             @Override
-            public void updateItemUI(int position, BeanAnswerItem data, ViewAnswerItem itemView) {
-                itemView.setData(data);
+            public void updateItemUI(int position, final BeanNearbyItem data, View itemView) {
+                TextView tv = (TextView) itemView;
+                tv.setText(U.b642s(data.getQuest()));
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ActivityDetail.Extra extra = new ActivityDetail.Extra();
+                        extra.questId = data.getQuestId();
+                        extra.fromNearby = data;
+                        ActivityDetail.start(getActivity(), extra);
+                    }
+                });
             }
 
             @Override
-            public ViewAnswerItem makeItem(LayoutInflater inflater, int position, View convertView, ViewGroup parent) {
-                return new ViewAnswerItem(getActivity());
+            public View makeItem(LayoutInflater inflater, int position, View convertView, ViewGroup parent) {
+                return new TextView(getActivity());
             }
         };
-        mListView.request(Constant.API, mLoader, jo);
+
+        doRequest();
     }
 
-    public BeanRequestQuestionList getData() {
-        return (BeanRequestQuestionList) getArguments().getSerializable(KEY_ARGS);
-    }
-
-    static class HeaderHolder {
-        TextView title;
-        TextView author;
+    private void doRequest() {
+        Serializable serializable = getArguments().getSerializable(KEY_REQUEST);
+        if (getArguments() != null && serializable != null) {
+            BeanRequestTopicQuestionList request = (BeanRequestTopicQuestionList) serializable;
+            mNetworkListView.request(Constant.API, loader, U.buildTopicQuestion(true, 0, request.getUnionId()));
+        }else {
+            L.dbg(TAG + " do request but data is null!");
+        }
     }
 }

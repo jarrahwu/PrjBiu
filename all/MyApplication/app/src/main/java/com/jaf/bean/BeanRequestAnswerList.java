@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by jarrah on 2015/4/16.
  */
-public class BeanRequestQuestionList extends BeanRequest implements Serializable{
+public class BeanRequestAnswerList extends BeanRequest implements Serializable{
     private int questId;
     private int idType;
     private int lastId;

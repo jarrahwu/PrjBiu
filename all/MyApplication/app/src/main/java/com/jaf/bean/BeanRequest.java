@@ -1,9 +1,11 @@
 package com.jaf.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by jarrah on 2015/4/15.
  */
-public class BeanRequest {
+public class BeanRequest implements Serializable{
     private String appVersion;
     private int latitude;
     private int longitude;

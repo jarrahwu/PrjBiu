@@ -6,11 +6,14 @@ import android.util.Base64;
 import android.view.inputmethod.InputMethodManager;
 
 import com.jaf.bean.BeanRequest;
+import com.jaf.bean.BeanRequestAnswerList;
 import com.jaf.bean.BeanRequestNearby;
 import com.jaf.bean.BeanRequestPublish;
-import com.jaf.bean.BeanRequestQuestionList;
 import com.jaf.bean.BeanRequestTopic;
+import com.jaf.bean.BeanRequestTopicQuestionList;
 import com.jaf.bean.BeanRequestUser;
+import com.jaf.bean.PostAnswerQuestion;
+import com.jaf.bean.PostLike;
 import com.jaf.jcore.Application;
 import com.jaf.jcore.JacksonWrapper;
 
@@ -32,6 +35,17 @@ public class U implements Constant{
         return JacksonWrapper.bean2Json(br);
     }
 
+    public static JSONObject buildTopicQuestion(boolean fresh, int lastId, int unionId) {
+        BeanRequestTopicQuestionList brn = new BeanRequestTopicQuestionList();
+        brn.setAppVersion(VER);
+        brn.setCmd(CMD.LIST_TOPIC_QUESTION);
+        brn.setDvcId(Device.getId(Application.getInstance().getApplicationContext()));
+        brn.setIdType(fresh ? 2 : 1);
+        brn.setLastId(lastId);
+        brn.setUnionId(unionId);
+        return JacksonWrapper.bean2Json(brn);
+    }
+
     public static JSONObject buildNearby(double lat, double lon, boolean fresh, int lastId) {
         BeanRequestNearby brn = new BeanRequestNearby();
         brn.setAppVersion(VER);
@@ -45,8 +59,8 @@ public class U implements Constant{
     }
 
     public static String b642s(String str) {
-        byte[] data = Base64.decode(str, Base64.DEFAULT);
         try {
+            byte[] data = Base64.decode(str, Base64.DEFAULT);
             String text = new String(data, "UTF-8");
             return text;
         } catch (UnsupportedEncodingException e) {
@@ -77,7 +91,7 @@ public class U implements Constant{
     }
 
     public static JSONObject buildQuestion(boolean fresh, int lastId, int questId) {
-        BeanRequestQuestionList brq = new BeanRequestQuestionList();
+        BeanRequestAnswerList brq = new BeanRequestAnswerList();
         brq.setAppVersion(VER);
         brq.setCmd(CMD.LIST_QUESTION);
         brq.setDvcId(Device.getId(Application.getInstance().getApplicationContext()));
@@ -87,8 +101,8 @@ public class U implements Constant{
         return JacksonWrapper.bean2Json(brq);
     }
 
-    public static BeanRequestQuestionList buildQuestionArg(boolean fresh, int lastId, int questId) {
-        BeanRequestQuestionList brq = new BeanRequestQuestionList();
+    public static BeanRequestAnswerList buildAnswerArgs(boolean fresh, int lastId, int questId) {
+        BeanRequestAnswerList brq = new BeanRequestAnswerList();
         brq.setAppVersion(VER);
         brq.setCmd(CMD.LIST_QUESTION);
         brq.setDvcId(Device.getId(Application.getInstance().getApplicationContext()));
@@ -121,5 +135,34 @@ public class U implements Constant{
         br.setLatitude(Application.getInstance().getAppExtraInfo().lat);
         br.setLongitude(Application.getInstance().getAppExtraInfo().lon);
         return br;
+    }
+
+    public static BeanRequestTopicQuestionList buildTopicQuestionListArg(int unionId) {
+        BeanRequestTopicQuestionList brq = new BeanRequestTopicQuestionList();
+        brq.setAppVersion(VER);
+        brq.setCmd(CMD.LIST_TOPIC_QUESTION);
+        brq.setDvcId(Device.getId(Application.getInstance().getApplicationContext()));
+        brq.setIdType(0);
+        brq.setLastId(0);
+        brq.setUnionId(unionId);
+        return brq;
+    }
+
+    public static JSONObject buildPostAnswerQuestion(String ans, String selLocDesc, int questionId) {
+        PostAnswerQuestion post = new PostAnswerQuestion();
+        post = (PostAnswerQuestion) buildBaseRequest(post, CMD.POST_ANSWER_QUESTION);
+        post.setSelfLocDesc(selLocDesc);
+        post.setQuestId(questionId);
+        post.setAns(ans);
+        return JacksonWrapper.bean2Json(post);
+    }
+
+    public static JSONObject buildPostLike(boolean isLike, int qid, int aid) {
+        PostLike pl = new PostLike();
+        pl = (PostLike) buildBaseRequest(pl, CMD.POST_LIKE);
+        pl.setQuestId(qid);
+        pl.setAnsId(aid);
+        pl.setLike(isLike ? 1 : 2);
+        return JacksonWrapper.bean2Json(pl);
     }
 }

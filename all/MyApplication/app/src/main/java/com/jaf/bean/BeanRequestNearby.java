@@ -3,7 +3,7 @@ package com.jaf.bean;
 /**
  * Created by jarrah on 2015/4/15.
  */
-public class BeanRequestNearby extends BeanRequest{
+public class BeanRequestNearby extends BeanRequest {
     private int idType;
     private int lastId;
 

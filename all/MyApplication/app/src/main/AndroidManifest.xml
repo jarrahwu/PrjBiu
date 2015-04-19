@@ -55,7 +55,7 @@
             android:process=":remote" />
 
         <activity
-            android:name=".ActivityQuestion"
+            android:name=".ActivityDetail"
             android:label="@string/title_activity_question"
             android:screenOrientation="portrait"></activity>
         <activity

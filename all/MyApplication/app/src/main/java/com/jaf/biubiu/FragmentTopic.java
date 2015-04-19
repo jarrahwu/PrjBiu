@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.jaf.bean.BeanTopicItem;
 import com.jaf.bean.ResponseTopic;
@@ -56,8 +55,17 @@ public class FragmentTopic extends BindableFragment implements Constant.CMD{
             }
 
             @Override
-            public void updateItemUI(int position, BeanTopicItem data, ViewTopicItem itemView) {
+            public void updateItemUI(int position, final BeanTopicItem data, ViewTopicItem itemView) {
                 itemView.setData(data);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ActivityDetail.Extra extra = new ActivityDetail.Extra();
+                        extra.fromTopic = U.buildTopicQuestionListArg(data.getUnionId());
+                        extra.topicTitle = data.getUnionName();
+                        ActivityDetail.start(getActivity(), extra);
+                    }
+                });
             }
 
             @Override

@@ -5,7 +5,8 @@
     android:layout_height="match_parent">
 
     <com.jaf.jcore.NetworkListView
-        android:id="@+id/networkListView"
+        android:id="@+id/questionList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
+
 </LinearLayout>

@@ -29,5 +29,8 @@ public interface Constant {
         public static final int LIST_QUESTION = 8197;
 
         public static final int PUBLISH_QUESTION = 8198;
+        public static final int LIST_TOPIC_QUESTION = 8451;
+        public static final int POST_ANSWER_QUESTION = 8199;
+        public static final int POST_LIKE = 8200;
     }
 }
