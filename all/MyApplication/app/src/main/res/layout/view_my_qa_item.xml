@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:paddingTop="@dimen/dfPadding"
+    android:paddingLeft="@dimen/listLeft"
+    android:paddingRight="@dimen/dfPadding"
+    android:paddingBottom="@dimen/dfPadding"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:textSize="12sp"
+            android:text="@string/app_name"
+            android:layout_weight="1"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:id="@+id/locDesc" />
+
+        <TextView
+            android:text="@string/zero"
+            android:textSize="12sp"
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_marginTop="@dimen/dfPadding"
+        android:layout_gravity="center_horizontal"
+        android:textSize="14sp"
+        android:text="@string/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        style="@style/GreyLine"
+        android:layout_marginTop="@dimen/dfPadding" />
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/dfPadding"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:textSize="12sp"
+            android:text="@string/zero"
+            android:id="@+id/msgCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textSize="12sp"
+            android:paddingLeft="@dimen/dfPadding"
+            android:paddingRight="@dimen/dfPadding"
+            android:text="@string/zero"
+            android:id="@+id/likeCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textSize="12sp"
+            android:text="@string/zero"
+            android:id="@+id/unlikeCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

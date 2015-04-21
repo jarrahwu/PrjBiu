@@ -49,5 +49,11 @@ public class ActivityMyQA extends BaseActionBarActivity {
 
     public static class Extra implements Serializable {
         boolean isQ;
+
+        public static Extra newExtra(boolean isQuestion) {
+            Extra e = new Extra();
+            e.isQ = isQuestion;
+            return e;
+        }
     }
 }

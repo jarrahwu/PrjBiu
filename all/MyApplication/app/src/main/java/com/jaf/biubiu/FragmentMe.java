@@ -1,5 +1,6 @@
 package com.jaf.biubiu;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -114,6 +115,13 @@ public class FragmentMe extends BindableFragment{
             TextView count = (TextView) view.findViewById(R.id.meCount);
             desc.setText(item.text);
             count.setText(item.count);
+            final boolean isQuestion = position == 0 ? true : false;
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ActivityMyQA.start((Activity) getContext(), ActivityMyQA.Extra.newExtra(isQuestion));
+                }
+            });
         }
 
         @Override

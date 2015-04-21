@@ -3,8 +3,22 @@ package com.jaf.biubiu;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.jaf.bean.BeanMyQAItem;
+import com.jaf.bean.BeanNearbyItem;
+import com.jaf.bean.ResponseMyQA;
+import com.jaf.jcore.AbsWorker;
+import com.jaf.jcore.BindView;
 import com.jaf.jcore.BindableFragment;
+import com.jaf.jcore.JacksonWrapper;
+import com.jaf.jcore.NetworkListView;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by jarrah on 2015/4/21.
@@ -12,6 +26,11 @@ import com.jaf.jcore.BindableFragment;
 public class FragmentMyA extends BindableFragment{
 
     public static final String KEY_MY_A = "my_a";
+
+    @BindView(id = R.id.myAList)
+    private NetworkListView<ViewMyQAItem, BeanNearbyItem> mListView;
+
+    private com.jaf.jcore.AbsWorker.AbsLoader<com.jaf.biubiu.ViewMyQAItem,com.jaf.bean.BeanNearbyItem> loader;
 
     public FragmentMyA() {}
 
@@ -32,5 +51,34 @@ public class FragmentMyA extends BindableFragment{
         return R.layout.fragment_my_a;
     }
 
+    @Override
+    protected void onViewDidLoad(Bundle savedInstanceState) {
+        super.onViewDidLoad(savedInstanceState);
+        loader = new AbsWorker.AbsLoader<ViewMyQAItem, BeanNearbyItem>() {
+            @Override
+            public String parseNextUrl(JSONObject response) {
+                return null;
+            }
 
+            @Override
+            public ArrayList<BeanNearbyItem> parseJSON2ArrayList(JSONObject response) {
+                ResponseMyQA responseMyQA = JacksonWrapper.json2Bean(response, ResponseMyQA.class);
+                if(responseMyQA != null) {
+                    return responseMyQA.getReturnData().getContData();
+                }
+                return null;
+            }
+
+            @Override
+            public void updateItemUI(int position, BeanNearbyItem data, ViewMyQAItem itemView) {
+                itemView.setData(data);
+            }
+
+            @Override
+            public ViewMyQAItem makeItem(LayoutInflater inflater, int position, View convertView, ViewGroup parent) {
+                return new ViewMyQAItem(getActivity());
+            }
+        };
+        mListView.request(Constant.API, loader, U.buildMyAList(true, 0));
+    }
 }
