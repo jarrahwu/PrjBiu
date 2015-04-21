@@ -75,7 +75,7 @@ public class FragmentQATopic extends BindableFragment implements Constant{
             @Override
             public void updateItemUI(int position, final BeanNearbyItem data, View itemView) {
                 TextView tv = (TextView) itemView;
-                tv.setText(U.b642s(data.getQuest()));
+                tv.setText(data.getQuest());
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

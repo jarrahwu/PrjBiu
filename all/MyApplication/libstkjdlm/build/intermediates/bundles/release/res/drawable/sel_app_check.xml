@@ -5,4 +5,4 @@
     <item android:drawable="@drawable/btn_unselected" android:state_checked="false"/>
     <item android:drawable="@drawable/btn_unselected"/>
 
-</selector><!-- From: file:/Users/jarrahwu/Documents/JarrahGithub/PrjBiu/PrjBiu/all/MyApplication/libstkjdlm/src/main/res/drawable/sel_app_check.xml -->
+</selector><!-- From: file:/C:/Android/Git/PrjBiu/PrjBiu/all/MyApplication/libstkjdlm/src/main/res/drawable/sel_app_check.xml -->

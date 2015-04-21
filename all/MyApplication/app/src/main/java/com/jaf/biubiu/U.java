@@ -14,6 +14,8 @@ import com.jaf.bean.BeanRequestTopicQuestionList;
 import com.jaf.bean.BeanRequestUser;
 import com.jaf.bean.PostAnswerQuestion;
 import com.jaf.bean.PostLike;
+import com.jaf.bean.PostMsg;
+import com.jaf.bean.PostMyQA;
 import com.jaf.jcore.Application;
 import com.jaf.jcore.JacksonWrapper;
 
@@ -164,5 +166,29 @@ public class U implements Constant{
         pl.setAnsId(aid);
         pl.setLike(isLike ? 1 : 2);
         return JacksonWrapper.bean2Json(pl);
+    }
+
+    public static JSONObject buildMsgList(boolean fresh, int lastId) {
+        PostMsg postMsg = new PostMsg();
+        postMsg.setIdType(fresh ? 0 : 1);
+        postMsg.setLastId(lastId);
+        postMsg = (PostMsg) buildBaseRequest(postMsg, CMD.POST_MSG);
+        return JacksonWrapper.bean2Json(postMsg);
+    }
+
+    public static JSONObject buildMyQList(boolean fresh, int lastId) {
+        PostMyQA post = new PostMyQA();
+        post.setIdType(fresh ? 0 : 1);
+        post.setLastId(lastId);
+        post = (PostMyQA) buildBaseRequest(post, CMD.POST_MY_Q);
+        return JacksonWrapper.bean2Json(post);
+    }
+
+    public static JSONObject buildMyAList(boolean fresh, int lastId) {
+        PostMyQA post = new PostMyQA();
+        post.setIdType(fresh ? 0 : 1);
+        post.setLastId(lastId);
+        post = (PostMyQA) buildBaseRequest(post, CMD.POST_MY_A);
+        return JacksonWrapper.bean2Json(post);
     }
 }
