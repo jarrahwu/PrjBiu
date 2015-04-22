@@ -36,5 +36,6 @@ public interface Constant {
 
         public static final int POST_MY_Q = 8193;
         public static final int POST_MY_A = 8194;
+        public static final int POST_FEEDBACK = 0x3001;
     }
 }

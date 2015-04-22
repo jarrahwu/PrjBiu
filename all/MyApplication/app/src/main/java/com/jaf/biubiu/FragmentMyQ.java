@@ -54,6 +54,7 @@ public class FragmentMyQ extends BindableFragment{
     @Override
     protected void onViewDidLoad(Bundle savedInstanceState) {
         super.onViewDidLoad(savedInstanceState);
+        getActivity().setTitle(R.string.myQusestion);
         loader = new AbsWorker.AbsLoader<ViewMyQAItem, BeanNearbyItem>() {
             @Override
             public String parseNextUrl(JSONObject response) {
@@ -63,6 +64,7 @@ public class FragmentMyQ extends BindableFragment{
             @Override
             public ArrayList<BeanNearbyItem> parseJSON2ArrayList(JSONObject response) {
                 ResponseMyQA responseMyQA = JacksonWrapper.json2Bean(response, ResponseMyQA.class);
+
                 if(responseMyQA != null) {
                     return responseMyQA.getReturnData().getContData();
                 }

@@ -35,5 +35,13 @@
     <string name="publish_at_leasst">发表的字数不能少于5个~</string>
     <string name="publishSuccess">发布成功</string>
     <string name="saySomething">总得说些什么吧~</string>
-    <string name="title_activity_activity_my_q">ActivityMyQA</string>
+    <string name="title_activity_my_q">ActivityMyQA</string>
+    <string name="title_activity_activity_feedback">用户反馈</string>
+    <string name="title_activity_activity_about">关于</string>
+    <string name="title_activity_activity_contact_us">联系我们</string>
+    <string name="companyInfo">官网 : biubiu.co\n微博: 二三三三个问题</string>
+    <string name="copyRight">Copyright(c) 2015年 深圳云开日出科技有限公司.</string>
+    <string name="title_activity_activity_terms">ActivityTerms</string>
+    <string name="feedback_tips">您的建议是我们进步的动力~</string>
+    <string name="feedback_success">谢谢您的宝贵意见</string>
 </resources>

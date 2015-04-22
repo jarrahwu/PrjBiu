@@ -12,6 +12,7 @@
 
     <include
         android:id="@+id/editPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         layout="@layout/layout_edit_panel" />
-
 </LinearLayout>

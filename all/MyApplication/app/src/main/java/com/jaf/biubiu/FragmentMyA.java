@@ -54,6 +54,7 @@ public class FragmentMyA extends BindableFragment{
     @Override
     protected void onViewDidLoad(Bundle savedInstanceState) {
         super.onViewDidLoad(savedInstanceState);
+        getActivity().setTitle(R.string.myAnswer);
         loader = new AbsWorker.AbsLoader<ViewMyQAItem, BeanNearbyItem>() {
             @Override
             public String parseNextUrl(JSONObject response) {
@@ -70,8 +71,17 @@ public class FragmentMyA extends BindableFragment{
             }
 
             @Override
-            public void updateItemUI(int position, BeanNearbyItem data, ViewMyQAItem itemView) {
+            public void updateItemUI(int position,final BeanNearbyItem data, ViewMyQAItem itemView) {
                 itemView.setData(data);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ActivityDetail.Extra extra = new ActivityDetail.Extra();
+                        extra.questId = data.getQuestId();
+                        extra.fromNearby = data;
+                        ActivityDetail.start(getActivity(), extra);
+                    }
+                });
             }
 
             @Override

@@ -2,6 +2,8 @@ package com.jaf.biubiu;
 
 
 import android.app.Activity;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.util.Base64;
 import android.view.inputmethod.InputMethodManager;
 
@@ -13,6 +15,7 @@ import com.jaf.bean.BeanRequestTopic;
 import com.jaf.bean.BeanRequestTopicQuestionList;
 import com.jaf.bean.BeanRequestUser;
 import com.jaf.bean.PostAnswerQuestion;
+import com.jaf.bean.PostFeedback;
 import com.jaf.bean.PostLike;
 import com.jaf.bean.PostMsg;
 import com.jaf.bean.PostMyQA;
@@ -22,6 +25,7 @@ import com.jaf.jcore.JacksonWrapper;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 /**
  * Created by jarrah on 2015/4/15.
@@ -191,4 +195,27 @@ public class U implements Constant{
         post = (PostMyQA) buildBaseRequest(post, CMD.POST_MY_A);
         return JacksonWrapper.bean2Json(post);
     }
+
+    public static String ToUTF8(String str) {
+        Charset UTF8_CHARSET = Charset.forName("UTF-8");
+        return new String(str.getBytes(), UTF8_CHARSET);
+    }
+
+    public static JSONObject buildPostFeedback(String comment) {
+        PostFeedback pf = new PostFeedback();
+        pf = (PostFeedback) U.buildBaseRequest(pf, CMD.POST_FEEDBACK);
+        PackageInfo pInfo = null;
+        try {
+            pInfo = Application.getInstance().getPackageManager().getPackageInfo(Application.getInstance().getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        pf.setVerId(pInfo == null ? 1 : pInfo.versionCode);
+        pf.setComment(comment);
+        String osVer = "android-" + android.os.Build.VERSION.SDK_INT;
+        pf.setOsVer(osVer);
+        return JacksonWrapper.bean2Json(pf);
+    }
+
+
 }
