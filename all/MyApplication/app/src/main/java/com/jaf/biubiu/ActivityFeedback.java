@@ -116,7 +116,7 @@ public class ActivityFeedback extends BaseActionBarActivity {
 
     private BaseDanmakuParser createParser(InputStream stream) {
 
-        if(stream==null){
+        if (stream == null) {
             return new BaseDanmakuParser() {
 
                 @Override
@@ -146,7 +146,7 @@ public class ActivityFeedback extends BaseActionBarActivity {
 //        BaseDanmaku danmaku = DanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
         //for(int i=0;i<100;i++){
         //}
-        if(text == null)
+        if (text == null)
             danmaku.text = "这是一条弹幕, 继续点击屏幕吧" + System.nanoTime();
         else
             danmaku.text = text;
@@ -170,11 +170,11 @@ public class ActivityFeedback extends BaseActionBarActivity {
 
     public void onSendClick(View v) {
         Http http = new Http();
-        if(TextUtils.isEmpty(mContent.getText())) {
+        if (TextUtils.isEmpty(mContent.getText())) {
             Toast.makeText(this, R.string.saySomething, Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             JSONObject jo = U.buildPostFeedback(mContent.getText().toString());
-            http.url(Constant.API).JSON(jo).post(new HttpCallBack(){
+            http.url(Constant.API).JSON(jo).post(new HttpCallBack() {
                 @Override
                 public void onResponse(JSONObject response) {
                     super.onResponse(response);

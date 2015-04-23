@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
@@ -34,9 +35,9 @@ public class FragmentNearby extends BindableFragment implements Constant{
     public FragmentNearby() {}
 
     @BindView(id = R.id.networkListView)
-    private NetworkListView<View, BeanNearbyItem> mNetworkListView;
+    private NetworkListView<ViewNearbyItem, BeanNearbyItem> mNetworkListView;
 
-    private com.jaf.jcore.AbsWorker.AbsLoader<android.view.View, BeanNearbyItem> loader;
+    private com.jaf.jcore.AbsWorker.AbsLoader<ViewNearbyItem, BeanNearbyItem> loader;
 
     public static Fragment newInstance(Bundle arg) {
         return new FragmentNearby();
@@ -56,7 +57,7 @@ public class FragmentNearby extends BindableFragment implements Constant{
     protected void onViewDidLoad(Bundle savedInstanceState) {
         super.onViewDidLoad(savedInstanceState);
 
-        loader = new AbsWorker.AbsLoader<View, BeanNearbyItem>() {
+        loader = new AbsWorker.AbsLoader<ViewNearbyItem, BeanNearbyItem>() {
             @Override
             public String parseNextUrl(JSONObject response) {
                 return null;
@@ -70,28 +71,21 @@ public class FragmentNearby extends BindableFragment implements Constant{
             }
 
             @Override
-            public void updateItemUI(int position, final BeanNearbyItem data, View itemView) {
-                TextView tv = (TextView) itemView;
-                tv.setText(data.getQuest());
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ActivityDetail.Extra extra = new ActivityDetail.Extra();
-                        extra.questId = data.getQuestId();
-                        extra.fromNearby = data;
-                        ActivityDetail.start(getActivity(), extra);
-                    }
-                });
+            public void updateItemUI(int position, final BeanNearbyItem data, ViewNearbyItem itemView) {
+                ViewNearbyItem view = (ViewNearbyItem) itemView;
+                view.setData(data);
+
             }
 
             @Override
-            public View makeItem(LayoutInflater inflater, int position, View convertView, ViewGroup parent) {
-                return new TextView(getActivity());
+            public ViewNearbyItem makeItem(LayoutInflater inflater, int position, View convertView, ViewGroup parent) {
+                return new ViewNearbyItem(getActivity());
             }
         };
 
         requestListWhenLocated();
     }
+
 
     private void requestListWhenLocated() {
         LocationManager.getInstance().requestLocation(new LocationManager.JLsn() {

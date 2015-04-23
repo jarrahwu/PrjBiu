@@ -5,7 +5,15 @@
     android:layout_height="match_parent">
 
     <com.jaf.jcore.NetworkListView
+        android:layout_weight="1"
         android:id="@+id/networkListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dip" />
+
+    <include
+        android:visibility="gone"
+        android:id="@+id/replyPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/layout_edit_panel" />
 </LinearLayout>
