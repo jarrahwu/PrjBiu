@@ -1,5 +1,6 @@
 package com.jaf.biubiu;
 
+import android.accounts.NetworkErrorException;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,14 +13,18 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.jaf.bean.ResponseRandomFeedback;
 import com.jaf.jcore.BaseActionBarActivity;
 import com.jaf.jcore.BindView;
 import com.jaf.jcore.Http;
 import com.jaf.jcore.HttpCallBack;
+import com.jaf.jcore.JacksonWrapper;
 
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import master.flame.danmaku.controller.DrawHandler;
 import master.flame.danmaku.danmaku.loader.ILoader;
@@ -50,6 +55,10 @@ public class ActivityFeedback extends BaseActionBarActivity {
 
     private BaseDanmakuParser mParser;
 
+    private Timer mTimer;
+    private TimerTask mTask;
+    private Http mHttp;
+
     @Override
     protected int onLoadViewResource() {
         return R.layout.activity_feedback;
@@ -57,6 +66,8 @@ public class ActivityFeedback extends BaseActionBarActivity {
 
     @Override
     protected void onViewDidLoad(Bundle savedInstanceState) {
+        mHttp = new Http();
+
         mContent.setHint(R.string.feedback_tips);
         mParser = createParser(this.getResources().openRawResource(R.raw.empty));
         DanmakuGlobalConfig.DEFAULT.setDanmakuStyle(DanmakuGlobalConfig.DANMAKU_STYLE_STROKEN, 3).setDuplicateMergingEnabled(false);
@@ -74,12 +85,33 @@ public class ActivityFeedback extends BaseActionBarActivity {
         });
         mDanmakuView.enableDanmakuDrawingCache(true);
         mDanmakuView.prepare(mParser);
-        mDanmakuView.setOnClickListener(new View.OnClickListener() {
+
+        mTimer = new Timer();
+        mTask = new TimerTask() {
             @Override
-            public void onClick(View v) {
-                addDanmaku(false);
+            public void run() {
+                runOnUiThread(new randomPull());
             }
-        });
+        };
+        mTimer.scheduleAtFixedRate(mTask, 0, 5000);
+    }
+
+    public class randomPull implements Runnable {
+
+        @Override
+        public void run() {
+            mHttp.url(Constant.API).JSON(U.buildPostFeedBackRandom()).post(new HttpCallBack() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    ResponseRandomFeedback responseRandomFeedback = JacksonWrapper.json2Bean(response, ResponseRandomFeedback.class);
+                    if (responseRandomFeedback != null) {
+                        for (ResponseRandomFeedback.FeedbackItem item : responseRandomFeedback.getReturnData().getContData()) {
+                            addDanmaku(false, item.getCont());
+                        }
+                    }
+                }
+            });
+        }
     }
 
     private BaseDanmakuParser createParser(InputStream stream) {
@@ -109,21 +141,25 @@ public class ActivityFeedback extends BaseActionBarActivity {
 
     }
 
-    private void addDanmaku(boolean islive) {
+    private void addDanmaku(boolean islive, String text) {
         BaseDanmaku danmaku = DanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL, 200f, 100f, 1f);
 //        BaseDanmaku danmaku = DanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
         //for(int i=0;i<100;i++){
         //}
-        danmaku.text = "这是一条弹幕, 继续点击屏幕吧" + System.nanoTime();
+        if(text == null)
+            danmaku.text = "这是一条弹幕, 继续点击屏幕吧" + System.nanoTime();
+        else
+            danmaku.text = text;
+
         danmaku.padding = 5;
         danmaku.priority = 1;
         danmaku.isLive = islive;
         danmaku.time = mDanmakuView.getCurrentTime() + 1200;
         danmaku.textSize = 25f;
-        danmaku.textColor = Color.RED;
-        danmaku.textShadowColor = Color.parseColor("#aabbcc");
+        danmaku.textColor = Color.WHITE;
+        danmaku.textShadowColor = Color.parseColor("#838383");
         //danmaku.underlineColor = Color.GREEN;
-        danmaku.borderColor = Color.GREEN;
+//        danmaku.borderColor = Color.GREEN;
         mDanmakuView.addDanmaku(danmaku);
     }
 

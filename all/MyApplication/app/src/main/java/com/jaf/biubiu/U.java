@@ -217,5 +217,9 @@ public class U implements Constant{
         return JacksonWrapper.bean2Json(pf);
     }
 
-
+    public static JSONObject buildPostFeedBackRandom() {
+        BeanRequest br = new BeanRequest();
+        br = buildBaseRequest(br, CMD.RANDOM_FEEDBACK);
+        return JacksonWrapper.bean2Json(br);
+    }
 }
