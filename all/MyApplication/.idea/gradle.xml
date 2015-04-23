@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/jcore" />
+            <option value="$PROJECT_DIR$/libDanMu" />
             <option value="$PROJECT_DIR$/libactionbar" />
             <option value="$PROJECT_DIR$/libbottomtab" />
             <option value="$PROJECT_DIR$/libpulltorefresh" />

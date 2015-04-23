@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/MyApplication.iml" filepath="$PROJECT_DIR$/MyApplication.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/jcore/jcore.iml" filepath="$PROJECT_DIR$/jcore/jcore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libDanMu/libDanMu.iml" filepath="$PROJECT_DIR$/libDanMu/libDanMu.iml" />
       <module fileurl="file://$PROJECT_DIR$/libactionbar/libactionbar.iml" filepath="$PROJECT_DIR$/libactionbar/libactionbar.iml" />
       <module fileurl="file://$PROJECT_DIR$/libbottomtab/libbottomtab.iml" filepath="$PROJECT_DIR$/libbottomtab/libbottomtab.iml" />
       <module fileurl="file://$PROJECT_DIR$/libpulltorefresh/libpulltorefresh.iml" filepath="$PROJECT_DIR$/libpulltorefresh/libpulltorefresh.iml" />
