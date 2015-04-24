@@ -45,4 +45,10 @@
     <string name="feedback_tips">您的建议是我们进步的动力~</string>
     <string name="feedback_success">谢谢您的宝贵意见</string>
     <string name="replyCount">%1$d 回复</string>
+    <string name="title_activity_activity_random_topic">随便看看</string>
+    <string name="title_activity_activity_create_union">创建板块</string>
+    <string name="setUnionIcon">设置个性板块图片</string>
+    <string name="inputUnionName">输入你的板块名称(10个汉字以内)</string>
+    <string name="createUnion">创建板块</string>
+    <string name="craeteUnionWarning">创建板块是件严肃的事情, 创建后不能修改</string>
 </resources>

@@ -39,14 +39,14 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <!-- mac -->
-        <!--<meta-data-->
-            <!--android:name="com.baidu.lbsapi.API_KEY"-->
-            <!--android:value="IDfIXmuExVeL0nwqGhYCAD4e" />-->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="IDfIXmuExVeL0nwqGhYCAD4e" />
 
         <!-- pc -->
-         <meta-data
-         android:name="com.baidu.lbsapi.API_KEY"
-         android:value="j2wfd39lV4OipVnqVT4Ehqv3" />
+        <!-- <meta-data -->
+        <!-- android:name="com.baidu.lbsapi.API_KEY" -->
+        <!-- android:value="j2wfd39lV4OipVnqVT4Ehqv3" /> -->
 
         <service
             android:name="com.baidu.location.f"
@@ -89,6 +89,14 @@
         <activity
             android:name=".ActivityTerms"
             android:label="@string/title_activity_activity_terms" >
+        </activity>
+        <activity
+            android:name=".ActivityRandomTopic"
+            android:label="@string/title_activity_activity_random_topic" >
+        </activity>
+        <activity
+            android:name=".ActivityCreateUnion"
+            android:label="@string/title_activity_activity_create_union" >
         </activity>
     </application>
 

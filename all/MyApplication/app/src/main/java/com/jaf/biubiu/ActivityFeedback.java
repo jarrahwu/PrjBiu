@@ -1,14 +1,9 @@
 package com.jaf.biubiu;
 
-import android.accounts.NetworkErrorException;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -30,13 +25,10 @@ import master.flame.danmaku.controller.DrawHandler;
 import master.flame.danmaku.danmaku.loader.ILoader;
 import master.flame.danmaku.danmaku.loader.IllegalDataException;
 import master.flame.danmaku.danmaku.loader.android.DanmakuLoaderFactory;
-import master.flame.danmaku.danmaku.model.BaseDanmaku;
-import master.flame.danmaku.danmaku.model.Danmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
 import master.flame.danmaku.danmaku.model.android.DanmakuGlobalConfig;
 import master.flame.danmaku.danmaku.model.android.Danmakus;
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
-import master.flame.danmaku.danmaku.parser.DanmakuFactory;
 import master.flame.danmaku.danmaku.parser.IDataSource;
 import master.flame.danmaku.danmaku.parser.android.BiliDanmukuParser;
 import master.flame.danmaku.ui.widget.DanmakuView;
@@ -106,7 +98,7 @@ public class ActivityFeedback extends BaseActionBarActivity {
                     ResponseRandomFeedback responseRandomFeedback = JacksonWrapper.json2Bean(response, ResponseRandomFeedback.class);
                     if (responseRandomFeedback != null) {
                         for (ResponseRandomFeedback.FeedbackItem item : responseRandomFeedback.getReturnData().getContData()) {
-                            addDanmaku(false, item.getCont());
+                            DanmuHelper.addDanmaku(mDanmakuView, false, item.getCont());
                         }
                     }
                 }
@@ -140,29 +132,6 @@ public class ActivityFeedback extends BaseActionBarActivity {
         return parser;
 
     }
-
-    private void addDanmaku(boolean islive, String text) {
-        BaseDanmaku danmaku = DanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL, 200f, 100f, 1f);
-//        BaseDanmaku danmaku = DanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
-        //for(int i=0;i<100;i++){
-        //}
-        if (text == null)
-            danmaku.text = "这是一条弹幕, 继续点击屏幕吧" + System.nanoTime();
-        else
-            danmaku.text = text;
-
-        danmaku.padding = 5;
-        danmaku.priority = 1;
-        danmaku.isLive = islive;
-        danmaku.time = mDanmakuView.getCurrentTime() + 1200;
-        danmaku.textSize = 25f;
-        danmaku.textColor = Color.WHITE;
-        danmaku.textShadowColor = Color.parseColor("#838383");
-        //danmaku.underlineColor = Color.GREEN;
-//        danmaku.borderColor = Color.GREEN;
-        mDanmakuView.addDanmaku(danmaku);
-    }
-
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, ActivityFeedback.class));

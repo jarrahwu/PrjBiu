@@ -11,9 +11,15 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.jaf.bean.BeanTopicItem;
 import com.jaf.jcore.Application;
 import com.jaf.jcore.BaseActionBarActivity;
 import com.jaf.jcore.BindView;
+import com.jaf.jcore.Http;
+import com.jaf.jcore.HttpCallBack;
+import com.jaf.jcore.JacksonWrapper;
+
+import org.json.JSONObject;
 
 public class ActivityTab extends BaseActionBarActivity
 		implements
@@ -28,26 +34,26 @@ public class ActivityTab extends BaseActionBarActivity
 	private View mActionBarView;
 	private ActionBarViewHolder mHolder;
 
-    @Override
+	@Override
 	protected int onLoadViewResource() {
 		return R.layout.activity_tab;
 	}
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        enableTitleDisplayHomeAsUp(false);
-    }
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		enableTitleDisplayHomeAsUp(false);
+	}
 
-    @Override
+	@Override
 	protected void onViewDidLoad(Bundle savedInstanceState) {
 		initBottomBar();
 		initFragments();
 		switchFragment(FIRST_TAB);
 	}
 
-    @Override
+	@Override
 	protected View getActionBarView() {
 		mActionBarView = getLayoutInflater().inflate(
 				R.layout.view_activity_tab_action_bar, null);
@@ -58,8 +64,7 @@ public class ActivityTab extends BaseActionBarActivity
 		return mActionBarView;
 	}
 
-
-    private void initBottomBar() {
+	private void initBottomBar() {
 		final int firstTabId = FIRST_TAB;
 		for (int i = 0; i < mBottomTabBar.getChildCount(); i++) {
 			String text = getString(TAB_TITLES[i]);
@@ -69,11 +74,11 @@ public class ActivityTab extends BaseActionBarActivity
 		mBottomTabBar
 				.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        switchFragment(checkedId);
-                    }
-                });
+					@Override
+					public void onCheckedChanged(RadioGroup group, int checkedId) {
+						switchFragment(checkedId);
+					}
+				});
 	}
 
 	private void initFragments() {
@@ -123,25 +128,25 @@ public class ActivityTab extends BaseActionBarActivity
 				iconRes = R.drawable.sel_setting_btn;
 				break;
 		}
-        //title
-        String title = getString(textResId);
-        String city = Application.getInstance().getAppExtraInfo().city;
-        if(index == 0 && !TextUtils.isEmpty(city)) {
-            title = city;
-        }
+		// title
+		String title = getString(textResId);
+		String city = Application.getInstance().getAppExtraInfo().city;
+		if (index == 0 && !TextUtils.isEmpty(city)) {
+			title = city;
+		}
 		mHolder.title.setText(title);
-        //title left
-        int d = 0;
-        if (index == 0) {
-            d = R.drawable.ic_lbs_white;
-        }
-        if (index == 1) {
+		// title left
+		int d = 0;
+		if (index == 0) {
+			d = R.drawable.ic_lbs_white;
+		}
+		if (index == 1) {
 
-        }
-        mHolder.title.setCompoundDrawablesWithIntrinsicBounds(d, 0, 0, 0);
+		}
+		mHolder.title.setCompoundDrawablesWithIntrinsicBounds(d, 0, 0, 0);
 
-        //option
-        mHolder.option.setImageResource(iconRes);
+		// option
+		mHolder.option.setImageResource(iconRes);
 
 		mHolder.option.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -149,11 +154,41 @@ public class ActivityTab extends BaseActionBarActivity
 				if (index == 0) {
 					ActivityPublish.start(ActivityTab.this);
 				}
+
+                if(index == 1) {
+                    ActivityCreateUnion.start(ActivityTab.this);
+                }
+
 				if (index == 3) {
 					ActivitySetting.start(ActivityTab.this);
 				}
 			}
 		});
+
+        //option title
+        mHolder.title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (index == 1) {
+                    Http http = new Http();
+                    http.url(Constant.API).JSON(U.buildRandomTopic()).post(new HttpCallBack() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            super.onResponse(response);
+                            JSONObject returnData = response.optJSONObject("returnData");
+                            L.dbg("random topic item :" + response);
+                            BeanTopicItem item = JacksonWrapper.json2Bean(returnData, BeanTopicItem.class);
+                            if(item != null) {
+                                ActivityDetail.Extra extra = new ActivityDetail.Extra();
+                                extra.fromTopic = U.buildTopicQuestionListArg(item.getUnionId());
+                                extra.topicTitle = item.getUnionName();
+                                ActivityDetail.start(ActivityTab.this, extra);
+                            }
+                        }
+                    });
+                }
+            }
+        });
 	}
 
 	public static class ActionBarViewHolder {

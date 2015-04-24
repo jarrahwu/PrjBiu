@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="300dip"
+    android:layout_height="@dimen/danmuSize"
     tools:showIn="@layout/view_nearby_item">
 
     <master.flame.danmaku.ui.widget.DanmakuView

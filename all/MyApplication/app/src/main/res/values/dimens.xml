@@ -12,4 +12,5 @@
     <dimen name="smallBtn">22dp</dimen>
     <dimen name="drawablePading">5dip</dimen>
     <dimen name="dfBtnHeight">50dip</dimen>
+    <dimen name="danmuSize">250dip</dimen>
 </resources>

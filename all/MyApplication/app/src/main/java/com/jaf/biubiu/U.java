@@ -222,4 +222,10 @@ public class U implements Constant{
         br = buildBaseRequest(br, CMD.RANDOM_FEEDBACK);
         return JacksonWrapper.bean2Json(br);
     }
+
+    public static JSONObject buildRandomTopic() {
+        BeanRequest br = new BeanRequest();
+        br = buildBaseRequest(br, CMD.RANDOM_TOPIC);
+        return JacksonWrapper.bean2Json(br);
+    }
 }

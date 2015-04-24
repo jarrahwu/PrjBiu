@@ -7,7 +7,7 @@
     <TextView
         android:layout_centerVertical="true"
         android:layout_marginLeft="3dip"
-        android:drawablePadding="3dip"
+        android:drawablePadding="5dip"
         android:textColor="#FFFFFF"
         android:id="@+id/barTitle"
         android:text="@string/app_name"

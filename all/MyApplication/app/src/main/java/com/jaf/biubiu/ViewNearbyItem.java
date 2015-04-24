@@ -2,7 +2,6 @@ package com.jaf.biubiu;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -18,21 +17,8 @@ import com.jaf.jcore.JacksonWrapper;
 
 import org.json.JSONObject;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
-import master.flame.danmaku.controller.DrawHandler;
-import master.flame.danmaku.danmaku.loader.ILoader;
-import master.flame.danmaku.danmaku.loader.IllegalDataException;
-import master.flame.danmaku.danmaku.loader.android.DanmakuLoaderFactory;
-import master.flame.danmaku.danmaku.model.BaseDanmaku;
-import master.flame.danmaku.danmaku.model.DanmakuTimer;
-import master.flame.danmaku.danmaku.model.android.DanmakuGlobalConfig;
-import master.flame.danmaku.danmaku.model.android.Danmakus;
-import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
-import master.flame.danmaku.danmaku.parser.DanmakuFactory;
-import master.flame.danmaku.danmaku.parser.IDataSource;
-import master.flame.danmaku.danmaku.parser.android.BiliDanmukuParser;
 import master.flame.danmaku.ui.widget.DanmakuView;
 
 /**
@@ -68,6 +54,8 @@ public class ViewNearbyItem extends BindableView {
     @BindView(id = R.id.reply)
     View btnReply;
 
+    private LikePanelHolder mLikePanelHolder;
+
     public ViewNearbyItem(Context context) {
         super(context);
     }
@@ -81,7 +69,6 @@ public class ViewNearbyItem extends BindableView {
                 showDanmu();
             }
         });
-
     }
 
     private void showDanmu() {
@@ -118,7 +105,15 @@ public class ViewNearbyItem extends BindableView {
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                DanmuHelper.addDanmaku(mDanmakuView, false, mDanmuSouce.get(startIndex).getAns());
+                BeanAnswerItem item = null;
+                try {
+                    item = mDanmuSouce.get(startIndex);
+                } catch (Exception e) {
+                    item = null;
+                }
+                if(item == null) return;
+
+                DanmuHelper.addDanmaku(mDanmakuView, false, item.getAns());
                 startIndex ++;
                 startIndex = startIndex == mDanmuSouce.size() ? 0 : startIndex;
                 delayDanmu();
@@ -139,6 +134,13 @@ public class ViewNearbyItem extends BindableView {
         mContent.setText(beanNearbyItem.getQuest());
         mLocDesc.setText(beanNearbyItem.getSelfLocDesc());
         mReplyCount.setText(getContext().getString(R.string.replyCount, beanNearbyItem.getAnsNum()));
+
+        //like unlike
+        LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
+        extra.aid = 0;
+        extra.qid = mBeanNearbyItem.getQuestId();
+        mLikePanelHolder = new LikePanelHolder(extra, mOptionContainer);
+        mLikePanelHolder.setData(mBeanNearbyItem);
 
         //magic
         mOptionContainer.setVisibility(View.GONE);

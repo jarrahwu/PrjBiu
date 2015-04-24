@@ -1,6 +1,7 @@
 package com.jaf.jcore;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -20,6 +21,7 @@ public class HttpCallBack implements Listener<JSONObject>, ErrorListener {
 	@Override
 	public void onErrorResponse(VolleyError error) {
 		Log.e(TAG, error.toString());
+        Toast.makeText(Application.getInstance().getApplicationContext(), R.string.network_err, Toast.LENGTH_SHORT).show();
 	}
 
 }

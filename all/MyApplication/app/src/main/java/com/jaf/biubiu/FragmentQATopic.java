@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.jaf.bean.BeanNearbyItem;
 import com.jaf.bean.BeanRequestTopicQuestionList;
@@ -33,9 +32,9 @@ public class FragmentQATopic extends BindableFragment implements Constant{
     public FragmentQATopic() {}
 
     @BindView(id = R.id.networkListView)
-    private NetworkListView<View, BeanNearbyItem> mNetworkListView;
+    private NetworkListView<ViewNearbyItem, BeanNearbyItem> mNetworkListView;
 
-    private AbsWorker.AbsLoader<View, BeanNearbyItem> loader;
+    private AbsWorker.AbsLoader<ViewNearbyItem, BeanNearbyItem> loader;
 
     public static Fragment newInstance(BeanRequestTopicQuestionList arg) {
         FragmentQATopic f = new FragmentQATopic();
@@ -59,7 +58,7 @@ public class FragmentQATopic extends BindableFragment implements Constant{
     protected void onViewDidLoad(Bundle savedInstanceState) {
         super.onViewDidLoad(savedInstanceState);
 
-        loader = new AbsWorker.AbsLoader<View, BeanNearbyItem>() {
+        loader = new AbsWorker.AbsLoader<ViewNearbyItem, BeanNearbyItem>() {
             @Override
             public String parseNextUrl(JSONObject response) {
                 return null;
@@ -73,9 +72,8 @@ public class FragmentQATopic extends BindableFragment implements Constant{
             }
 
             @Override
-            public void updateItemUI(int position, final BeanNearbyItem data, View itemView) {
-                TextView tv = (TextView) itemView;
-                tv.setText(data.getQuest());
+            public void updateItemUI(int position, final BeanNearbyItem data, ViewNearbyItem itemView) {
+                itemView.setData(data);
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -88,8 +86,8 @@ public class FragmentQATopic extends BindableFragment implements Constant{
             }
 
             @Override
-            public View makeItem(LayoutInflater inflater, int position, View convertView, ViewGroup parent) {
-                return new TextView(getActivity());
+            public ViewNearbyItem makeItem(LayoutInflater inflater, int position, View convertView, ViewGroup parent) {
+                return new ViewNearbyItem(getActivity());
             }
         };
 
