@@ -83,18 +83,22 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".ActivityContactUs"
             android:label="@string/title_activity_activity_contact_us" >
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".ActivityTerms"
             android:label="@string/title_activity_activity_terms" >
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".ActivityRandomTopic"
             android:label="@string/title_activity_activity_random_topic" >
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".ActivityCreateUnion"
             android:label="@string/title_activity_activity_create_union" >
         </activity>
