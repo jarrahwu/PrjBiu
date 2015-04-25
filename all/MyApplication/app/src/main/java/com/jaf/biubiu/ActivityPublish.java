@@ -3,7 +3,9 @@ package com.jaf.biubiu;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -34,6 +36,9 @@ public class ActivityPublish extends BaseActionBarActivity {
 
     @BindView(id = R.id.sign)
     private EditText mSign;
+
+    @BindView(id = R.id.textCount)
+    private TextView mTextCount;
     
     @Override
     protected int onLoadViewResource() {
@@ -56,6 +61,24 @@ public class ActivityPublish extends BaseActionBarActivity {
     @Override
     protected void onViewDidLoad(Bundle savedInstanceState) {
         updateLocation();
+        mContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int max = 200;
+                int input = mContent.length();
+                mTextCount.setText(String.valueOf(max - input));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void publish() {

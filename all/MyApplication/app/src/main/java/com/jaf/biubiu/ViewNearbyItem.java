@@ -135,6 +135,20 @@ public class ViewNearbyItem extends BindableView {
         mLocDesc.setText(beanNearbyItem.getSelfLocDesc());
         mReplyCount.setText(getContext().getString(R.string.replyCount, beanNearbyItem.getAnsNum()));
 
+        //manage sign color
+        if (beanNearbyItem.getOpType() == 2) {
+            mName.setTextColor(getResources().getColor(R.color.dfYellow));
+        }else {
+            mName.setTextColor(getResources().getColor(R.color.dfBlue));
+        }
+
+        //manage creator color
+        if(beanNearbyItem.getIsCreator() == 1) {
+            mName.setTextColor(getResources().getColor(R.color.dfYellow));
+        }else {
+            mName.setTextColor(getResources().getColor(R.color.dfBlue));
+        }
+
         //like unlike
         LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
         extra.aid = 0;

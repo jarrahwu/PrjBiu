@@ -2,16 +2,15 @@ package com.jaf.biubiu;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.webkit.WebView;
 
 import com.jaf.jcore.BaseActionBarActivity;
 
 
 public class ActivityAbout extends BaseActionBarActivity {
 
+    private WebView mWebView;
 
     @Override
     protected int onLoadViewResource() {
@@ -20,7 +19,12 @@ public class ActivityAbout extends BaseActionBarActivity {
 
     @Override
     protected void onViewDidLoad(Bundle savedInstanceState) {
+        mWebView = (WebView) findViewById(R.id.aboutWeb);
+        mWebView.loadUrl(getAssetsUrl());
+    }
 
+    protected String getAssetsUrl() {
+        return "file:///android_asset/about/about.html";
     }
 
     public static void start(Activity activity) {

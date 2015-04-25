@@ -1,22 +1,16 @@
 package com.jaf.biubiu;
 
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.app.Activity;
+import android.content.Intent;
 
-import com.jaf.jcore.BaseActionBarActivity;
-
-
-public class ActivityTerms extends BaseActionBarActivity {
+public class ActivityTerms extends ActivityAbout {
 
     @Override
-    protected int onLoadViewResource() {
-        return R.layout.activity_terms;
+    protected String getAssetsUrl() {
+        return "file:///android_asset/protocol/protocol-zh-Hans.html";
     }
 
-    @Override
-    protected void onViewDidLoad(Bundle savedInstanceState) {
-
+    public static void start(Activity activity) {
+        activity.startActivity(new Intent(activity, ActivityTerms.class));
     }
 }

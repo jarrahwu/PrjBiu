@@ -47,6 +47,11 @@ public class ViewAnswerItem extends BindableView {
             mLike.setText(String.valueOf(beanAnswerItem.getLikeNum()));
             mUnLike.setText(String.valueOf(beanAnswerItem.getUnlikeNum()));
 
+            if(beanAnswerItem.getIsMine() == 1) {
+                mContent.setTextColor(getResources().getColor(R.color.dfYellow));
+            }else{
+                mContent.setTextColor(getResources().getColor(R.color.dfTextColor));
+            }
 
             boolean likeEnable = true;
             boolean isUnlike;

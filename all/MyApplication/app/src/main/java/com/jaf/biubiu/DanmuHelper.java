@@ -87,13 +87,14 @@ public class DanmuHelper {
 		Resources resources = Application.getInstance().getApplicationContext()
 				.getResources();
 		int[] colors = new int[]{R.color.material_deep_teal_500,
-				R.color.material_blue_grey_800, R.color.white, R.color.primary_text_default_material_dark};
+				R.color.material_blue_grey_800, R.color.white,
+				R.color.primary_text_default_material_dark};
 
-        int max=colors.length;
-        int min=0;
-        Random random = new Random();
-        int index = random.nextInt(max)%(max-min+1) + min;
-        return resources.getColor(colors[index]);
+		int max = colors.length;
+		int min = 0;
+		Random random = new Random();
+		int index = random.nextInt(max) % (max - min + 1) + min;
+		return resources.getColor(colors[index]);
 	}
 
 	public void init() {

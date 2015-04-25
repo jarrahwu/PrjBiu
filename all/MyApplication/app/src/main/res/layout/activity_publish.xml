@@ -14,6 +14,7 @@
         android:layout_weight="1">
 
         <EditText
+            android:maxLength="200"
             android:hint="@string/publishHint"
             android:gravity="top"
             android:id="@+id/content"
@@ -23,21 +24,35 @@
             android:layout_height="0dip"
             android:layout_weight="1" />
 
-        <EditText
-            android:layout_marginLeft="@dimen/dfPadding"
-            android:layout_marginBottom="@dimen/dfPadding"
-            android:layout_marginTop="@dimen/dfPadding"
-            android:layout_marginRight="@dimen/dfPadding"
-            android:layout_gravity="right"
-            android:textColorHint="@color/text_grey"
-            android:hint="@string/signName"
-            android:id="@+id/sign"
-            android:textStyle="bold"
-            android:textColor="@color/text_grey"
-            android:layout_width="wrap_content"
-            android:maxWidth="100dp"
-            android:background="@null"
-            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:text="@string/editMax"
+                android:layout_marginLeft="@dimen/dfPadding"
+                android:gravity="left"
+                android:id="@+id/textCount"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:layout_gravity="center_vertical"
+                android:textColorHint="@color/text_grey"
+                android:hint="@string/signName"
+                android:id="@+id/sign"
+                android:textStyle="bold"
+                android:maxLength="20"
+                android:textColor="@color/text_grey"
+                android:layout_width="wrap_content"
+                android:background="@null"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <RelativeLayout
