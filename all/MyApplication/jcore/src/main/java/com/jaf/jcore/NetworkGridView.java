@@ -39,9 +39,9 @@ public class NetworkGridView<V extends View, DT> extends PullToRefreshGridView {
 		mWorker.cancelRequest();
 	}
 
-	public void request(String url, AbsLoader<V, DT> loader) {
-		mWorker.request(url, loader);
-	}
+//	public void request(String url, AbsLoader<V, DT> loader) {
+//		mWorker.request(url, loader);
+//	}
 	
 	public void setLoader(AbsLoader<V, DT> loader) {
 		mWorker.setLoader(loader);
@@ -51,9 +51,9 @@ public class NetworkGridView<V extends View, DT> extends PullToRefreshGridView {
 		mWorker.setRequestUrl(url);
 	} 
 	
-	public void request() {
-		mWorker.request();
-	}
+//	public void request() {
+//		mWorker.request();
+//	}
 	
 	public void setAdapterData(ArrayList<DT> data, boolean isLoadMore) {
 		mWorker.setAdapterData(data, isLoadMore);

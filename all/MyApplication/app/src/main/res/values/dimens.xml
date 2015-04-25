@@ -13,4 +13,6 @@
     <dimen name="drawablePading">5dip</dimen>
     <dimen name="dfBtnHeight">50dip</dimen>
     <dimen name="danmuSize">250dip</dimen>
+    <dimen name="tagSize">30dip</dimen>
+    <dimen name="colorPading">7dip</dimen>
 </resources>

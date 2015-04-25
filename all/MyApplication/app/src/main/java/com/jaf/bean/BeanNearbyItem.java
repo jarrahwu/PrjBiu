@@ -26,6 +26,15 @@ public class BeanNearbyItem implements Serializable{
     private int sortId;
     private int unlikeNum;
     private int isCreator;
+    private int distance;
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
 
     public int getIsCreator() {
         return isCreator;

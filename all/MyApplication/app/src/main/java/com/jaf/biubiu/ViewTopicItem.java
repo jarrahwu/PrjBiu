@@ -61,7 +61,8 @@ public class ViewTopicItem extends BindableView{
             mDistanceTag.setBackgroundResource(bgId);
             mDistanceTag.setText(tagTextId);
             mTopicTitle.setText(data.getUnionName());
-            mDistance.setText(getContext().getString(R.string.distance, data.getDistance()));
+            String distance = data.getDistance() < 3 ? "<3" : String.valueOf(data.getDistance());
+            mDistance.setText(getContext().getString(R.string.distance, distance));
             mTopicCount.setText(getContext().getString(R.string.topicCount, data.getQuestionNum()));
         }
     }

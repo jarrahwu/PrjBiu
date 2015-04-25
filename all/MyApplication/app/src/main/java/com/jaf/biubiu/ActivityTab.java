@@ -141,7 +141,7 @@ public class ActivityTab extends BaseActionBarActivity
 			d = R.drawable.ic_lbs_white;
 		}
 		if (index == 1) {
-
+            d = R.drawable.sel_look_around_btn;
 		}
 		mHolder.title.setCompoundDrawablesWithIntrinsicBounds(d, 0, 0, 0);
 

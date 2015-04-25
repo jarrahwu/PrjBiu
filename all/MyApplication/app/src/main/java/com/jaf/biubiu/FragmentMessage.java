@@ -17,7 +17,6 @@ import com.jaf.jcore.NetworkListView;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jarrah on 2015/4/14.
@@ -43,6 +42,17 @@ public class FragmentMessage extends BindableFragment{
         loader = new AbsWorker.AbsLoader<ViewMsgItem, BeanMsgItem>() {
             @Override
             public String parseNextUrl(JSONObject response) {
+                return Constant.API;
+            }
+
+            @Override
+            public JSONObject parseNextJSON(JSONObject response) {
+                ResponseMsgList responseMsgList = JacksonWrapper.json2Bean(response, ResponseMsgList.class);
+                ArrayList<BeanMsgItem> data = responseMsgList.getReturnData().getContData();
+                if(data.size() > 0 ) {
+                    int lastId = data.get(data.size() - 1).getUllId();
+                    return U.buildMsgList(false, lastId);
+                }
                 return null;
             }
 

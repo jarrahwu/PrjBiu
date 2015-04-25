@@ -59,7 +59,7 @@ public class U implements Constant{
         brn.setDvcId(Device.getId(Application.getInstance().getApplicationContext()));
         brn.setLatitude(lat);
         brn.setLongitude(lon);
-        brn.setIdType(fresh ? 0 : 1);
+        brn.setIdType(fresh ? 2 : 1);
         brn.setLastId(lastId);
         return JacksonWrapper.bean2Json(brn);
     }

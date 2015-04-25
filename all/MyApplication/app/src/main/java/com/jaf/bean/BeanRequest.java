@@ -46,7 +46,7 @@ public class BeanRequest implements Serializable{
     }
 
     public void setLatitude(double latitude) {
-        this.latitude = (int) (latitude * 100000);
+        this.latitude = (int) (latitude * 1E6);
     }
 
     public int getLongitude() {
@@ -54,6 +54,6 @@ public class BeanRequest implements Serializable{
     }
 
     public void setLongitude(double longitude) {
-        this.longitude = (int) (longitude * 100000);
+        this.longitude = (int) (longitude * 1E6);
     }
 }

@@ -6,8 +6,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.jaf.bean.BeanNearbyItem;
@@ -60,6 +58,18 @@ public class FragmentNearby extends BindableFragment implements Constant{
         loader = new AbsWorker.AbsLoader<ViewNearbyItem, BeanNearbyItem>() {
             @Override
             public String parseNextUrl(JSONObject response) {
+                return Constant.API;
+            }
+
+            @Override
+            public JSONObject parseNextJSON(JSONObject response) {
+                ResponseNearby responseNearby = JacksonWrapper.json2Bean(response, ResponseNearby.class);
+                ArrayList<BeanNearbyItem> data = responseNearby.getReturnData().getContData();
+                if(data.size() > 0 ) {
+                    final Application.AppExtraInfo info = Application.getInstance().getAppExtraInfo();
+                    int lastId = data.get(data.size() - 1).getSortId();
+                    return U.buildNearby(info.lat, info.lon, false, lastId);
+                }
                 return null;
             }
 
@@ -73,7 +83,7 @@ public class FragmentNearby extends BindableFragment implements Constant{
             @Override
             public void updateItemUI(int position, final BeanNearbyItem data, ViewNearbyItem itemView) {
                 ViewNearbyItem view = (ViewNearbyItem) itemView;
-                view.setData(data);
+                view.setData(data, position);
 
             }
 

@@ -2,26 +2,14 @@ package com.jaf.biubiu;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-
-import com.jaf.jcore.BaseActionBarActivity;
 
 
-public class ActivityContactUs extends BaseActionBarActivity {
+public class ActivityContactUs extends ActivityAbout {
 
     @Override
-    protected int onLoadViewResource() {
-        return R.layout.activity_contact_us;
+    protected String getAssetsUrl() {
+        return "file:///android_asset/contactus/contactus.html";
     }
-
-    @Override
-    protected void onViewDidLoad(Bundle savedInstanceState) {
-
-    }
-
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, ActivityContactUs.class));

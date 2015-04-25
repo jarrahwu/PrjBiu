@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baidu.location.BDLocation;
 import com.jaf.bean.BeanTopicItem;
 import com.jaf.bean.ResponseTopic;
 import com.jaf.jcore.AbsWorker;
+import com.jaf.jcore.Application;
 import com.jaf.jcore.BindView;
 import com.jaf.jcore.BindableFragment;
 import com.jaf.jcore.JacksonWrapper;
@@ -40,6 +42,17 @@ public class FragmentTopic extends BindableFragment implements Constant.CMD{
         loader = new AbsWorker.AbsLoader<ViewTopicItem, BeanTopicItem>() {
             @Override
             public String parseNextUrl(JSONObject response) {
+                return Constant.API;
+            }
+
+            @Override
+            public JSONObject parseNextJSON(JSONObject response) {
+                ResponseTopic responseTopic = JacksonWrapper.json2Bean(response, ResponseTopic.class);
+                ArrayList<BeanTopicItem> data = responseTopic.getReturnData().getContData();
+                if(data.size() > 0 ) {
+                    int lastId = data.get(data.size() - 1).getSortId();
+                    return U.buildTopic(false, lastId, 1);
+                }
                 return null;
             }
 
@@ -73,7 +86,18 @@ public class FragmentTopic extends BindableFragment implements Constant.CMD{
                 return new ViewTopicItem(getActivity());
             }
         };
-        mNetworkListView.request(Constant.API, loader, U.buildTopic(true, 0, 1));
+
+        LocationManager.getInstance().requestLocation(new LocationManager.JLsn() {
+            @Override
+            public void onResult(double latitude, double longitude, BDLocation location) {
+                super.onResult(latitude, longitude, location);
+                Application.getInstance().getAppExtraInfo().lat = latitude;
+                Application.getInstance().getAppExtraInfo().lon = longitude;
+                mNetworkListView.request(Constant.API, loader, U.buildTopic(true, 0, 1));
+            }
+        });
+
+
     }
 
     public static Fragment newInstance(Bundle arg) {

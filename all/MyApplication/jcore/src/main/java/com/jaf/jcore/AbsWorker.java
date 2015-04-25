@@ -17,7 +17,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-
 /**
  * @author jarrah
  * 
@@ -30,8 +29,8 @@ import java.util.ArrayList;
  */
 public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 
-    private static final boolean DBG = true;
-    private Http mHttp;
+	private static final boolean DBG = true;
+	private Http mHttp;
 
 	private String mRequestTag;
 
@@ -48,6 +47,8 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 
 	private String mUrl;
 	private String mNextUrl;
+	private JSONObject mPostJo;
+	private JSONObject mNextPostJo;
 
 	public AbsWorker(Context context,
 			PullToRefreshAdapterViewBase<ABS> pullToRefreshAdapterViewBase) {
@@ -64,7 +65,8 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 					@Override
 					public void onRefresh(PullToRefreshBase<ABS> refreshView) {
 						isLoadMore = false;
-						request(mUrl, mLoader);
+                        Util.e("refresh : " + mPostJo);
+						request(mUrl, mLoader, mPostJo);
 					}
 				});
 
@@ -73,37 +75,46 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 					@Override
 					public void onLastItemVisible() {
 						isLoadMore = true;
-						request(mNextUrl, mLoader);
+						if (mNextPostJo == null) {
+                            Toast.makeText(Application.getInstance().getApplicationContext(), R.string.no_more, Toast.LENGTH_SHORT).show();
+						} else {
+                            Util.e("load more :" + mNextPostJo);
+							request(mNextUrl, mLoader, mNextPostJo);
+						}
 					}
 				});
 	}
+	// public void request(String url, AbsLoader<T, DT> loader, String token) {
+	// if (token != null) {
+	// mHttp.cookie("token", token);
+	// }
+	// request(url, loader, jo);
+	// }
 
-	public void request(String url, AbsLoader<T, DT> loader, String token) {
-		if (token != null) {
-			mHttp.cookie("token", token);
-		}
-		request(url, loader);
-	}
+	// public void request(String url, AbsLoader<T, DT> loader) {
+	// if (isLoading)
+	// return;
+	//
+	// isLoading = true;
+	// mLoader = loader;
+	// mHttp.url(url).get(mCallBack);
+	// setRequestUrl(url);
+	// }
 
-	public void request(String url, AbsLoader<T, DT> loader) {
+	public void request(String url, AbsLoader<T, DT> loader, JSONObject jo) {
 		if (isLoading)
 			return;
-
 		isLoading = true;
 		mLoader = loader;
-		mHttp.url(url).get(mCallBack);
+
+        if(!isLoadMore)
+		    mPostJo = jo;
+        else
+            mNextPostJo = jo;
+
+		mHttp.url(url).JSON(jo).post(mCallBack);
 		setRequestUrl(url);
 	}
-
-    public void request(String url, AbsLoader<T, DT> loader, JSONObject jo) {
-        if (isLoading)
-            return;
-        isLoading = true;
-        mLoader = loader;
-        mHttp.url(url).JSON(jo).post(mCallBack);
-        setRequestUrl(url);
-    }
-
 
 	public void setRequestUrl(String url) {
 		if (mUrl == null)
@@ -118,12 +129,12 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 		mHttp.exipre(expire);
 	}
 
-	public void request() {
-		if (isLoading)
-			return;
-		isLoading = true;
-		mHttp.url(mUrl).get(mCallBack);
-	}
+//	public void request() {
+//		if (isLoading)
+//			return;
+//		isLoading = true;
+//		mHttp.url(mUrl).get(mCallBack);
+//	}
 
 	public void cancelRequest() {
 		Application.getInstance().cancelRequest(mRequestTag);
@@ -134,16 +145,17 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 		public void onResponse(JSONObject response) {
 			super.onResponse(response);
 
-            if(DBG) {
-                Util.e(response);
-            }
+			if (DBG) {
+				Util.e(response);
+			}
 
 			mPullToRefreshAdapterViewBase.onRefreshComplete();
 			isLoading = false;
 			if (mLoader != null) {
 				ArrayList<DT> data = mLoader.parseJSON2ArrayList(response);
-				setAdapterData(data);
+				setAdapterData(data, isLoadMore);
 				mNextUrl = mLoader.parseNextUrl(response);
+				mNextPostJo = mLoader.parseNextJSON(response);
 			}
 		}
 
@@ -161,15 +173,17 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 			super(context);
 		}
 
-        @Override
-        protected void onBindView(int position, DT item, T view) {
-            mLoader.updateItemUI(position, item, view);
-        }
+		@Override
+		protected void onBindView(int position, DT item, T view) {
+			mLoader.updateItemUI(position, item, view);
+		}
 
-        @Override
-        public T newView(int position, LayoutInflater lf, View convertView, ViewGroup parent) {
-            return mLoader.makeItem(getLayoutInflater(), position, convertView, parent);
-        }
+		@Override
+		public T newView(int position, LayoutInflater lf, View convertView,
+				ViewGroup parent) {
+			return mLoader.makeItem(getLayoutInflater(), position, convertView,
+					parent);
+		}
 	}
 
 	public interface AbsLoader<I extends View, DT> {
@@ -181,6 +195,8 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 		 * @return
 		 */
 		String parseNextUrl(JSONObject response);
+
+		JSONObject parseNextJSON(JSONObject response);
 
 		/**
 		 * 解析获取到response的JSON 然后每个对象放到arraylist里面
@@ -209,7 +225,7 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 		 * @return
 		 */
 		I makeItem(LayoutInflater inflater, int position, View convertView,
-                   ViewGroup parent);
+				ViewGroup parent);
 	}
 
 	public void setAdapterData(ArrayList<DT> data) {
@@ -221,7 +237,7 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 				mAdapter.addAll(data);
 			}
 		} else {
-            mAdapter.clear();;
+			mAdapter.clear();;
 			mAdapter.addAll(data);
 		}
 	}

@@ -25,6 +25,9 @@ public class ViewAnswerItem extends BindableView {
     @BindView(id = R.id.time)
     private TextView mTime;
 
+    @BindView(id = R.id.floorNum)
+    private TextView mFloorNum;
+
     private LikePanelHolder mLikePanelHolder;
 
     public ViewAnswerItem(Context context) {
@@ -84,4 +87,20 @@ public class ViewAnswerItem extends BindableView {
         }
     }
 
+    public void setFloor(int position) {
+        int index = position % 3;
+        int res = R.drawable.shape_oval_yellow;
+        switch (index) {
+            case 1:
+                res = R.drawable.shape_oval_red;
+                break;
+            case 2:
+                res = R.drawable.shape_oval_green;
+                break;
+            default:
+                break;
+        }
+        mFloorNum.setBackgroundResource(res);
+        mFloorNum.setText(String.valueOf(position + 1));
+    }
 }

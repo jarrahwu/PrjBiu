@@ -7,4 +7,8 @@
     <color name="dfBlue">#54cbff</color>
     <color name="appBlue">#54cbff</color>
     <color name="dfYellow">#ffa200</color>
+    <color name="tagRed">#fc9185</color>
+    <color name="tagYellow">#f7e061</color>
+    <color name="tagGreen">#68e7c2</color>
+    <color name="listItemDark">#F6F9FB</color>
 </resources>

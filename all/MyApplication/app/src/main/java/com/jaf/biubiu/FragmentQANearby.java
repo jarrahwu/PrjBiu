@@ -12,6 +12,7 @@ import com.jaf.bean.BeanNearbyItem;
 import com.jaf.bean.BeanRequestAnswerList;
 import com.jaf.bean.ResponseQuestion;
 import com.jaf.jcore.AbsWorker;
+import com.jaf.jcore.Application;
 import com.jaf.jcore.BindView;
 import com.jaf.jcore.BindableFragment;
 import com.jaf.jcore.JacksonWrapper;
@@ -116,10 +117,26 @@ public class FragmentQANearby extends BindableFragment {
 		mLoader = new AbsWorker.AbsLoader<ViewAnswerItem, BeanAnswerItem>() {
 			@Override
 			public String parseNextUrl(JSONObject response) {
-				return null;
+				return Constant.API;
 			}
 
-			@Override
+            @Override
+            public JSONObject parseNextJSON(JSONObject response) {
+                ResponseQuestion responseQuestion = JacksonWrapper.json2Bean(
+                        response, ResponseQuestion.class);
+                ArrayList<BeanAnswerItem> data = responseQuestion.getReturnData().getContData();
+                if(data.size() > 0 ) {
+                    final Application.AppExtraInfo info = Application.getInstance().getAppExtraInfo();
+                    int lastId = data.get(data.size() - 1).getAnsId();
+                    BeanRequestAnswerList bean = getData();
+                    bean.setIdType(1);
+                    bean.setLastId(lastId);
+                    return JacksonWrapper.bean2Json(bean);
+                }
+                return null;
+            }
+
+            @Override
 			public ArrayList<BeanAnswerItem> parseJSON2ArrayList(
 					JSONObject response) {
 				ResponseQuestion responseQuestion = JacksonWrapper.json2Bean(
@@ -139,7 +156,7 @@ public class FragmentQANearby extends BindableFragment {
 			public void updateItemUI(final int position, BeanAnswerItem data,
 					ViewAnswerItem itemView) {
 				itemView.setData(data);
-
+                itemView.setFloor(position);
 				LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
 				extra.aid = data.getAnsId();
 				LikePanelHolder likePanelHolder = new LikePanelHolder(extra,

@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jaf.bean.BeanMyQAItem;
 import com.jaf.bean.BeanNearbyItem;
 import com.jaf.bean.ResponseMyQA;
 import com.jaf.jcore.AbsWorker;
@@ -58,6 +57,17 @@ public class FragmentMyA extends BindableFragment{
         loader = new AbsWorker.AbsLoader<ViewMyQAItem, BeanNearbyItem>() {
             @Override
             public String parseNextUrl(JSONObject response) {
+                return Constant.API;
+            }
+
+            @Override
+            public JSONObject parseNextJSON(JSONObject response) {
+                ResponseMyQA responseMyQA = JacksonWrapper.json2Bean(response, ResponseMyQA.class);
+                ArrayList<BeanNearbyItem> data = responseMyQA.getReturnData().getContData();
+                if(data.size() > 0 ) {
+                    int lastId = data.get(data.size() - 1).getSortId();
+                    return U.buildMyAList(false, lastId);
+                }
                 return null;
             }
 

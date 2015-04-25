@@ -44,15 +44,18 @@ public class ViewNearbyItem extends BindableView {
     @BindView(id = R.id.danmu)
     private DanmakuView mDanmakuView;
 
+    @BindView(id = R.id.itemContainer)
+    private View mItemContainer;
+
+    @BindView(id = R.id.itemSubContainer)
+    private View mItemSubContainer;
+
     private BeanNearbyItem mBeanNearbyItem;
     private Http http;
     private ArrayList<BeanAnswerItem> mDanmuSouce;
 
     @BindView(id = R.id.listMode, onClick = "onListModeClick")
     View btnListMode;
-
-    @BindView(id = R.id.reply)
-    View btnReply;
 
     private LikePanelHolder mLikePanelHolder;
 
@@ -127,13 +130,17 @@ public class ViewNearbyItem extends BindableView {
         return R.layout.view_nearby_item;
     }
 
-    public void setData(BeanNearbyItem beanNearbyItem) {
+    public void setData(BeanNearbyItem beanNearbyItem, int position) {
         mBeanNearbyItem = beanNearbyItem;
         String name = TextUtils.isEmpty(beanNearbyItem.getSign()) ? getContext().getString(R.string.anonymity) : beanNearbyItem.getSign();
         mName.setText(name);
         mContent.setText(beanNearbyItem.getQuest());
-        mLocDesc.setText(beanNearbyItem.getSelfLocDesc());
+//        mLocDesc.setText(beanNearbyItem.getSelfLocDesc());
         mReplyCount.setText(getContext().getString(R.string.replyCount, beanNearbyItem.getAnsNum()));
+
+        //distance
+        String distance = beanNearbyItem.getDistance() < 3 ? "<3" : String.valueOf(beanNearbyItem.getDistance());
+        mLocDesc.setText(getContext().getString(R.string.distance, distance));
 
         //manage sign color
         if (beanNearbyItem.getOpType() == 2) {
@@ -159,6 +166,31 @@ public class ViewNearbyItem extends BindableView {
         //magic
         mOptionContainer.setVisibility(View.GONE);
         mDanmakuView.stop();
+
+        //padding color
+        int index = position % 3;
+        int res = R.color.tagYellow;
+        switch (index) {
+            case 1:
+                res = R.color.tagRed;
+                break;
+            case 2:
+                res = R.color.tagGreen;
+                break;
+            default:
+                break;
+        }
+
+        //List ITEM INTERVAL COLOR
+        int color = getResources().getColor(R.color.white);
+        if (position % 2 == 1) {
+            color = getResources().getColor(R.color.listItemDark);
+        } else {
+            color = getResources().getColor(R.color.white);
+        }
+        mItemSubContainer.setBackgroundColor(color);
+
+        mItemContainer.setBackgroundColor(getResources().getColor(res));
     }
 
     public void onListModeClick(View v) {

@@ -43,10 +43,10 @@ public class NetworkListView<V extends View, DT> extends PullToRefreshListView
 		mWorker.expire(expire);
 	}
 
-	public void request(String url, AbsLoader<V, DT> loader) {
-		mWorker.request(url, loader);
-	}
-	
+//	public void request(String url, AbsLoader<V, DT> loader) {
+//		mWorker.request(url, loader);
+//	}
+//
 	public void setLoader(AbsLoader<V, DT> loader) {
 		mWorker.setLoader(loader);
 	}
@@ -55,9 +55,9 @@ public class NetworkListView<V extends View, DT> extends PullToRefreshListView
 		mWorker.setRequestUrl(url);
 	} 
 	
-	public void request() {
-		mWorker.request();
-	}
+//	public void request() {
+//		mWorker.request();
+//	}
 	
 	public void setAdapterData(ArrayList<DT> data, boolean isLoadMore) {
 		mWorker.setAdapterData(data, isLoadMore);

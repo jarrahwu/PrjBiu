@@ -37,16 +37,9 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:src="@drawable/ic_add"
+                android:src="@drawable/ic_reply"
                 android:id="@+id/listMode"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <ImageView
-                android:layout_marginLeft="@dimen/dfPadding"
-                android:src="@drawable/ic_setting"
-                android:layout_width="wrap_content"
-                android:id="@+id/reply"
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </FrameLayout>
