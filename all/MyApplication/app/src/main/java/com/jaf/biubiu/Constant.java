@@ -15,7 +15,7 @@ public interface Constant {
 
     public static final String API = "http://183.131.76.109/cgi/user_svc.php";
     public static final String VER = "2.1";
-    public static final String MULTIPART = "http://183.131.76.109/upload.php";
+    public static final String MULTIPART = "http://183.131.76.109/biubiu_upload.php";
 
     public interface CMD {
         public static final int USER_REG = 4097;
@@ -40,6 +40,6 @@ public interface Constant {
         public static final int POST_FEEDBACK = 0x3001;
         public static final int RANDOM_FEEDBACK = 0x3002;
         public static final int RANDOM_TOPIC = 0x2104;
-        public static final int POST_REPORT_ABUSE = 0x5001;
+        public static final int POST_CREATE_UNION = 0x2101;
     }
 }

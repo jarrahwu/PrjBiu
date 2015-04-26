@@ -7,12 +7,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -20,13 +22,20 @@ import com.androidquery.callback.AjaxStatus;
 import com.baidu.location.BDLocation;
 import com.jaf.jcore.BaseActionBarActivity;
 import com.jaf.jcore.BindView;
+import com.jaf.jcore.Http;
+import com.jaf.jcore.HttpCallBack;
 import com.jarrah.photo.FileUtil;
 import com.jarrah.photo.ImageUtil;
 import com.jarrah.photo.PhotoPicker;
 import com.jarrah.photo.PopupUtil;
 import com.jarrah.photo.ReqeustCode;
 
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -148,43 +157,47 @@ public class ActivityCreateUnion extends BaseActionBarActivity
 	}
 
 	protected void onGalleryComplete(String path) {
-
 		PhotoPicker.startCrop(this, path, FROM_CROP, false);
-
-		// if (path != null) {
-		// Bitmap bmp = ImageUtil.getResizedImage(path, null, 500, true, 0);
-		// mCapture.setImageBitmap(bmp);
-		// }
-		//
-		// mImageFile = new File(path);
 	}
 
 	protected void onCropComplete(Bitmap bitmap) {
-        bitmap = ImageUtil.circleImage(bitmap);
+		bitmap = ImageUtil.circleImage(bitmap);
 		mCapture.setImageBitmap(bitmap);
+
+		try {
+			mImageFile = saveBitmap(bitmap, this);
+		} catch (IOException e) {
+			e.printStackTrace();
+			L.dbg("save bitmap fail");
+		}
+
 	}
 
 	protected void onCaptureComplete(File captureFile) {
-		// if (captureFile != null) {
-		// Bitmap bmp = ImageUtil.getResizedImage(captureFile.getAbsolutePath(),
-		// null, 500, true, 0);
-		// mCapture.setImageBitmap(bmp);
-		// mImageFile = captureFile;
-		// }
 		PhotoPicker.startCrop(this, captureFile.getAbsolutePath(), FROM_CROP,
 				false);
 	}
 
 	public void onSubmitClick(View v) {
 		L.dbg("onSubmit");
-		asynMultipart();
+		String unionName = mEditText.getText().toString();
+		if (TextUtils.isEmpty(unionName)) {
+			Toast.makeText(this, R.string.saySomething, Toast.LENGTH_SHORT)
+					.show();
+		} else {
+			asynMultipart(unionName);
+		}
 	}
 
-	private void asynMultipart() {
-		if (mImageFile == null)
+	private void asynMultipart(final String unionName) {
+		if (mImageFile == null) {
+			L.dbg("image file not found");
+            Toast.makeText(this, R.string.uploadImagePlease, Toast.LENGTH_SHORT).show();
 			return;
+		}
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("source", mImageFile);
+		params.put("file", mImageFile);
+		params.put("name", mImageFile.getName());
 
 		AQuery aq = new AQuery(getApplicationContext());
 		aq.ajax(Constant.MULTIPART, params, String.class,
@@ -193,11 +206,46 @@ public class ActivityCreateUnion extends BaseActionBarActivity
 					public void callback(String url, String object,
 							AjaxStatus status) {
 						super.callback(url, object, status);
-						L.dbg("debug" + status.getCode() + " >>" + object
-								+ mImageFile.getName());
-						// L.dbg("upload " + object.toString());
+						if (status.getCode() == 200) {
+							postUnionInfo(object, unionName);
+						} else {
+							Toast.makeText(getApplicationContext(),
+									R.string.network_err, Toast.LENGTH_SHORT)
+									.show();
+						}
 					}
 				});
 	}
 
+	private void postUnionInfo(String path, String unionName) {
+		Http http = new Http();
+		String loc = mLocDesc.getText().toString();
+		http.url(Constant.API).JSON(U.postCreateUnion(unionName, loc, path))
+				.post(new HttpCallBack() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        super.onResponse(response);
+                        L.dbg("create union success");
+                    }
+                });
+	}
+
+	private File saveBitmap(Bitmap b, Context context) throws IOException {
+
+		File f = new File(context.getCacheDir(), "union_image");
+		f.createNewFile();
+
+		// Convert bitmap to byte array
+		Bitmap bitmap = b;
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.PNG, 0 /* ignored for PNG */, bos);
+		byte[] bitmapdata = bos.toByteArray();
+
+		// write the bytes in file
+		FileOutputStream fos = new FileOutputStream(f);
+		fos.write(bitmapdata);
+		fos.flush();
+		fos.close();
+		return f;
+	}
 }

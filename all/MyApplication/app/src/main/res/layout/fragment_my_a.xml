@@ -5,7 +5,6 @@
     android:layout_height="match_parent">
 
     <com.jaf.jcore.NetworkListView
-        android:divider="@drawable/shape_rect_divider_dfgrey"
         android:id="@+id/myAList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></com.jaf.jcore.NetworkListView>

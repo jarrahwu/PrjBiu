@@ -16,6 +16,7 @@ import com.jaf.bean.BeanRequestTopicQuestionList;
 import com.jaf.bean.BeanRequestUser;
 import com.jaf.bean.PostAnswerComment;
 import com.jaf.bean.PostAnswerQuestion;
+import com.jaf.bean.PostCreateUnion;
 import com.jaf.bean.PostFeedback;
 import com.jaf.bean.PostLike;
 import com.jaf.bean.PostMsg;
@@ -249,13 +250,24 @@ public class U implements Constant{
         return JacksonWrapper.bean2Json(pra);
     }
 
-    public static JSONObject postAnswerComment(String ans, int ansId) {
+    public static JSONObject postAnswerComment(String ans, int ansId, int qid, String selLocDesc) {
         PostAnswerComment pac = new PostAnswerComment();
         pac = (PostAnswerComment) buildBaseRequest(pac, CMD.POST_ANSWER_QUESTION);
+        pac.setQuestId(qid);
         pac.setAns(ans);
         pac.setAnsId(ansId);
         pac.setToNick("");
+        pac.setSelfLocDesc(selLocDesc);
         return JacksonWrapper.bean2Json(pac);
+    }
+
+    public static JSONObject postCreateUnion(String unionName, String selfLocDesc, String picPath) {
+        PostCreateUnion pcu = new PostCreateUnion();
+        pcu = (PostCreateUnion) buildBaseRequest(pcu, CMD.POST_CREATE_UNION);
+        pcu.setSelfLocDesc(selfLocDesc);
+        pcu.setPicPath(picPath);
+        pcu.setUnionName(unionName);
+        return JacksonWrapper.bean2Json(pcu);
     }
 
 }

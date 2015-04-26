@@ -63,4 +63,5 @@
     <string name="reportSuccess">举报成功</string>
     <string name="replyFloor">回复%1$d楼</string>
     <string name="confirm">确定</string>
+    <string name="uploadImagePlease">请设置需要上传的板块图片</string>
 </resources>

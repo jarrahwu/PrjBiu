@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
@@ -34,11 +35,15 @@ public class ActivityDetail extends BaseActionBarActivity {
 	private View mEditPanel;
 
 	@BindView(id = R.id.msgEdit)
-	public EditTextBackEvent mEditText;
+	public EditText mEditText;
 
 	@BindView(id = R.id.send, onClick = "onSendClick")
 	private View mSend;
 	private Dialog mDialog;
+
+    //for reply comment
+    boolean isReplyComment = false;
+    int ansId;
 
 	@Override
 	protected View getActionBarView() {
@@ -119,15 +124,6 @@ public class ActivityDetail extends BaseActionBarActivity {
 				L.dbg("display fragment is null");
 			}
 		}
-
-		mEditText.requestFocus();
-		mEditText
-				.setOnEditTextImeBackListener(new EditTextBackEvent.EditTextImeBackListener() {
-					@Override
-					public void onImeBack(EditTextBackEvent ctrl, String text) {
-						L.dbg("key board hidden");
-					}
-				});
 	}
 
 	public Extra getData() {
@@ -163,27 +159,38 @@ public class ActivityDetail extends BaseActionBarActivity {
 						public void onResult(double latitude, double longitude,
 								BDLocation location) {
 							super.onResult(latitude, longitude, location);
-							doPost(text.toString(), location);
+
+                            if(!isReplyComment)
+							    replyQuestion(text.toString(), location);
+                            else
+                                replyComment(text.toString(), location);
 						}
 					});
 		}
 	}
 
-	public void doPost(String text, BDLocation location) {
+    private void replyComment(String s, BDLocation location) {
+        if(extra.fromNearby != null) {
+            int qid = extra.fromNearby.getQuestId();
+            JSONObject jo = U.postAnswerComment(s, ansId, qid, location.getAddrStr());
+            request(jo);
+        }else {
+            L.dbg("no extra for reply comment");
+        }
+    }
+
+    public void replyQuestion(String text, BDLocation location) {
 		if (extra.fromNearby == null)
 			return;
-
-		Http http = new Http();
 		int qid = extra.fromNearby.getQuestId();
 		JSONObject jo = U.buildPostAnswerQuestion(text, location.getAddrStr(),
 				qid);
+		request(jo);
+	}
 
-		// if(mEditText.getTag(0) != null) {
-		// L.dbg("answer comment");
-		// BeanAnswerItem beanAnswerItem = (BeanAnswerItem) mEditText.getTag(0);
-		// jo = U.postAnswerComment(text, beanAnswerItem.getAnsId());
-		// }
-
+	private void request(JSONObject jo) {
+		L.dbg("do reply :" + jo);
+		Http http = new Http();
 		http.url(Constant.API).JSON(jo).post(new HttpCallBack() {
 			@Override
 			public void onResponse(JSONObject response) {

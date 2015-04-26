@@ -1,11 +1,11 @@
 package com.jarrah.photo;
 
-import java.io.File;
-
 import android.content.Context;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.util.Log;
+
+import java.io.File;
 
 
 public class FileUtil {

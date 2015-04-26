@@ -86,15 +86,15 @@ public class FragmentQATopic extends BindableFragment implements Constant{
             @Override
             public void updateItemUI(int position, final BeanNearbyItem data, ViewNearbyItem itemView) {
                 itemView.setData(data, position);
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ActivityDetail.Extra extra = new ActivityDetail.Extra();
-                        extra.questId = data.getQuestId();
-                        extra.fromNearby = data;
-                        ActivityDetail.start(getActivity(), extra);
-                    }
-                });
+//                itemView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        ActivityDetail.Extra extra = new ActivityDetail.Extra();
+//                        extra.questId = data.getQuestId();
+//                        extra.fromNearby = data;
+//                        ActivityDetail.start(getActivity(), extra);
+//                    }
+//                });
             }
 
             @Override

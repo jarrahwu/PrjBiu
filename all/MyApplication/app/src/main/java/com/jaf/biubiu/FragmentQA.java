@@ -224,13 +224,12 @@ public class FragmentQA extends BindableFragment {
 			}
 
             private void reply() {
-                L.dbg("do reply");
+                L.dbg("do reply set reply data aid %d", mBeanAnswerItem.getAnsId());
                 ActivityDetail activityDetail = (ActivityDetail) getActivity();
-//                activityDetail.mEditText.requestFocus();
-//                activityDetail.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                 Device.showSoftKeyboard(activityDetail.mEditText, activityDetail);
                 activityDetail.mEditText.setHint(getString(R.string.replyFloor, mFloorNum));
-//                activityDetail.mEditText.setTag(0, mBeanAnswerItem);
+                activityDetail.isReplyComment = true;
+                activityDetail.ansId = mBeanAnswerItem.getAnsId();
             }
 
             private void reportAbuse(BeanAnswerItem item) {
