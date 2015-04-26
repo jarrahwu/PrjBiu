@@ -108,13 +108,11 @@ public class ActivityDetail extends BaseActionBarActivity {
 			L.dbg("activity question getData is null!");
 			return;
 		} else {
-			// 附近
 			if (extra.fromNearby != null) {
 				BeanRequestAnswerList arg = U.buildAnswerArgs(true, 0,
 						extra.questId);
 				mDisplayFragment = FragmentQA.newInstance(arg);
 			}
-
 			if (mDisplayFragment != null) {
 				FragmentTransaction trans = getSupportFragmentManager()
 						.beginTransaction();

@@ -270,4 +270,9 @@ public class U implements Constant{
         return JacksonWrapper.bean2Json(pcu);
     }
 
+    public static JSONObject buildGetSchoolName() {
+        BeanRequest beanRequest = new BeanRequest();
+        beanRequest = buildBaseRequest(beanRequest, CMD.GET_SPECIAL_NAME);
+        return JacksonWrapper.bean2Json(beanRequest);
+    }
 }

@@ -46,7 +46,8 @@ public class ViewAnswerItem extends BindableView {
     public void setData(BeanAnswerItem beanAnswerItem) {
         if (beanAnswerItem != null) {
             mContent.setText(beanAnswerItem.getAns());
-            mTime.setText(String.valueOf(beanAnswerItem.getPubTime()));
+//            mTime.setText(String.valueOf(beanAnswerItem.getPubTime()));
+            mTime.setText(DateUtil.getDiffTime(beanAnswerItem.getPubTime() * 1000L));
             mLike.setText(String.valueOf(beanAnswerItem.getLikeNum()));
             mUnLike.setText(String.valueOf(beanAnswerItem.getUnlikeNum()));
 

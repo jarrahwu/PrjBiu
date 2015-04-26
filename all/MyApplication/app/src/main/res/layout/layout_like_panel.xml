@@ -4,6 +4,7 @@
     tools:showIn="@layout/view_answer_item">
 
     <CheckBox
+        android:padding="@dimen/dfPadding"
         android:gravity="center_vertical"
         android:background="@null"
         android:id="@+id/likeCheck"
@@ -16,6 +17,7 @@
         android:layout_height="wrap_content" />
 
     <CheckBox
+        android:padding="@dimen/dfPadding"
         android:gravity="center_vertical"
         android:background="@null"
         android:button="@null"

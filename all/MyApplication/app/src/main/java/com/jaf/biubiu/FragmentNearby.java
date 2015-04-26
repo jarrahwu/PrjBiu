@@ -26,108 +26,197 @@ import java.util.ArrayList;
 /**
  * Created by jarrah on 2015/4/14.
  */
-public class FragmentNearby extends BindableFragment implements Constant{
+public class FragmentNearby extends BindableFragment implements Constant {
 
-    private static final String TAG = "FragmentNearby";
+	private static final String TAG = "FragmentNearby";
 
-    public FragmentNearby() {}
+	public FragmentNearby() {
+	}
 
-    @BindView(id = R.id.networkListView)
-    private NetworkListView<ViewNearbyItem, BeanNearbyItem> mNetworkListView;
+	private ArrayList<BeanNearbyItem> mDataSource;
 
-    private com.jaf.jcore.AbsWorker.AbsLoader<ViewNearbyItem, BeanNearbyItem> loader;
+	@BindView(id = R.id.networkListView)
+	private NetworkListView<ViewNearbyItem, BeanNearbyItem> mNetworkListView;
 
-    public static Fragment newInstance(Bundle arg) {
-        return new FragmentNearby();
-    }
+	private com.jaf.jcore.AbsWorker.AbsLoader<ViewNearbyItem, BeanNearbyItem> loader;
 
-    @Override
-    protected int onLoadViewResource() {
-        return R.layout.fragment_nearby;
-    }
+	public static Fragment newInstance(Bundle arg) {
+		return new FragmentNearby();
+	}
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+	@Override
+	protected int onLoadViewResource() {
+		return R.layout.fragment_nearby;
+	}
 
-    @Override
-    protected void onViewDidLoad(Bundle savedInstanceState) {
-        super.onViewDidLoad(savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
 
-        loader = new AbsWorker.AbsLoader<ViewNearbyItem, BeanNearbyItem>() {
-            @Override
-            public String parseNextUrl(JSONObject response) {
-                return Constant.API;
-            }
+	@Override
+	protected void onViewDidLoad(Bundle savedInstanceState) {
+		super.onViewDidLoad(savedInstanceState);
+		loader = new AbsWorker.AbsLoader<ViewNearbyItem, BeanNearbyItem>() {
+			@Override
+			public String parseNextUrl(JSONObject response) {
+				return Constant.API;
+			}
 
-            @Override
-            public JSONObject parseNextJSON(JSONObject response) {
-                ResponseNearby responseNearby = JacksonWrapper.json2Bean(response, ResponseNearby.class);
-                ArrayList<BeanNearbyItem> data = responseNearby.getReturnData().getContData();
-                if(data.size() > 0 ) {
-                    final Application.AppExtraInfo info = Application.getInstance().getAppExtraInfo();
-                    int lastId = data.get(data.size() - 1).getSortId();
-                    return U.buildNearby(info.lat, info.lon, false, lastId);
-                }
-                return null;
-            }
+			@Override
+			public JSONObject parseNextJSON(JSONObject response) {
+				ResponseNearby responseNearby = JacksonWrapper.json2Bean(
+						response, ResponseNearby.class);
+				ArrayList<BeanNearbyItem> data = responseNearby.getReturnData()
+						.getContData();
+				if (data.size() > 0) {
+					final Application.AppExtraInfo info = Application
+							.getInstance().getAppExtraInfo();
+					int lastId = data.get(data.size() - 1).getSortId();
+					return U.buildNearby(info.lat, info.lon, false, lastId);
+				}
+				return null;
+			}
 
-            @Override
-            public ArrayList<BeanNearbyItem> parseJSON2ArrayList(JSONObject response) {
-                L.dbg(response.toString());
-                ResponseNearby responseNearby = JacksonWrapper.json2Bean(response, ResponseNearby.class);
-                return responseNearby.getReturnData().getContData();
-            }
+			@Override
+			public ArrayList<BeanNearbyItem> parseJSON2ArrayList(
+					JSONObject response) {
+				// L.dbg(response.toString());
+				ResponseNearby responseNearby = JacksonWrapper.json2Bean(
+						response, ResponseNearby.class);
+				// return responseNearby.getReturnData().getContData();
 
-            @Override
-            public void updateItemUI(int position, final BeanNearbyItem data, ViewNearbyItem itemView) {
-                ViewNearbyItem view = (ViewNearbyItem) itemView;
-                view.setData(data, position);
+				L.dbg("FragmentNearby response :" + response);
+				if (responseNearby != null) {
+					mDataSource = responseNearby.getReturnData().getContData();
+					return mDataSource;
+				} else {
+					L.dbg("FragmentNearby response is null !");
+					return null;
+				}
+			}
 
-            }
+			@Override
+			public void updateItemUI(int position, final BeanNearbyItem data,
+					ViewNearbyItem itemView) {
+				ViewNearbyItem view = (ViewNearbyItem) itemView;
+				view.setData(data, position);
 
-            @Override
-            public ViewNearbyItem makeItem(LayoutInflater inflater, int position, View convertView, ViewGroup parent) {
-                return new ViewNearbyItem(getActivity());
-            }
-        };
+				// like unlike
+				LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
+				extra.aid = 0;
+				extra.qid = data.getQuestId();
+				LikePanelHolder holder = new LikePanelHolder(extra, itemView) {
+					@Override
+					public void onPostSuccess(boolean isLike) {
+						super.onPostSuccess(isLike);
+					}
+				};
+				holder.setData(data);
+				setupLikePanel(position, data, itemView);
+			}
 
-        requestListWhenLocated();
-    }
+			private void setupLikePanel(final int position,
+					BeanNearbyItem data, final View itemView) {
+				LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
+				extra.aid = 0;
+                extra.qid = data.getQuestId();
+				LikePanelHolder likePanelHolder = new LikePanelHolder(extra,
+						itemView) {
 
+					@Override
+					public void onPostSuccess(boolean isLike) {
+						int count = isLike ? Integer.valueOf(like.getText()
+								.toString()) : Integer.valueOf(unLike.getText()
+								.toString());
+						count++;
 
-    private void requestListWhenLocated() {
-        LocationManager.getInstance().requestLocation(new LocationManager.JLsn() {
-            @Override
-            public void onResult(double latitude, double longitude, BDLocation location) {
-                Application.getInstance().setAppExtraInfo(Device.getId(Application.getInstance().getApplicationContext()), latitude, longitude);
-                Application.getInstance().mAppExtraInfo.city = location.getCity();
-                String city = getString(R.string.app_name);
-                if(!TextUtils.isEmpty(Application.getInstance().mAppExtraInfo.city)) {
-                    city = location.getCity();
-                }
-                getActivity().setTitle(city);
-                registerDevice();
-            }
-        });
-    }
+						if (isLike) {
+							mDataSource.get(position).setLikeFlag(1);
+							mDataSource.get(position).setLikeNum(count);
+						} else {
+							mDataSource.get(position).setLikeFlag(2);
+							mDataSource.get(position).setUnlikeNum(count);
+						}
+						mNetworkListView.notifyDataSetChanged();
+					}
+				};
+				likePanelHolder.listenForChecking();
+			}
 
-    private void registerDevice() {
-        Http http = new Http(TAG);
-        final Application.AppExtraInfo info = Application.getInstance().getAppExtraInfo();
-        L.dbg("register post :" + U.buildRegister());
-        http.url(Constant.API).JSON(U.buildRegister()).post(new HttpCallBack() {
+			@Override
+			public ViewNearbyItem makeItem(LayoutInflater inflater,
+					int position, View convertView, ViewGroup parent) {
+				return new ViewNearbyItem(getActivity());
+			}
+		};
+
+		requestListWhenLocated();
+	}
+
+	private void requestListWhenLocated() {
+		LocationManager.getInstance().requestLocation(
+				new LocationManager.JLsn() {
+					@Override
+					public void onResult(double latitude, double longitude,
+							BDLocation location) {
+						Application.getInstance().setAppExtraInfo(
+								Device.getId(Application.getInstance()
+										.getApplicationContext()), latitude,
+								longitude);
+						Application.getInstance().mAppExtraInfo.city = location
+								.getCity();
+						String city = getString(R.string.app_name);
+						if (!TextUtils.isEmpty(Application.getInstance().mAppExtraInfo.city)) {
+							city = location.getCity();
+						}
+						getActivity().setTitle(city);
+						registerDevice();
+                        refreshActivityTitle();
+					}
+				});
+	}
+
+	private void registerDevice() {
+		Http http = new Http(TAG);
+		final Application.AppExtraInfo info = Application.getInstance()
+				.getAppExtraInfo();
+		L.dbg("register post :" + U.buildRegister());
+		http.url(Constant.API).JSON(U.buildRegister()).post(new HttpCallBack() {
+			@Override
+			public void onResponse(JSONObject response) {
+				super.onResponse(response);
+				L.dbg(TAG + " register : " + response);
+				// request url when located and registered
+				JSONObject jo = U.buildNearby(info.lat, info.lon, true, 0);
+				mNetworkListView.request(API, loader, jo);
+			}
+		});
+	}
+
+    private void refreshActivityTitle() {
+        Http http = new Http();
+        JSONObject jo = U.buildGetSchoolName();
+        http.url(Constant.API).JSON(jo).post(new HttpCallBack() {
             @Override
             public void onResponse(JSONObject response) {
                 super.onResponse(response);
-                L.dbg(TAG + " register : " + response);
-                //request url when located and registered
-                JSONObject jo = U.buildNearby(info.lat, info.lon, true, 0);
-                mNetworkListView.request(API, loader, jo);
+                if(response == null) {
+                    L.dbg("server error");
+                    return;
+                }
+                L.dbg("refresh title" + response);
+                JSONObject returnData = response.optJSONObject("returnData");
+                String locDesc = returnData.optString("locDesc", null);
+                if(returnData != null && !TextUtils.isEmpty(locDesc)) {
+                    ActivityTab activityTab = (ActivityTab) getActivity();
+                    L.dbg("locDesc tile : " + locDesc);
+                    activityTab.setLocTitle(locDesc);
+                }else {
+                    L.dbg("refresh title error");
+                }
             }
         });
     }
-
 
 }

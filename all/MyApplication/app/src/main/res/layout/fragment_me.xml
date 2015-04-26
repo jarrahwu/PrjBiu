@@ -33,7 +33,7 @@
                 android:textSize="30sp"
                 android:textColor="#ffffff"
                 android:text="@string/zero"
-                android:id="@+id/likeCount" />
+                android:id="@+id/getLikeCount" />
 
             <TextView
                 android:textColor="#ffffff"

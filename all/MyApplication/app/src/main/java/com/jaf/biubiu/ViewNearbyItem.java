@@ -39,7 +39,7 @@ public class ViewNearbyItem extends BindableView {
     private TextView mReplyCount;
 
     @BindView(id = R.id.optionContainer)
-    private View mOptionContainer;
+    private View mDanmuContainer;
 
     @BindView(id = R.id.danmu)
     private DanmakuView mDanmakuView;
@@ -56,7 +56,6 @@ public class ViewNearbyItem extends BindableView {
 
     @BindView(id = R.id.listMode, onClick = "onListModeClick")
     View btnListMode;
-
     private LikePanelHolder mLikePanelHolder;
 
     public ViewNearbyItem(Context context) {
@@ -66,24 +65,24 @@ public class ViewNearbyItem extends BindableView {
     @Override
     public void onViewDidLoad() {
         http = new Http();
+
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDanmu();
+                toggleDanmuPanel();
             }
         });
     }
 
-    private void showDanmu() {
-        int vb = mOptionContainer.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE;
-        mOptionContainer.setVisibility(vb);
+    private void toggleDanmuPanel() {
+        int vb = mDanmuContainer.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE;
+        mDanmuContainer.setVisibility(vb);
         if(vb == VISIBLE) {
             DanmuHelper.setupDanmu(mDanmakuView);
             requestDanmuData();
         }else {
             mDanmakuView.stop();
         }
-
     }
 
     private void requestDanmuData() {
@@ -160,11 +159,11 @@ public class ViewNearbyItem extends BindableView {
         LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
         extra.aid = 0;
         extra.qid = mBeanNearbyItem.getQuestId();
-        mLikePanelHolder = new LikePanelHolder(extra, mOptionContainer);
+        mLikePanelHolder = new LikePanelHolder(extra, mDanmuContainer);
         mLikePanelHolder.setData(mBeanNearbyItem);
 
         //magic
-        mOptionContainer.setVisibility(View.GONE);
+        mDanmuContainer.setVisibility(View.GONE);
         mDanmakuView.stop();
 
         //padding color

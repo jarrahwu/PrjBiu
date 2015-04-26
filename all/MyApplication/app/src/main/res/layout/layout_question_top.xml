@@ -36,6 +36,7 @@
     </LinearLayout>
 
     <TextView
+        android:text="@string/unknownLoc"
         android:textColor="@color/dfYellow"
         android:drawablePadding="5dip"
         android:drawableLeft="@drawable/ic_lbs_grey"

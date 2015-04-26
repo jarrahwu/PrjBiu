@@ -64,4 +64,9 @@
     <string name="replyFloor">回复%1$d楼</string>
     <string name="confirm">确定</string>
     <string name="uploadImagePlease">请设置需要上传的板块图片</string>
+    <string name="submitted">申请已提交,等待审核</string>
+    <string name="titleWait">请等待</string>
+    <string name="submittingData">正在提交数据</string>
+    <string name="needMoreLike">需要获得更多biubiu客的赞才能创建板块哦~</string>
+    <string name="unknownLoc">火星</string>
 </resources>

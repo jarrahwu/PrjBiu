@@ -14,16 +14,22 @@ public class BeanAnswerItem {
     private String nick;
     private String selfLocDesc;
     private String toNick;
-
+    private long pubTime;
     private int ansId;
     private int isImpeach;
     private int isMine;
     private int isQuester;
     private int likeFlag;
     private int likeNum;
-    private int pubTime;
     private int unlikeNum;
 
+    public long getPubTime() {
+        return pubTime;
+    }
+
+    public void setPubTime(long pubTime) {
+        this.pubTime = pubTime;
+    }
 
     public String getAns() {
         return ans;
@@ -103,14 +109,6 @@ public class BeanAnswerItem {
 
     public void setLikeNum(int likeNum) {
         this.likeNum = likeNum;
-    }
-
-    public int getPubTime() {
-        return pubTime;
-    }
-
-    public void setPubTime(int pubTime) {
-        this.pubTime = pubTime;
     }
 
     public int getUnlikeNum() {

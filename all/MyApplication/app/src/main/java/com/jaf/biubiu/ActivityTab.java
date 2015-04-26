@@ -5,13 +5,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jaf.bean.BeanTopicItem;
+import com.jaf.bean.ResponseUser;
 import com.jaf.jcore.Application;
 import com.jaf.jcore.BaseActionBarActivity;
 import com.jaf.jcore.BindView;
@@ -33,8 +36,9 @@ public class ActivityTab extends BaseActionBarActivity
 
 	private View mActionBarView;
 	private ActionBarViewHolder mHolder;
+    private int mFragmentIndex;
 
-	@Override
+    @Override
 	protected int onLoadViewResource() {
 		return R.layout.activity_tab;
 	}
@@ -97,6 +101,7 @@ public class ActivityTab extends BaseActionBarActivity
 
 	private void switchFragment(int tabId) {
 		final int fragmentIndex = tabId - FIRST_TAB;
+        mFragmentIndex = fragmentIndex;
 		final Fragment f = mTabFragments[fragmentIndex];
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction trans = fm.beginTransaction();
@@ -111,7 +116,8 @@ public class ActivityTab extends BaseActionBarActivity
 		updateActionBar(fragmentIndex);
 	}
 
-	private void updateActionBar(final int index) {
+
+    private void updateActionBar(final int index) {
 		int textResId = R.string.app_name;
 		int iconRes = R.drawable.sel_edit_btn;
 		switch (index) {
@@ -141,60 +147,101 @@ public class ActivityTab extends BaseActionBarActivity
 			d = R.drawable.ic_lbs_white;
 		}
 		if (index == 1) {
-            d = R.drawable.sel_look_around_btn;
+			d = R.drawable.sel_look_around_btn;
 		}
 		mHolder.title.setCompoundDrawablesWithIntrinsicBounds(d, 0, 0, 0);
-
 		// option
 		mHolder.option.setImageResource(iconRes);
 
+		setupActionBarOptionEvent(index);
+		setupActionBarTItleEvent(index);
+	}
+
+	private void setupActionBarOptionEvent(final int index) {
 		mHolder.option.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (index == 0) {
-                    ActivityPublish.Extra extra = new ActivityPublish.Extra();
-                    extra.unionId = 0;
-                    extra.isUnionQuestion = false;
-                    ActivityPublish.start(ActivityTab.this, extra);
+					ActivityPublish.Extra extra = new ActivityPublish.Extra();
+					extra.unionId = 0;
+					extra.isUnionQuestion = false;
+					ActivityPublish.start(ActivityTab.this, extra);
 				}
 
-                if(index == 1) {
-                    ActivityCreateUnion.start(ActivityTab.this);
-                }
+				if (index == 1) {
+					startCreateUnion();
+				}
 
 				if (index == 3) {
 					ActivitySetting.start(ActivityTab.this);
 				}
 			}
-		});
 
-        //option title
-        mHolder.title.setOnClickListener(new View.OnClickListener() {
+		});
+	}
+
+	private void startCreateUnion() {
+		Http http = new Http();
+		http.url(Constant.API).JSON(U.buildUser()).post(new HttpCallBack() {
             @Override
-            public void onClick(View v) {
-                if (index == 1) {
-                    Http http = new Http();
-                    http.url(Constant.API).JSON(U.buildRandomTopic()).post(new HttpCallBack() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            super.onResponse(response);
-                            JSONObject returnData = response.optJSONObject("returnData");
-                            L.dbg("random topic item :" + response);
-                            BeanTopicItem item = JacksonWrapper.json2Bean(returnData, BeanTopicItem.class);
-                            if(item != null) {
-                                ActivityDetail.Extra extra = new ActivityDetail.Extra();
-                                extra.fromTopic = U.buildTopicQuestionListArg(item.getUnionId());
-                                extra.topicTitle = item.getUnionName();
-                                ActivityDetail.start(ActivityTab.this, extra);
-                            }
-                        }
-                    });
+            public void onResponse(JSONObject response) {
+                super.onResponse(response);
+                ResponseUser responseUser = JacksonWrapper.json2Bean(response,
+                        ResponseUser.class);
+                if (responseUser != null && responseUser.getReturnData().getOtherLikeNum() > 10) {
+                    ActivityCreateUnion.start(ActivityTab.this);
+                } else {
+                   Toast t = Toast.makeText(ActivityTab.this, R.string.needMoreLike, Toast.LENGTH_LONG);
+                   t.setGravity(Gravity.TOP, 0 , 100);
+                   t.show();
                 }
             }
         });
+
 	}
 
-	public static class ActionBarViewHolder {
+	private void setupActionBarTItleEvent(final int index) {
+		// option title
+		mHolder.title.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (index == 1) {
+                    //随便看看逻辑
+					Http http = new Http();
+					http.url(Constant.API).JSON(U.buildRandomTopic())
+							.post(new HttpCallBack() {
+								@Override
+								public void onResponse(JSONObject response) {
+									super.onResponse(response);
+									JSONObject returnData = response
+											.optJSONObject("returnData");
+									L.dbg("random topic item :" + response);
+									BeanTopicItem item = JacksonWrapper
+											.json2Bean(returnData,
+													BeanTopicItem.class);
+									if (item != null) {
+										ActivityUnionTopic.Extra extra = new ActivityUnionTopic.Extra();
+										extra.fromTopic = U
+												.buildTopicQuestionListArg(item
+														.getUnionId());
+										extra.topicTitle = item.getUnionName();
+                                        ActivityUnionTopic.start(ActivityTab.this,
+												extra);
+									}
+								}
+							});
+				}
+			}
+		});
+	}
+
+    public void setLocTitle(String locDesc) {
+        if(mFragmentIndex == 0) {
+            setTitle(locDesc);
+        }
+    }
+
+    public static class ActionBarViewHolder {
 		TextView title;
 		ImageView option;
 	}

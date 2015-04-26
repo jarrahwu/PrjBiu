@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.jaf.bean.BeanUser;
 import com.jaf.bean.ResponseUser;
 import com.jaf.jcore.AdapterWrapper;
-import com.jaf.jcore.ArrayAdapterCompat;
 import com.jaf.jcore.BindView;
 import com.jaf.jcore.BindableFragment;
 import com.jaf.jcore.Http;
@@ -42,6 +41,9 @@ public class FragmentMe extends BindableFragment{
 
     @BindView(id = R.id.progressBar)
     private ProgressBar mProgressBar;
+
+    @BindView(id = R.id.getLikeCount)
+    private TextView mLikeCount;
 
     private Adapter mAdapter;
 
@@ -75,6 +77,7 @@ public class FragmentMe extends BindableFragment{
         mProgressBar.setProgress(mBeanUser.getRankRate());
         mPercent.setText(mBeanUser.getRankRate() + "%");
         mPercentText.setText(getString(R.string.userBeyondPercent, mBeanUser.getRankRate()));
+        mLikeCount.setText(String.valueOf(mBeanUser.getOtherLikeNum()));
     }
 
     private void setupMeList() {

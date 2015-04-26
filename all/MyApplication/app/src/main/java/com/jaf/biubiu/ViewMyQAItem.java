@@ -3,7 +3,6 @@ package com.jaf.biubiu;
 import android.content.Context;
 import android.widget.TextView;
 
-import com.jaf.bean.BeanMyQAItem;
 import com.jaf.bean.BeanNearbyItem;
 import com.jaf.jcore.BindView;
 import com.jaf.jcore.BindableView;
@@ -46,7 +45,7 @@ public class ViewMyQAItem extends BindableView {
     }
 
     public void setData(BeanNearbyItem beanMyQAItem) {
-        mTime.setText("" + beanMyQAItem.getPubTime());
+        mTime.setText(DateUtil.getDiffTime(beanMyQAItem.getPubTime() * 1000L));
         mLocDesc.setText(beanMyQAItem.getSelfLocDesc());
         mMsgCount.setText(String.valueOf(beanMyQAItem.getAnsNum()));
         mLikeCount.setText(String.valueOf(beanMyQAItem.getLikeNum()));

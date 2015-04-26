@@ -3,6 +3,7 @@ package com.jaf.biubiu;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -56,8 +57,9 @@ public class ActivityCreateUnion extends BaseActionBarActivity
 	private Button mSubmit;
 
 	private File mImageFile;
+    private ProgressDialog mProgressDialog;
 
-	@Override
+    @Override
 	protected int onLoadViewResource() {
 		return R.layout.activity_create_union;
 	}
@@ -65,17 +67,23 @@ public class ActivityCreateUnion extends BaseActionBarActivity
 	@Override
 	protected void onViewDidLoad(Bundle savedInstanceState) {
 		LocationManager.getInstance().requestLocation(
-				new LocationManager.JLsn() {
-					@Override
-					public void onResult(double latitude, double longitude,
-							BDLocation location) {
-						super.onResult(latitude, longitude, location);
-						mLocDesc.setText(location.getAddrStr());
-					}
-				});
+                new LocationManager.JLsn() {
+                    @Override
+                    public void onResult(double latitude, double longitude,
+                                         BDLocation location) {
+                        super.onResult(latitude, longitude, location);
+                        mLocDesc.setText(location.getAddrStr());
+                    }
+                });
 	}
 
-	public static void start(Activity activity) {
+    private void showProgressDialog() {
+        mProgressDialog = ProgressDialog.show(this, getString(R.string.titleWait),
+                getString(R.string.submittingData), true);
+        mProgressDialog.setCancelable(true);
+    }
+
+    public static void start(Activity activity) {
 		activity.startActivity(new Intent(activity, ActivityCreateUnion.class));
 	}
 
@@ -190,8 +198,10 @@ public class ActivityCreateUnion extends BaseActionBarActivity
 	}
 
 	private void asynMultipart(final String unionName) {
+        showProgressDialog();
 		if (mImageFile == null) {
 			L.dbg("image file not found");
+            mProgressDialog.dismiss();
             Toast.makeText(this, R.string.uploadImagePlease, Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -209,6 +219,7 @@ public class ActivityCreateUnion extends BaseActionBarActivity
 						if (status.getCode() == 200) {
 							postUnionInfo(object, unionName);
 						} else {
+                            mProgressDialog.dismiss();
 							Toast.makeText(getApplicationContext(),
 									R.string.network_err, Toast.LENGTH_SHORT)
 									.show();
@@ -226,6 +237,8 @@ public class ActivityCreateUnion extends BaseActionBarActivity
                     public void onResponse(JSONObject response) {
                         super.onResponse(response);
                         L.dbg("create union success");
+                        mProgressDialog.dismiss();
+                        new DialogSubmit(ActivityCreateUnion.this).show();
                     }
                 });
 	}

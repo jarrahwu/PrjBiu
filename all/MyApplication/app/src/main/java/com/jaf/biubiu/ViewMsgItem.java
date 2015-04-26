@@ -40,7 +40,7 @@ public class ViewMsgItem extends BindableView {
     }
 
     public void setData(BeanMsgItem data) {
-        mTime.setText("" + data.getPubTime());
+        mTime.setText(DateUtil.getDiffTime(data.getPubTime() * 1000L));
         loadImage(data.getTypePic());
 
         String title = getResources().getString(R.string.noRelText);
