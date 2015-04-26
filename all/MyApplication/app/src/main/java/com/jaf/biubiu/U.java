@@ -17,7 +17,9 @@ import com.jaf.bean.BeanRequestUser;
 import com.jaf.bean.PostAnswerComment;
 import com.jaf.bean.PostAnswerQuestion;
 import com.jaf.bean.PostCreateUnion;
+import com.jaf.bean.PostDeleteMsg;
 import com.jaf.bean.PostFeedback;
+import com.jaf.bean.PostGetQuestion;
 import com.jaf.bean.PostLike;
 import com.jaf.bean.PostMsg;
 import com.jaf.bean.PostMyQA;
@@ -30,6 +32,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 
 /**
  * Created by jarrah on 2015/4/15.
@@ -274,5 +277,21 @@ public class U implements Constant{
         BeanRequest beanRequest = new BeanRequest();
         beanRequest = buildBaseRequest(beanRequest, CMD.GET_SPECIAL_NAME);
         return JacksonWrapper.bean2Json(beanRequest);
+    }
+
+    public static JSONObject buildGetQuestion(int questionId) {
+        PostGetQuestion pgq = new PostGetQuestion();
+        pgq.setQuestId(questionId);
+        pgq = (PostGetQuestion) buildBaseRequest(pgq, CMD.POST_GET_QUESTION);
+        return JacksonWrapper.bean2Json(pgq);
+    }
+
+
+    public static JSONObject buildDelete(int _did) {
+        PostDeleteMsg pdm = new PostDeleteMsg();
+        pdm = (PostDeleteMsg) buildBaseRequest(pdm, CMD.POST_DELETE_MSG);
+        pdm.setDelId(new ArrayList<Integer>());
+        pdm.getDelId().add(_did);
+        return JacksonWrapper.bean2Json(pdm);
     }
 }

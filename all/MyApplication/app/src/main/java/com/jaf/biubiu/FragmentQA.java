@@ -45,6 +45,7 @@ public class FragmentQA extends BindableFragment {
 	private Dialog mPopupDialog;
 	private BeanAnswerItem mBeanAnswerItem;
     private int mFloorNum;
+    private BeanRequestAnswerList mData;
 
     public FragmentQA() {
 	}
@@ -65,7 +66,8 @@ public class FragmentQA extends BindableFragment {
 	@Override
 	protected void onViewDidLoad(Bundle savedInstanceState) {
 		super.onViewDidLoad(savedInstanceState);
-		if (getData() != null) {
+        mData = getData();
+		if (mData != null) {
 			headerViewFromNearby();
 			setupList();
 		} else {
@@ -287,7 +289,7 @@ public class FragmentQA extends BindableFragment {
 	}
 
 	private void requestListView() {
-		JSONObject jo = JacksonWrapper.bean2Json(getData());
+		JSONObject jo = JacksonWrapper.bean2Json(mData);
 		mListView.request(Constant.API, mLoader, jo);
 	}
 

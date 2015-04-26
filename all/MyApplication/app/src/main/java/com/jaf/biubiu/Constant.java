@@ -42,5 +42,8 @@ public interface Constant {
         public static final int RANDOM_TOPIC = 0x2104;
         public static final int POST_CREATE_UNION = 0x2101;
         public static final int GET_SPECIAL_NAME = 0x1005;
+
+        public static final int POST_GET_QUESTION = 0x2009;
+        public static final int POST_DELETE_MSG = 0x4303;
     }
 }

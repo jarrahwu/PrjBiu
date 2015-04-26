@@ -6,6 +6,8 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.androidquery.AQuery;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class Application extends android.app.Application  {
 
 	private static Application INSTANCE;
@@ -20,7 +22,9 @@ public class Application extends android.app.Application  {
 			INSTANCE = this;
 		}
 		mRequestQueue = Volley.newRequestQueue(this);
-	}
+        JPushInterface.setDebugMode(Constant.Debug.DEBUG); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);
+    }
 
 	public static final Application getInstance() {
 		Application ret;

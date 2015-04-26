@@ -195,6 +195,9 @@ public class ActivityDetail extends BaseActionBarActivity {
 				fa.refreshAnswer();
 				mEditText.setText("");
 				U.hideSoftKeyboard(ActivityDetail.this);
+                isReplyComment = false;
+                ansId = 0;
+                mEditText.setHint(R.string.bestAnswerHere);
 			}
 		});
 	}

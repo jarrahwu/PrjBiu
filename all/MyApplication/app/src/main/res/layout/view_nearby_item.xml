@@ -52,6 +52,7 @@
                     <TextView
                         android:drawableLeft="@drawable/ic_distance"
                         android:id="@+id/locDesc"
+                        android:drawablePadding="3dip"
                         android:layout_width="0dip"
                         android:layout_weight="1"
                         android:layout_height="wrap_content" />

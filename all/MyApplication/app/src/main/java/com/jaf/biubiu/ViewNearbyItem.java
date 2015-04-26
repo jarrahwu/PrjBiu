@@ -160,23 +160,17 @@ public class ViewNearbyItem extends BindableView {
 				beanNearbyItem.getAnsNum()));
 
 		// distance
-		String distance = beanNearbyItem.getDistance() < 3 ? "<3" : String
+		String distance = beanNearbyItem.getDistance() < 3 ? " <3" : String
 				.valueOf(beanNearbyItem.getDistance());
 		mLocDesc.setText(getContext().getString(R.string.distance, distance));
 
 		// manage sign color
-		if (beanNearbyItem.getOpType() == 2) {
+		if (beanNearbyItem.getIsYellow() == 1) {
 			mName.setTextColor(getResources().getColor(R.color.dfYellow));
 		} else {
 			mName.setTextColor(getResources().getColor(R.color.dfBlue));
 		}
 
-		// manage creator color
-		if (beanNearbyItem.getIsCreator() == 1) {
-			mName.setTextColor(getResources().getColor(R.color.dfYellow));
-		} else {
-			mName.setTextColor(getResources().getColor(R.color.dfBlue));
-		}
 
 		// like unlike
 		LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
