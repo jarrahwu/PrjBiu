@@ -69,4 +69,6 @@
     <string name="submittingData">正在提交数据</string>
     <string name="needMoreLike">需要获得更多biubiu客的赞才能创建板块哦~</string>
     <string name="unknownLoc">火星</string>
+    <string name="commentCome">还没有评论, 留个言弹一发?</string>
+    <string name="danmuComming">一大波评论即将到来→_→</string>
 </resources>
