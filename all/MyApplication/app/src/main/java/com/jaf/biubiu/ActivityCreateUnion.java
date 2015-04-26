@@ -14,6 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.baidu.location.BDLocation;
 import com.jaf.jcore.BaseActionBarActivity;
 import com.jaf.jcore.BindView;
@@ -24,6 +27,8 @@ import com.jarrah.photo.PopupUtil;
 import com.jarrah.photo.ReqeustCode;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ActivityCreateUnion extends BaseActionBarActivity
 		implements
@@ -40,6 +45,8 @@ public class ActivityCreateUnion extends BaseActionBarActivity
 
 	@BindView(id = R.id.btnCreate, onClick = "onSubmitClick")
 	private Button mSubmit;
+
+	private File mImageFile;
 
 	@Override
 	protected int onLoadViewResource() {
@@ -141,20 +148,56 @@ public class ActivityCreateUnion extends BaseActionBarActivity
 	}
 
 	protected void onGalleryComplete(String path) {
-        if (path != null) {
-            Bitmap bmp = ImageUtil.getResizedImage(path, null, 500, true, 0);
-            mCapture.setImageBitmap(bmp);
-        }
+
+		PhotoPicker.startCrop(this, path, FROM_CROP, false);
+
+		// if (path != null) {
+		// Bitmap bmp = ImageUtil.getResizedImage(path, null, 500, true, 0);
+		// mCapture.setImageBitmap(bmp);
+		// }
+		//
+		// mImageFile = new File(path);
 	}
 
 	protected void onCropComplete(Bitmap bitmap) {
-
+        bitmap = ImageUtil.circleImage(bitmap);
+		mCapture.setImageBitmap(bitmap);
 	}
 
 	protected void onCaptureComplete(File captureFile) {
-        if (captureFile != null) {
-            Bitmap bmp = ImageUtil.getResizedImage(captureFile.getAbsolutePath(), null, 500, true, 0);
-            mCapture.setImageBitmap(bmp);
-        }
+		// if (captureFile != null) {
+		// Bitmap bmp = ImageUtil.getResizedImage(captureFile.getAbsolutePath(),
+		// null, 500, true, 0);
+		// mCapture.setImageBitmap(bmp);
+		// mImageFile = captureFile;
+		// }
+		PhotoPicker.startCrop(this, captureFile.getAbsolutePath(), FROM_CROP,
+				false);
 	}
+
+	public void onSubmitClick(View v) {
+		L.dbg("onSubmit");
+		asynMultipart();
+	}
+
+	private void asynMultipart() {
+		if (mImageFile == null)
+			return;
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("source", mImageFile);
+
+		AQuery aq = new AQuery(getApplicationContext());
+		aq.ajax(Constant.MULTIPART, params, String.class,
+				new AjaxCallback<String>() {
+					@Override
+					public void callback(String url, String object,
+							AjaxStatus status) {
+						super.callback(url, object, status);
+						L.dbg("debug" + status.getCode() + " >>" + object
+								+ mImageFile.getName());
+						// L.dbg("upload " + object.toString());
+					}
+				});
+	}
+
 }

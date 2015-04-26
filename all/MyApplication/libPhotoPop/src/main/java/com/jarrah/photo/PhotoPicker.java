@@ -1,7 +1,5 @@
 package com.jarrah.photo;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +8,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.Toast;
+
+import java.io.File;
 
 //在onActivityResult方法中根据requestCode和resultCode来获取当前拍照的图片地址。
 //注意：这里有个问题，在有些机型当中（如SamsungI939、note2等）遇见了当拍照并存储之后，intent当中得到的data为空：
@@ -132,7 +132,7 @@ public class PhotoPicker {
 		intent.putExtra("aspectX", 4); // 裁剪框比例 4 : 3
 		intent.putExtra("aspectY", 3);
 		intent.putExtra("outputX", isLarge ? 400 : 200);
-		intent.putExtra("outputY", isLarge ? 300 : 150);
+		intent.putExtra("outputY", isLarge ? 400 : 200);
 		intent.putExtra("scale", true);
 		intent.putExtra("return-data", true); // 设置为true 的时候才能有返回
 		// intent.putExtra(MediaStore.EXTRA_OUTPUT, imagePath);

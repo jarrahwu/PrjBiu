@@ -35,4 +35,12 @@
         <include layout="@layout/layout_like_panel" />
     </LinearLayout>
 
+    <TextView
+        android:textColor="@color/dfYellow"
+        android:drawablePadding="5dip"
+        android:drawableLeft="@drawable/ic_lbs_grey"
+        android:layout_marginTop="20dip"
+        android:id="@+id/topLocDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>

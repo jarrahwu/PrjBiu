@@ -54,6 +54,7 @@
             android:process=":remote" />
 
         <activity
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:name=".ActivityDetail"
             android:label="@string/title_activity_question"
             android:screenOrientation="portrait" />
@@ -83,24 +84,29 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".ActivityContactUs"
-            android:label="@string/title_activity_activity_contact_us" >
+            android:label="@string/title_activity_activity_contact_us"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".ActivityTerms"
-            android:label="@string/title_activity_activity_terms" >
+            android:label="@string/title_activity_activity_terms"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".ActivityRandomTopic"
-            android:label="@string/title_activity_activity_random_topic" >
+            android:label="@string/title_activity_activity_random_topic"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ActivityCreateUnion"
+            android:label="@string/title_activity_activity_create_union"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:screenOrientation="portrait"
-            android:name=".ActivityCreateUnion"
-            android:label="@string/title_activity_activity_create_union" >
+            android:name=".ActivityUnionTopic"
+            android:label="@string/title_activity_activity_union_topic" >
         </activity>
     </application>
 

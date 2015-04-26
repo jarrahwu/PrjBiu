@@ -26,6 +26,7 @@ public abstract class BaseActionBarActivity extends ActionBarActivity implements
 		mViewBinder.initViews();
 		mViewBinder.bindClicks();
 		onViewDidLoad(savedInstanceState);
+        Util.e("Current Activity : " + getClass().getName());
 	}
 
 	protected void setupActionBar() {

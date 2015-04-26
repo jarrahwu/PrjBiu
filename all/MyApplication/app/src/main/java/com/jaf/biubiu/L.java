@@ -8,7 +8,7 @@ public class L {
     private static final boolean DBG = true;
 
     public static void dbg(String s) {
-        if(DBG) android.util.Log.d(TAG, s);
+        if(DBG) android.util.Log.e(TAG, s);
     }
 
     public static void dbg(String f, Object... args) {

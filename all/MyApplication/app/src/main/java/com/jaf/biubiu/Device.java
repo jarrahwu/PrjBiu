@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.provider.Settings;
 import android.util.TypedValue;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.jaf.jcore.Application;
 
@@ -27,5 +29,10 @@ public class Device {
         Resources r = Application.getInstance().getResources();
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, r.getDisplayMetrics());
         return px;
+    }
+
+    public static void showSoftKeyboard(EditText editText, Context context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
     }
 }

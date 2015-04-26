@@ -15,7 +15,7 @@ public class TabFragmentFactory {
 			tab = FragmentNearby.newInstance(arg);
 			break;
 		case 1:
-			tab = FragmentTopic.newInstance(arg);
+			tab = FragmentUnion.newInstance(arg);
 			break;
 		case 2:
 			tab = FragmentMessage.newInstance(arg);

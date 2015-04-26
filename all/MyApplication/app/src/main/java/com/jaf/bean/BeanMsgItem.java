@@ -19,6 +19,33 @@ public class BeanMsgItem implements Serializable{
     private int unionId;
     private int secansId;
     private String secAns;
+    private String typePic;
+    private int isPass;
+    private String unionName;
+
+    public String getUnionName() {
+        return unionName;
+    }
+
+    public void setUnionName(String unionName) {
+        this.unionName = unionName;
+    }
+
+    public int getIsPass() {
+        return isPass;
+    }
+
+    public void setIsPass(int isPass) {
+        this.isPass = isPass;
+    }
+
+    public String getTypePic() {
+        return typePic;
+    }
+
+    public void setTypePic(String typePic) {
+        this.typePic = typePic;
+    }
 
     public int getUllId() {
         return ullId;

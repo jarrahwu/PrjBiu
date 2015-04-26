@@ -152,7 +152,10 @@ public class ActivityTab extends BaseActionBarActivity
 			@Override
 			public void onClick(View v) {
 				if (index == 0) {
-					ActivityPublish.start(ActivityTab.this);
+                    ActivityPublish.Extra extra = new ActivityPublish.Extra();
+                    extra.unionId = 0;
+                    extra.isUnionQuestion = false;
+                    ActivityPublish.start(ActivityTab.this, extra);
 				}
 
                 if(index == 1) {

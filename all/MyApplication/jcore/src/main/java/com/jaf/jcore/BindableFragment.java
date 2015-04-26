@@ -12,6 +12,7 @@ public abstract class BindableFragment extends BaseFragment implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        Util.e("Current fragment : " + getClass().getName());
 		mInjector = new ViewBinder<BindableFragment>(this);
 	}
 

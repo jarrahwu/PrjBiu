@@ -23,17 +23,17 @@ import java.util.ArrayList;
 /**
  * Created by jarrah on 2015/4/14.
  */
-public class FragmentTopic extends BindableFragment implements Constant.CMD{
+public class FragmentUnion extends BindableFragment implements Constant.CMD{
 
     @BindView(id = R.id.topicList)
     private NetworkListView<ViewTopicItem, BeanTopicItem> mNetworkListView;
     private com.jaf.jcore.AbsWorker.AbsLoader<ViewTopicItem,com.jaf.bean.BeanTopicItem> loader;
 
-    public FragmentTopic() {}
+    public FragmentUnion() {}
 
     @Override
     protected int onLoadViewResource() {
-        return R.layout.fragment_topic;
+        return R.layout.fragment_union;
     }
 
     @Override
@@ -73,10 +73,10 @@ public class FragmentTopic extends BindableFragment implements Constant.CMD{
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ActivityDetail.Extra extra = new ActivityDetail.Extra();
+                        ActivityUnionTopic.Extra extra = new ActivityUnionTopic.Extra();
                         extra.fromTopic = U.buildTopicQuestionListArg(data.getUnionId());
                         extra.topicTitle = data.getUnionName();
-                        ActivityDetail.start(getActivity(), extra);
+                        ActivityUnionTopic.start(getActivity(), extra);
                     }
                 });
             }
@@ -101,6 +101,6 @@ public class FragmentTopic extends BindableFragment implements Constant.CMD{
     }
 
     public static Fragment newInstance(Bundle arg) {
-        return new FragmentTopic();
+        return new FragmentUnion();
     }
 }

@@ -14,11 +14,14 @@ import com.jaf.bean.BeanRequestPublish;
 import com.jaf.bean.BeanRequestTopic;
 import com.jaf.bean.BeanRequestTopicQuestionList;
 import com.jaf.bean.BeanRequestUser;
+import com.jaf.bean.PostAnswerComment;
 import com.jaf.bean.PostAnswerQuestion;
 import com.jaf.bean.PostFeedback;
 import com.jaf.bean.PostLike;
 import com.jaf.bean.PostMsg;
 import com.jaf.bean.PostMyQA;
+import com.jaf.bean.PostRegister;
+import com.jaf.bean.PostReportAbuse;
 import com.jaf.jcore.Application;
 import com.jaf.jcore.JacksonWrapper;
 
@@ -39,6 +42,13 @@ public class U implements Constant{
         br.setLatitude(lat);
         br.setLongitude(lon);
         return JacksonWrapper.bean2Json(br);
+    }
+
+    public static JSONObject buildRegister() {
+        PostRegister pr = new PostRegister();
+        pr = (PostRegister) buildBaseRequest(pr, CMD.USER_REG);
+        pr.setAlias(Device.getId(Application.getInstance().getApplicationContext()));
+        return JacksonWrapper.bean2Json(pr);
     }
 
     public static JSONObject buildTopicQuestion(boolean fresh, int lastId, int unionId) {
@@ -182,7 +192,7 @@ public class U implements Constant{
 
     public static JSONObject buildMyQList(boolean fresh, int lastId) {
         PostMyQA post = new PostMyQA();
-        post.setIdType(fresh ? 0 : 1);
+        post.setIdType(fresh ? 2 : 1);
         post.setLastId(lastId);
         post = (PostMyQA) buildBaseRequest(post, CMD.POST_MY_Q);
         return JacksonWrapper.bean2Json(post);
@@ -228,4 +238,24 @@ public class U implements Constant{
         br = buildBaseRequest(br, CMD.RANDOM_TOPIC);
         return JacksonWrapper.bean2Json(br);
     }
+
+    public static JSONObject buildReportAbuse(int contId, int contType, String content) {
+        PostReportAbuse pra = new PostReportAbuse();
+        pra = (PostReportAbuse) buildBaseRequest(pra, CMD.REPORT_ABUSE);
+        pra.setContId(contId);
+        pra.setContType(contType);
+        pra.setReason(1);
+        pra.setReasonCont(content);
+        return JacksonWrapper.bean2Json(pra);
+    }
+
+    public static JSONObject postAnswerComment(String ans, int ansId) {
+        PostAnswerComment pac = new PostAnswerComment();
+        pac = (PostAnswerComment) buildBaseRequest(pac, CMD.POST_ANSWER_QUESTION);
+        pac.setAns(ans);
+        pac.setAnsId(ansId);
+        pac.setToNick("");
+        return JacksonWrapper.bean2Json(pac);
+    }
+
 }

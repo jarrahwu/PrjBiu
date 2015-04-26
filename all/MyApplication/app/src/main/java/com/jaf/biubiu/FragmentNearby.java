@@ -116,7 +116,8 @@ public class FragmentNearby extends BindableFragment implements Constant{
     private void registerDevice() {
         Http http = new Http(TAG);
         final Application.AppExtraInfo info = Application.getInstance().getAppExtraInfo();
-        http.url(Constant.API).JSON(U.buildRequest(Constant.CMD.USER_REG, info.lat, info.lon)).post(new HttpCallBack() {
+        L.dbg("register post :" + U.buildRegister());
+        http.url(Constant.API).JSON(U.buildRegister()).post(new HttpCallBack() {
             @Override
             public void onResponse(JSONObject response) {
                 super.onResponse(response);

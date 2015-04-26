@@ -21,10 +21,13 @@ import com.jaf.jcore.JacksonWrapper;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 
 public class ActivityPublish extends BaseActionBarActivity {
 
     private static final String TAG = "Activity Publish";
+    public static final String PUBLISH_EXTRA = "publish_extra";
     @BindView(id = R.id.location)
     private TextView mLocation;
 
@@ -89,7 +92,10 @@ public class ActivityPublish extends BaseActionBarActivity {
             String sign = mSign.getText().toString();
             String locDesc = Application.getInstance().getAppExtraInfo().addrStr;
             String quest = mContent.getText().toString();
-            JSONObject jo = JacksonWrapper.bean2Json(U.buildPublishQuestion(sign, locDesc, 1, 0, quest));
+            Extra extra = (Extra) getIntent().getSerializableExtra(PUBLISH_EXTRA);
+            int questType = extra.isUnionQuestion ? 2 : 1;
+            int unionId = extra.unionId;
+            JSONObject jo = JacksonWrapper.bean2Json(U.buildPublishQuestion(sign, locDesc, questType, unionId, quest));
             http.url(Constant.API).JSON(jo).post(new HttpCallBack() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -121,7 +127,14 @@ public class ActivityPublish extends BaseActionBarActivity {
         });
     }
 
-    public static void start(Activity activity) {
-        activity.startActivity(new Intent(activity, ActivityPublish.class));
+    public static void start(Activity activity, Extra extra) {
+        Intent intent = new Intent(activity, ActivityPublish.class);
+        intent.putExtra(PUBLISH_EXTRA, extra);
+        activity.startActivity(intent);
+    }
+
+    public static class Extra implements Serializable{
+        boolean isUnionQuestion;
+        int unionId;
     }
 }

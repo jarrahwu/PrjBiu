@@ -9,7 +9,7 @@
     android:orientation="horizontal"
     tools:showIn="@layout/activity_detail">
 
-    <EditText
+    <com.jaf.biubiu.EditTextBackEvent
         android:id="@+id/msgEdit"
         android:padding="@dimen/editTextPadding"
         android:background="@drawable/shape_white_conner_fill"

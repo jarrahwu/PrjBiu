@@ -74,6 +74,6 @@ public class FragmentMessage extends BindableFragment{
                 return new ViewMsgItem(getActivity());
             }
         };
-        mListView.request(Constant.API, loader, U.buildMsgList(true, 0));
+        mListView.request(Constant.API, loader, U.buildMsgList(true, Integer.MAX_VALUE));
     }
 }

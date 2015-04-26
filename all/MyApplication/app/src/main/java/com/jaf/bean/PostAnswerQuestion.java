@@ -7,6 +7,15 @@ public class PostAnswerQuestion extends BeanRequest{
     private String ans;
     private String selfLocDesc;
     private int questId;
+    private String toNick;
+
+    public String getToNick() {
+        return toNick;
+    }
+
+    public void setToNick(String toNick) {
+        this.toNick = toNick;
+    }
 
     public String getAns() {
         return ans;
