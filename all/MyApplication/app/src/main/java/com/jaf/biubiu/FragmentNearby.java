@@ -181,8 +181,9 @@ public class FragmentNearby extends BindableFragment implements Constant {
 		Http http = new Http(TAG);
 		final Application.AppExtraInfo info = Application.getInstance()
 				.getAppExtraInfo();
-		L.dbg("register post :" + U.buildRegister());
-		http.url(Constant.API).JSON(U.buildRegister()).post(new HttpCallBack() {
+        JSONObject jsonObject = U.buildRegister();
+        L.dbg("register post :" + jsonObject);
+		http.url(Constant.API).JSON(jsonObject).post(new HttpCallBack() {
 			@Override
 			public void onResponse(JSONObject response) {
 				super.onResponse(response);

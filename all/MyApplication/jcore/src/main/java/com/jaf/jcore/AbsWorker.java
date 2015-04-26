@@ -50,7 +50,7 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 	private JSONObject mPostJo;
 	private JSONObject mNextPostJo;
 
-	public AbsWorker(Context context,
+	public AbsWorker(final Context context,
 			PullToRefreshAdapterViewBase<ABS> pullToRefreshAdapterViewBase) {
 
 		mRequestTag = "abs_worker" + System.currentTimeMillis();// cancel tag
@@ -65,7 +65,13 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 					@Override
 					public void onRefresh(PullToRefreshBase<ABS> refreshView) {
 						isLoadMore = false;
-                        Util.e("refresh : " + mPostJo);
+						Util.e("refresh : " + mPostJo);
+						if (mPostJo == null) {
+							Toast.makeText(context, R.string.network_err,
+									Toast.LENGTH_SHORT).show();
+                            mPullToRefreshAdapterViewBase.onRefreshComplete();
+							return;
+						}
 						request(mUrl, mLoader, mPostJo);
 					}
 				});
@@ -76,9 +82,18 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 					public void onLastItemVisible() {
 						isLoadMore = true;
 						if (mNextPostJo == null) {
-                            Toast.makeText(Application.getInstance().getApplicationContext(), R.string.no_more, Toast.LENGTH_SHORT).show();
+							Toast.makeText(
+									Application.getInstance()
+											.getApplicationContext(),
+									R.string.no_more, Toast.LENGTH_SHORT)
+									.show();
 						} else {
-                            Util.e("load more :" + mNextPostJo);
+							Util.e("load more :" + mNextPostJo);
+							if (mNextPostJo == null) {
+								Toast.makeText(context, R.string.network_err,
+										Toast.LENGTH_SHORT).show();
+								return;
+							}
 							request(mNextUrl, mLoader, mNextPostJo);
 						}
 					}
@@ -107,10 +122,10 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 		isLoading = true;
 		mLoader = loader;
 
-        if(!isLoadMore)
-		    mPostJo = jo;
-        else
-            mNextPostJo = jo;
+		if (!isLoadMore)
+			mPostJo = jo;
+		else
+			mNextPostJo = jo;
 
 		mHttp.url(url).JSON(jo).post(mCallBack);
 		setRequestUrl(url);
@@ -129,12 +144,12 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 		mHttp.exipre(expire);
 	}
 
-//	public void request() {
-//		if (isLoading)
-//			return;
-//		isLoading = true;
-//		mHttp.url(mUrl).get(mCallBack);
-//	}
+	// public void request() {
+	// if (isLoading)
+	// return;
+	// isLoading = true;
+	// mHttp.url(mUrl).get(mCallBack);
+	// }
 
 	public void cancelRequest() {
 		Application.getInstance().cancelRequest(mRequestTag);

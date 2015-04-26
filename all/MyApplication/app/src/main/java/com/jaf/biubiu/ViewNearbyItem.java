@@ -53,13 +53,19 @@ public class ViewNearbyItem extends BindableView {
 	@BindView(id = R.id.itemSubContainer)
 	private View mItemSubContainer;
 
-	private BeanNearbyItem mBeanNearbyItem;
+    @BindView(id = R.id.itemClickArea, onClick = "onItemClick")
+    private View mItemClickArea;
+
+    private BeanNearbyItem mBeanNearbyItem;
 	private Http http;
 	private ArrayList<BeanAnswerItem> mDanmuSouce;
 
 	@BindView(id = R.id.listMode, onClick = "onListModeClick")
 	View btnListMode;
 	private LikePanelHolder mLikePanelHolder;
+
+    @BindView(id = R.id.likePanelContainer, onClick = "doNothing")
+    private View mLikePanelContainer;
 
 	public ViewNearbyItem(Context context) {
 		super(context);
@@ -68,13 +74,6 @@ public class ViewNearbyItem extends BindableView {
 	@Override
 	public void onViewDidLoad() {
 		http = new Http();
-
-		setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				toggleDanmuPanel();
-			}
-		});
 	}
 
 	private void toggleDanmuPanel() {
@@ -222,4 +221,12 @@ public class ViewNearbyItem extends BindableView {
 		extra.questId = mBeanNearbyItem.getQuestId();
 		ActivityDetail.start((Activity) getContext(), extra);
 	}
+
+    public void doNothing(View v) {
+        L.dbg("do nothing");
+    }
+
+    public void onItemClick(View v) {
+        toggleDanmuPanel();
+    }
 }

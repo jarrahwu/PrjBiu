@@ -1,6 +1,7 @@
 package com.jaf.biubiu;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -28,6 +29,10 @@ public class ViewAnswerItem extends BindableView {
     @BindView(id = R.id.floorNum)
     private TextView mFloorNum;
 
+    @BindView(id = R.id.relText)
+    private TextView mRelText;
+
+
     private LikePanelHolder mLikePanelHolder;
 
     public ViewAnswerItem(Context context) {
@@ -43,13 +48,22 @@ public class ViewAnswerItem extends BindableView {
         return R.layout.view_answer_item;
     }
 
-    public void setData(BeanAnswerItem beanAnswerItem) {
+    public void setData(BeanAnswerItem beanAnswerItem, int position) {
         if (beanAnswerItem != null) {
             mContent.setText(beanAnswerItem.getAns());
 //            mTime.setText(String.valueOf(beanAnswerItem.getPubTime()));
             mTime.setText(DateUtil.getDiffTime(beanAnswerItem.getPubTime() * 1000L));
             mLike.setText(String.valueOf(beanAnswerItem.getLikeNum()));
             mUnLike.setText(String.valueOf(beanAnswerItem.getUnlikeNum()));
+
+            //other answer
+            if(beanAnswerItem.getOtherAnsData() != null) {
+                mRelText.setVisibility(View.VISIBLE);
+                mRelText.setText(getResources().getString(R.string.replyFloorAt, position, beanAnswerItem.getAns()));
+            }else{
+                mRelText.setVisibility(View.GONE);
+            }
+
 
             if(beanAnswerItem.getIsMine() == 1) {
                 mContent.setTextColor(getResources().getColor(R.color.dfYellow));

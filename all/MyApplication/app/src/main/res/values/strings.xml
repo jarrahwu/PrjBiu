@@ -71,4 +71,5 @@
     <string name="unknownLoc">火星</string>
     <string name="commentCome">还没有评论, 留个言弹一发?</string>
     <string name="danmuComming">一大波评论即将到来→_→</string>
+    <string name="replyFloorAt">回复 %1$d楼: %2$s</string>
 </resources>

@@ -8,7 +8,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BeanAnswerItem {
 
-//    private otherAnsData=(null)
+    private BeanAnswerItem otherAnsData;
 
     private String ans;
     private String nick;
@@ -22,6 +22,14 @@ public class BeanAnswerItem {
     private int likeFlag;
     private int likeNum;
     private int unlikeNum;
+
+    public BeanAnswerItem getOtherAnsData() {
+        return otherAnsData;
+    }
+
+    public void setOtherAnsData(BeanAnswerItem otherAnsData) {
+        this.otherAnsData = otherAnsData;
+    }
 
     public long getPubTime() {
         return pubTime;

@@ -27,6 +27,8 @@
     </FrameLayout>
 
     <FrameLayout
+        android:paddingTop="@dimen/dfPadding"
+        android:id="@+id/likePanelContainer"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

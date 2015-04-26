@@ -23,13 +23,23 @@
             android:background="@drawable/shape_oval_yellow" />
 
         <TextView
+            android:padding="@dimen/smallPading"
             android:layout_marginLeft="@dimen/dfPadding"
             android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp" />
+
     </LinearLayout>
 
+    <TextView
+        android:layout_marginTop="@dimen/dfPadding"
+        android:layout_marginLeft="40dip"
+        android:background="@drawable/bg_reply"
+        android:id="@+id/relText"
+        android:text="@string/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_marginTop="15dip"

@@ -169,7 +169,7 @@ public class FragmentQA extends BindableFragment {
 					ViewAnswerItem itemView) {
 
 				mBeanAnswerItem = data;
-				itemView.setData(data);
+				itemView.setData(data, position);
 				itemView.setFloor(position);
 
 				doLikePanel(position, data, itemView);
@@ -199,7 +199,7 @@ public class FragmentQA extends BindableFragment {
                                     public void run() {
                                         reply();
                                     }
-                                }, 200);
+                                }, 400);
                             }
 						});
 

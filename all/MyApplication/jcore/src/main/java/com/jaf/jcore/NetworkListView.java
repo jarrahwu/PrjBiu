@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.jaf.jcore.Constant.Debug;
@@ -68,6 +69,10 @@ public class NetworkListView<V extends View, DT> extends PullToRefreshListView
 	}
 
 	public void request(String url, AbsLoader<V, DT> loader, JSONObject jo) {
+        if(jo == null) {
+            Toast.makeText(getContext(), R.string.network_err, Toast.LENGTH_SHORT).show();
+            return;
+        }
 		mWorker.request(url, loader, jo);
 	}
 }

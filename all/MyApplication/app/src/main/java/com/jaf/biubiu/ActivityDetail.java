@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.baidu.location.BDLocation;
 import com.jaf.bean.BeanNearbyItem;
 import com.jaf.bean.BeanRequestAnswerList;
-import com.jaf.bean.BeanRequestTopicQuestionList;
 import com.jaf.jcore.BaseActionBarActivity;
 import com.jaf.jcore.BindView;
 import com.jaf.jcore.Http;
@@ -122,6 +121,8 @@ public class ActivityDetail extends BaseActionBarActivity {
 				L.dbg("display fragment is null");
 			}
 		}
+
+        mEditText.requestFocus();
 	}
 
 	public Extra getData() {
@@ -139,10 +140,6 @@ public class ActivityDetail extends BaseActionBarActivity {
 		// nearby pair
 		int questId;
 		BeanNearbyItem fromNearby;
-
-		// topic pair
-		String topicTitle;
-		BeanRequestTopicQuestionList fromTopic;
 	}
 
 	public void onSendClick(View v) {
