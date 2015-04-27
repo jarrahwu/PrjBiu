@@ -73,10 +73,10 @@ public class DanmuHelper {
 		else
 			danmaku.text = text;
 
-		danmaku.padding = 5;
+		danmaku.padding = (int) Device.dp2px(5);
 		danmaku.priority = 1;
 		danmaku.isLive = islive;
-		danmaku.time = danmakuView.getCurrentTime() + 1300;
+		danmaku.time = danmakuView.getCurrentTime() + 1250;
 		danmaku.textSize = Device.sp2px(18);
 		danmaku.textColor = randomColor();
 		danmaku.textShadowColor = Color.parseColor("#838383");

@@ -97,7 +97,7 @@ public class FragmentUnion extends BindableFragment implements Constant.CMD{
             }
         });
 
-
+        mNetworkListView.setEmptyView(EmptyHelper.getEmptyView(getActivity(), R.drawable.bg_nearby_empty, R.string.unionEmpty));
     }
 
     public static Fragment newInstance(Bundle arg) {

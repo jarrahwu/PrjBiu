@@ -102,6 +102,7 @@ public class FragmentMyQ extends BindableFragment{
         };
 
         mListView.request(Constant.API, loader, U.buildMyQList(true, 0));
+        mListView.setEmptyView(EmptyHelper.getEmptyView(getActivity(), R.drawable.bg_qa_empty, R.string.emptyMyQ));
     }
 
 }

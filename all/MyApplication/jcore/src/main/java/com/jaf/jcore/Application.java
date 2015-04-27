@@ -21,6 +21,7 @@ public class Application extends android.app.Application  {
 		synchronized (Application.class) {
 			INSTANCE = this;
 		}
+        mAppExtraInfo = new AppExtraInfo();
 		mRequestQueue = Volley.newRequestQueue(this);
         JPushInterface.setDebugMode(Constant.Debug.DEBUG); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);
@@ -77,9 +78,6 @@ public class Application extends android.app.Application  {
     }
 
     public AppExtraInfo getAppExtraInfo() {
-        if(mAppExtraInfo == null) {
-            mAppExtraInfo = new AppExtraInfo();
-        }
         return mAppExtraInfo;
     }
 }

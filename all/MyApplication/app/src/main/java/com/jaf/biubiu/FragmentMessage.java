@@ -123,6 +123,7 @@ public class FragmentMessage extends BindableFragment {
             }
         };
         request();
+        mListView.setEmptyView(EmptyHelper.getEmptyView(getActivity(), R.drawable.bg_msg_empty, R.string.emptyMsg));
     }
 
     private void request() {

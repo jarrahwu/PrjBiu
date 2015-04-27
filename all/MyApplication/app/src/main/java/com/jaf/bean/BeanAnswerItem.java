@@ -22,6 +22,15 @@ public class BeanAnswerItem {
     private int likeFlag;
     private int likeNum;
     private int unlikeNum;
+    private int floorId;
+
+    public int getFloorId() {
+        return floorId;
+    }
+
+    public void setFloorId(int floorId) {
+        this.floorId = floorId;
+    }
 
     public BeanAnswerItem getOtherAnsData() {
         return otherAnsData;

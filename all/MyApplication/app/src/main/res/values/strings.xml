@@ -77,4 +77,10 @@
     <string name="title_activity_activity_test">ActivityTest</string>
     <string name="refresh_location">正在更新地理位置信息</string>
     <string name="myUnion">我的板块</string>
+    <string name="push">推送</string>
+    <string name="nearby_empty">附近没有数据</string>
+    <string name="unionEmpty">没有板块信息</string>
+    <string name="emptyMsg">没有消息</string>
+    <string name="emptyMyA">没有回答过问题哦~</string>
+    <string name="emptyMyQ">没有提出的问题哦~</string>
 </resources>

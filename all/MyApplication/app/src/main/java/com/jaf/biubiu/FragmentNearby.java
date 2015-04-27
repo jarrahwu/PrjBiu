@@ -152,6 +152,8 @@ public class FragmentNearby extends BindableFragment implements Constant {
 		};
 
 		requestListWhenLocated();
+
+        mNetworkListView.setEmptyView(EmptyHelper.getEmptyView(getActivity(), R.drawable.bg_nearby_empty, R.string.nearby_empty));
 	}
 
 	private void requestListWhenLocated() {

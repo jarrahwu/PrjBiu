@@ -65,13 +65,13 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 					@Override
 					public void onRefresh(PullToRefreshBase<ABS> refreshView) {
 						isLoadMore = false;
-						Util.e("refresh : " + mPostJo);
 						if (mPostJo == null) {
 							Toast.makeText(context, R.string.network_err,
 									Toast.LENGTH_SHORT).show();
                             mPullToRefreshAdapterViewBase.onRefreshComplete();
 							return;
 						}
+                        Util.e("Abs worker : do refresh");
 						request(mUrl, mLoader, mPostJo);
 					}
 				});
@@ -88,7 +88,7 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 									R.string.no_more, Toast.LENGTH_SHORT)
 									.show();
 						} else {
-							Util.e("load more :" + mNextPostJo);
+							Util.e("Abs worker : do load more");
 							if (mNextPostJo == null) {
 								Toast.makeText(context, R.string.network_err,
 										Toast.LENGTH_SHORT).show();
@@ -127,7 +127,9 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 		else
 			mNextPostJo = jo;
 
-		mHttp.url(url).JSON(jo).post(mCallBack);
+        JSONObject postJo = isLoadMore ? mNextPostJo : mPostJo;
+        Util.e("Net work ListView request JSON : " + postJo);
+		mHttp.url(url).JSON(postJo).post(mCallBack);
 		setRequestUrl(url);
 	}
 

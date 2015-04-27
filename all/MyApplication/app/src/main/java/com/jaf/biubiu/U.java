@@ -123,10 +123,9 @@ public class U implements Constant{
 
     public static BeanRequestAnswerList buildAnswerArgs(boolean fresh, int lastId, int questId) {
         BeanRequestAnswerList brq = new BeanRequestAnswerList();
-        brq.setAppVersion(VER);
-        brq.setCmd(CMD.LIST_QUESTION);
-        brq.setDvcId(Device.getId(Application.getInstance().getApplicationContext()));
+//        brq.setCmd(CMD.LIST_QUESTION);
         brq.setIdType(fresh ? 0 : 1);
+        brq = (BeanRequestAnswerList) buildBaseRequest(brq, CMD.LIST_QUESTION);
         brq.setLastId(lastId);
         brq.setQuestId(questId);
         return brq;

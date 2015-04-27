@@ -58,8 +58,9 @@ public class ViewAnswerItem extends BindableView {
 
             //other answer
             if(beanAnswerItem.getOtherAnsData() != null) {
+                int floor = beanAnswerItem.getOtherAnsData().getFloorId() + 1;
                 mRelText.setVisibility(View.VISIBLE);
-                mRelText.setText(getResources().getString(R.string.replyFloorAt, position, beanAnswerItem.getOtherAnsData().getAns()));
+                mRelText.setText(getResources().getString(R.string.replyFloorAt, floor, beanAnswerItem.getOtherAnsData().getAns()));
             }else{
                 mRelText.setVisibility(View.GONE);
             }

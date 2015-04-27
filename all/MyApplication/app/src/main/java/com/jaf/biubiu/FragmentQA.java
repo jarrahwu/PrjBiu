@@ -294,7 +294,9 @@ public class FragmentQA extends BindableFragment {
     }
 
     private void requestListView() {
+        mData.setLastId(0);
         JSONObject jo = JacksonWrapper.bean2Json(mData);
+        L.dbg("refresh detail list : " + mData);
         mListView.request(Constant.API, mLoader, jo);
     }
 

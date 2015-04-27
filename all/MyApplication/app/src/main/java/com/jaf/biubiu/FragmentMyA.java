@@ -100,5 +100,6 @@ public class FragmentMyA extends BindableFragment{
             }
         };
         mListView.request(Constant.API, loader, U.buildMyAList(true, 0));
+        mListView.setEmptyView(EmptyHelper.getEmptyView(getActivity(), R.drawable.bg_qa_empty, R.string.emptyMyA));
     }
 }

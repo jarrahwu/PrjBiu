@@ -5,10 +5,10 @@
     android:layout_height="match_parent">
 
     <com.jaf.jcore.NetworkListView
-        android:layout_weight="1"
         android:id="@+id/networkListView"
         android:layout_width="match_parent"
-        android:layout_height="0dip" />
+        android:layout_height="match_parent" />
+
 
     <include
         android:visibility="gone"
