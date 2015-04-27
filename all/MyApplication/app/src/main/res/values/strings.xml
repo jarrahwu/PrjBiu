@@ -74,4 +74,7 @@
     <string name="replyFloorAt">回复 %1$d楼: %2$s</string>
     <string name="title_activity_activity_skip_test">ActivitySkipTest</string>
     <string name="deleteSuccess">删除成功</string>
+    <string name="title_activity_activity_test">ActivityTest</string>
+    <string name="refresh_location">正在更新地理位置信息</string>
+    <string name="myUnion">我的板块</string>
 </resources>

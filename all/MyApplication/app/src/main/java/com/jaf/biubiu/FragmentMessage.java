@@ -80,11 +80,17 @@ public class FragmentMessage extends BindableFragment {
             public void updateItemUI(final int position,
                                      final BeanMsgItem data, ViewMsgItem itemView) {
                 itemView.setData(data);
-                itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//                itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//                    @Override
+//                    public boolean onLongClick(View v) {
+//                        popup(data, position);
+//                        return true;
+//                    }
+//                });
+                itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onLongClick(View v) {
-                        popup(data, position);
-                        return true;
+                    public void onClick(View v) {
+
                     }
                 });
             }

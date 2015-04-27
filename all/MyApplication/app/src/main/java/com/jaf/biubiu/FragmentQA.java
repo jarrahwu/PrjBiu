@@ -32,170 +32,171 @@ import java.util.ArrayList;
  */
 public class FragmentQA extends BindableFragment {
 
-	private static final String KEY_ARGS = "args";
+    private static final String KEY_ARGS = "args";
 
-	@BindView(id = R.id.questionList)
-	private NetworkListView<ViewAnswerItem, BeanAnswerItem> mListView;
+    @BindView(id = R.id.questionList)
+    private NetworkListView<ViewAnswerItem, BeanAnswerItem> mListView;
 
-	private com.jaf.jcore.AbsWorker.AbsLoader<ViewAnswerItem, com.jaf.bean.BeanAnswerItem> mLoader;
-	private View mHeader;
-	private HeaderHolder mHeaderHolder;
-	private ArrayList<BeanAnswerItem> mDataSource;
-	private BeanNearbyItem mFromNearby;
-	private Dialog mPopupDialog;
-	private BeanAnswerItem mBeanAnswerItem;
+    private com.jaf.jcore.AbsWorker.AbsLoader<ViewAnswerItem, com.jaf.bean.BeanAnswerItem> mLoader;
+    private View mHeader;
+    private HeaderHolder mHeaderHolder;
+    private ArrayList<BeanAnswerItem> mDataSource;
+    private BeanNearbyItem mFromNearby;
+    private Dialog mPopupDialog;
+    private BeanAnswerItem mBeanAnswerItem;
     private int mFloorNum;
+
     private BeanRequestAnswerList mData;
 
     public FragmentQA() {
-	}
+    }
 
-	public static FragmentQA newInstance(BeanRequestAnswerList b) {
-		Bundle args = new Bundle();
-		args.putSerializable(KEY_ARGS, b);
-		FragmentQA fragmentQuestionList = new FragmentQA();
-		fragmentQuestionList.setArguments(args);
-		return fragmentQuestionList;
-	}
+    public static FragmentQA newInstance(BeanRequestAnswerList b) {
+        Bundle args = new Bundle();
+        args.putSerializable(KEY_ARGS, b);
+        FragmentQA fragmentQuestionList = new FragmentQA();
+        fragmentQuestionList.setArguments(args);
+        return fragmentQuestionList;
+    }
 
-	@Override
-	protected int onLoadViewResource() {
-		return R.layout.fragment_qa;
-	}
+    @Override
+    protected int onLoadViewResource() {
+        return R.layout.fragment_qa;
+    }
 
-	@Override
-	protected void onViewDidLoad(Bundle savedInstanceState) {
-		super.onViewDidLoad(savedInstanceState);
+    @Override
+    protected void onViewDidLoad(Bundle savedInstanceState) {
+        super.onViewDidLoad(savedInstanceState);
         mData = getData();
-		if (mData != null) {
-			headerViewFromNearby();
-			setupList();
-		} else {
-			L.dbg("get data is null!");
-		}
-	}
+        if (mData != null) {
+            headerViewFromNearby();
+            setupList();
+        } else {
+            L.dbg("get data is null!");
+        }
+    }
 
-	private void headerViewFromNearby() {
-		mHeaderHolder = new HeaderHolder();
-		mHeader = getActivity().getLayoutInflater().inflate(
-				R.layout.layout_question_top, null);
-		mHeaderHolder.author = (TextView) mHeader.findViewById(R.id.author);
-		mHeaderHolder.title = (TextView) mHeader
-				.findViewById(R.id.questionText);
-		mHeaderHolder.locDesc = (TextView) mHeader
-				.findViewById(R.id.topLocDesc);
-		mListView.getRefreshableView().addHeaderView(mHeader);
+    private void headerViewFromNearby() {
+        mHeaderHolder = new HeaderHolder();
+        mHeader = getActivity().getLayoutInflater().inflate(
+                R.layout.layout_question_top, null);
+        mHeaderHolder.author = (TextView) mHeader.findViewById(R.id.author);
+        mHeaderHolder.title = (TextView) mHeader
+                .findViewById(R.id.questionText);
+        mHeaderHolder.locDesc = (TextView) mHeader
+                .findViewById(R.id.topLocDesc);
+        mListView.getRefreshableView().addHeaderView(mHeader);
 
-		Activity activity = getActivity();
-		if (activity instanceof ActivityDetail) {
-			ActivityDetail activityDetail = (ActivityDetail) activity;
-			mFromNearby = activityDetail.getData().fromNearby;
-			if (mFromNearby == null)
-				return;
-			mHeaderHolder.author.setText(mFromNearby.getSign());
-			mHeaderHolder.title.setText(mFromNearby.getQuest());
-			mHeaderHolder.locDesc.setText(mFromNearby.getLocDesc());
-			LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
-			extra.aid = 0;
-			extra.qid = mFromNearby.getQuestId();
-			LikePanelHolder likePanelHolder = new LikePanelHolder(extra,
-					mHeader) {
-				@Override
-				public void onPostSuccess(boolean isLike) {
-					super.onPostSuccess(isLike);
-					int count = isLike ? Integer.valueOf(like.getText()
-							.toString()) : Integer.valueOf(unLike.getText()
-							.toString());
-					count++;
+        Activity activity = getActivity();
+        if (activity instanceof ActivityDetail) {
+            ActivityDetail activityDetail = (ActivityDetail) activity;
+            mFromNearby = activityDetail.getData().fromNearby;
+            if (mFromNearby == null)
+                return;
+            mHeaderHolder.author.setText(mFromNearby.getSign());
+            mHeaderHolder.title.setText(mFromNearby.getQuest());
+            mHeaderHolder.locDesc.setText(mFromNearby.getLocDesc());
+            LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
+            extra.aid = 0;
+            extra.qid = mFromNearby.getQuestId();
+            LikePanelHolder likePanelHolder = new LikePanelHolder(extra,
+                    mHeader) {
+                @Override
+                public void onPostSuccess(boolean isLike) {
+                    super.onPostSuccess(isLike);
+                    int count = isLike ? Integer.valueOf(like.getText()
+                            .toString()) : Integer.valueOf(unLike.getText()
+                            .toString());
+                    count++;
 
-					if (isLike) {
-						mFromNearby.setLikeNum(count);
-						mFromNearby.setLikeFlag(1);
-					} else {
-						mFromNearby.setUnlikeNum(count);
-						mFromNearby.setLikeFlag(2);
-					}
-					setData(mFromNearby);
-				}
-			};
-			likePanelHolder.listenForChecking();
-			likePanelHolder.setData(mFromNearby);
+                    if (isLike) {
+                        mFromNearby.setLikeNum(count);
+                        mFromNearby.setLikeFlag(1);
+                    } else {
+                        mFromNearby.setUnlikeNum(count);
+                        mFromNearby.setLikeFlag(2);
+                    }
+                    setData(mFromNearby);
+                }
+            };
+            likePanelHolder.listenForChecking();
+            likePanelHolder.setData(mFromNearby);
 
-		}
+        }
 
-	}
+    }
 
-	private void setupList() {
-		mLoader = new AbsWorker.AbsLoader<ViewAnswerItem, BeanAnswerItem>() {
-			@Override
-			public String parseNextUrl(JSONObject response) {
-				return Constant.API;
-			}
+    private void setupList() {
+        mLoader = new AbsWorker.AbsLoader<ViewAnswerItem, BeanAnswerItem>() {
+            @Override
+            public String parseNextUrl(JSONObject response) {
+                return Constant.API;
+            }
 
-			@Override
-			public JSONObject parseNextJSON(JSONObject response) {
-				ResponseQuestion responseQuestion = JacksonWrapper.json2Bean(
-						response, ResponseQuestion.class);
-				ArrayList<BeanAnswerItem> data = responseQuestion
-						.getReturnData().getContData();
-				if (data.size() > 0) {
-					final Application.AppExtraInfo info = Application
-							.getInstance().getAppExtraInfo();
-					int lastId = data.get(data.size() - 1).getAnsId();
-					BeanRequestAnswerList bean = getData();
-					bean.setIdType(1);
-					bean.setLastId(lastId);
-					return JacksonWrapper.bean2Json(bean);
-				}
-				return null;
-			}
+            @Override
+            public JSONObject parseNextJSON(JSONObject response) {
+                ResponseQuestion responseQuestion = JacksonWrapper.json2Bean(
+                        response, ResponseQuestion.class);
+                ArrayList<BeanAnswerItem> data = responseQuestion
+                        .getReturnData().getContData();
+                if (data.size() > 0) {
+                    final Application.AppExtraInfo info = Application
+                            .getInstance().getAppExtraInfo();
+                    int lastId = data.get(data.size() - 1).getAnsId();
+                    BeanRequestAnswerList bean = getData();
+                    bean.setIdType(1);
+                    bean.setLastId(lastId);
+                    return JacksonWrapper.bean2Json(bean);
+                }
+                return null;
+            }
 
-			@Override
-			public ArrayList<BeanAnswerItem> parseJSON2ArrayList(
-					JSONObject response) {
-				ResponseQuestion responseQuestion = JacksonWrapper.json2Bean(
-						response, ResponseQuestion.class);
-				L.dbg("FragmentAnswerList response :" + response);
-				if (responseQuestion != null) {
-					mDataSource = responseQuestion.getReturnData()
-							.getContData();
-					return mDataSource;
-				} else {
-					L.dbg("responseQuestion is null !");
-					return null;
-				}
-			}
+            @Override
+            public ArrayList<BeanAnswerItem> parseJSON2ArrayList(
+                    JSONObject response) {
+                ResponseQuestion responseQuestion = JacksonWrapper.json2Bean(
+                        response, ResponseQuestion.class);
+                L.dbg("FragmentAnswerList response :" + response);
+                if (responseQuestion != null) {
+                    mDataSource = responseQuestion.getReturnData()
+                            .getContData();
+                    return mDataSource;
+                } else {
+                    L.dbg("responseQuestion is null !");
+                    return null;
+                }
+            }
 
-			@Override
-			public void updateItemUI(final int position, BeanAnswerItem data,
-					ViewAnswerItem itemView) {
+            @Override
+            public void updateItemUI(final int position, BeanAnswerItem data,
+                                     ViewAnswerItem itemView) {
 
-				mBeanAnswerItem = data;
-				itemView.setData(data, position);
-				itemView.setFloor(position);
+                mBeanAnswerItem = data;
+                itemView.setData(data, position);
+                itemView.setFloor(position);
 
-				doLikePanel(position, data, itemView);
+                onLikePanelEvent(position, data, itemView);
 
-				itemView.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         mFloorNum = position + 1;
-						popup();
-					}
+                        popup();
+                    }
 
-				});
-			}
+                });
+            }
 
-			private void popup() {
-				final View view = getActivity().getLayoutInflater().inflate(
-						R.layout.popup_answer_item, null);
-				mPopupDialog = PopupUtil.makePopup(getActivity(), view);
+            private void popup() {
+                final View view = getActivity().getLayoutInflater().inflate(
+                        R.layout.popup_answer_item, null);
+                mPopupDialog = PopupUtil.makePopup(getActivity(), view);
 
-				view.findViewById(R.id.btnReply).setOnClickListener(
-						new View.OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								mPopupDialog.dismiss();
+                view.findViewById(R.id.btnReply).setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mPopupDialog.dismiss();
                                 view.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
@@ -203,27 +204,27 @@ public class FragmentQA extends BindableFragment {
                                     }
                                 }, 400);
                             }
-						});
+                        });
 
-				view.findViewById(R.id.btnReportAbuse).setOnClickListener(
-						new View.OnClickListener() {
-							@Override
-							public void onClick(View v) {
+                view.findViewById(R.id.btnReportAbuse).setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
                                 mPopupDialog.dismiss();
                                 reportAbuse(mBeanAnswerItem);
-							}
-						});
+                            }
+                        });
 
-				view.findViewById(R.id.btnCancel).setOnClickListener(
-						new View.OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								mPopupDialog.dismiss();
-							}
-						});
+                view.findViewById(R.id.btnCancel).setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mPopupDialog.dismiss();
+                            }
+                        });
 
-				mPopupDialog.show();
-			}
+                mPopupDialog.show();
+            }
 
             private void reply() {
                 L.dbg("do reply set reply data aid %d", mBeanAnswerItem.getAnsId());
@@ -235,13 +236,13 @@ public class FragmentQA extends BindableFragment {
             }
 
             private void reportAbuse(BeanAnswerItem item) {
-				if (item == null)
-					return;
-				Http http = new Http();
-				// type 1 举报问题 2 举报评论
-				http.url(Constant.API)
-						.JSON(U.buildReportAbuse(item.getAnsId(), 2, ""))
-						.post(new HttpCallBack() {
+                if (item == null)
+                    return;
+                Http http = new Http();
+                // type 1 举报问题 2 举报评论
+                http.url(Constant.API)
+                        .JSON(U.buildReportAbuse(item.getAnsId(), 2, ""))
+                        .post(new HttpCallBack() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 super.onResponse(response);
@@ -250,60 +251,64 @@ public class FragmentQA extends BindableFragment {
                                         Toast.LENGTH_SHORT).show();
                             }
                         });
-			}
+            }
 
-			private void doLikePanel(final int position, BeanAnswerItem data,
-					final ViewAnswerItem itemView) {
-				LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
-				extra.aid = data.getAnsId();
-				LikePanelHolder likePanelHolder = new LikePanelHolder(extra,
-						itemView) {
+            private void onLikePanelEvent(final int position, BeanAnswerItem data,
+                                          final ViewAnswerItem itemView) {
+                LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
+                extra.aid = data.getAnsId();
+                LikePanelHolder likePanelHolder = new LikePanelHolder(extra,
+                        itemView) {
 
-					@Override
-					public void onPostSuccess(boolean isLike) {
-						int count = isLike ? Integer.valueOf(like.getText()
-								.toString()) : Integer.valueOf(unLike.getText()
-								.toString());
-						count++;
+                    @Override
+                    public void onPostSuccess(boolean isLike) {
+                        mListView.notifyDataSetChanged();
+                    }
 
-						if (isLike) {
-							mDataSource.get(position).setLikeFlag(1);
-							mDataSource.get(position).setLikeNum(count);
-						} else {
-							mDataSource.get(position).setLikeFlag(2);
-							mDataSource.get(position).setUnlikeNum(count);
-						}
-						mListView.notifyDataSetChanged();
-					}
-				};
-				likePanelHolder.listenForChecking();
-			}
+                    @Override
+                    public void onPrePost(boolean isLike) {
+                        int count = isLike ? Integer.valueOf(like.getText()
+                                .toString()) : Integer.valueOf(unLike.getText()
+                                .toString());
+                        count++;
+                        if (isLike) {
+                            mDataSource.get(position).setLikeFlag(1);
+                            mDataSource.get(position).setLikeNum(count);
+                        } else {
+                            mDataSource.get(position).setLikeFlag(2);
+                            mDataSource.get(position).setUnlikeNum(count);
+                        }
+                        mListView.notifyDataSetChanged();
+                    }
+                };
+                likePanelHolder.listenForChecking();
+            }
 
-			@Override
-			public ViewAnswerItem makeItem(LayoutInflater inflater,
-					int position, View convertView, ViewGroup parent) {
-				return new ViewAnswerItem(getActivity());
-			}
-		};
-		requestListView();
-	}
+            @Override
+            public ViewAnswerItem makeItem(LayoutInflater inflater,
+                                           int position, View convertView, ViewGroup parent) {
+                return new ViewAnswerItem(getActivity());
+            }
+        };
+        requestListView();
+    }
 
-	private void requestListView() {
-		JSONObject jo = JacksonWrapper.bean2Json(mData);
-		mListView.request(Constant.API, mLoader, jo);
-	}
+    private void requestListView() {
+        JSONObject jo = JacksonWrapper.bean2Json(mData);
+        mListView.request(Constant.API, mLoader, jo);
+    }
 
-	public BeanRequestAnswerList getData() {
-		return (BeanRequestAnswerList) getArguments().getSerializable(KEY_ARGS);
-	}
+    public BeanRequestAnswerList getData() {
+        return (BeanRequestAnswerList) getArguments().getSerializable(KEY_ARGS);
+    }
 
-	public void refreshAnswer() {
-		requestListView();
-	}
+    public void refreshAnswer() {
+        requestListView();
+    }
 
-	static class HeaderHolder {
-		TextView title;
-		TextView author;
-		TextView locDesc;
-	}
+    static class HeaderHolder {
+        TextView title;
+        TextView author;
+        TextView locDesc;
+    }
 }

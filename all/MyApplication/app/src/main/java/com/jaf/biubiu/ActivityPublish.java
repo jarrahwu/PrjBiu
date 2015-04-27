@@ -114,6 +114,7 @@ public class ActivityPublish extends BaseActionBarActivity {
     }
 
     private void updateLocation() {
+        Toast.makeText(this, R.string.refresh_location, Toast.LENGTH_SHORT).show();
         LocationManager.getInstance().requestLocation(new LocationManager.JLsn() {
             @Override
             public void onResult(double latitude, double longitude, BDLocation location) {

@@ -48,7 +48,7 @@ public class ViewMsgItem extends BindableView implements View.OnClickListener{
 
     @Override
     public void onViewDidLoad() {
-        setOnClickListener(this);
+//        setOnClickListener(this);
     }
 
     public void setData(BeanMsgItem data) {

@@ -90,6 +90,7 @@ public class LikePanelHolder implements View.OnClickListener {
     }
 
     public void doPost(final boolean isLike, final Extra extra) {
+        onPrePost(isLike);
         Http http = new Http();
         JSONObject jo = U.buildPostLike(isLike, extra.qid, extra.aid);
         http.url(Constant.API).JSON(jo).post(new HttpCallBack() {
@@ -100,6 +101,10 @@ public class LikePanelHolder implements View.OnClickListener {
                 onPostSuccess(isLike);
             }
         });
+    }
+
+    public void onPrePost(boolean isLike) {
+
     }
 
     public void onPostSuccess(boolean isLike) {

@@ -75,7 +75,7 @@
             android:layout_height="wrap_content" />
 
         <View
-            android:background="@drawable/ic_refresh"
+            android:background="@drawable/sel_refresh_btn"
             android:layout_alignParentRight="true"
             android:id="@+id/refresh"
             android:layout_width="@dimen/smallBtn"

@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.jaf.bean.BeanRequestTopicQuestionList;
 import com.jaf.bean.BeanUser;
 import com.jaf.bean.ResponseUser;
 import com.jaf.jcore.AdapterWrapper;
@@ -85,8 +86,10 @@ public class FragmentMe extends BindableFragment{
         mListView.setAdapter(mAdapter);
         String qNum = mBeanUser == null ? "0" : String.valueOf(mBeanUser.getQuestionNum());
         String aNum = mBeanUser == null ? "0" : String.valueOf(mBeanUser.getAnswerNum());
+        String unionNum = mBeanUser == null ? "0" : String.valueOf(mBeanUser.getUnionNum());
         mAdapter.add(MeItem.newItem(getString(R.string.myQusestion), qNum));
         mAdapter.add(MeItem.newItem(getString(R.string.myAnswer), aNum));
+        mAdapter.add(MeItem.newItem(getString(R.string.myUnion), unionNum));
     }
 
     private void requestUserInfo() {
@@ -113,7 +116,7 @@ public class FragmentMe extends BindableFragment{
         }
 
         @Override
-        protected void onBindView(int position, MeItem item, View view) {
+        protected void onBindView(final int position, MeItem item, View view) {
             TextView desc = (TextView) view.findViewById(R.id.meDesc);
             TextView count = (TextView) view.findViewById(R.id.meCount);
             desc.setText(item.text);
@@ -122,7 +125,17 @@ public class FragmentMe extends BindableFragment{
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActivityMyQA.start((Activity) getContext(), ActivityMyQA.Extra.newExtra(isQuestion));
+                    if(position != 2) {
+                        ActivityMyQA.start((Activity) getContext(), ActivityMyQA.Extra.newExtra(isQuestion));
+                    }
+                    else {
+//                        ActivityUnionTopic.Extra e = new ActivityUnionTopic.Extra();
+//                        e.topicTitle = mBeanUser.getU.getUnionName();
+//                        BeanRequestTopicQuestionList bean = U.buildTopicQuestionListArg(mData.getUnionId());
+//                        e.fromTopic = bean;
+//                        ActivityUnionTopic.start((android.app.Activity) getContext(), e);
+                    }
+
                 }
             });
         }

@@ -6,6 +6,8 @@ import android.os.Handler;
 
 import com.jaf.jcore.BindableActivity;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class ActivitySplash extends BindableActivity {
 
 	private static final long SPLASH_DELAY = 1000;
@@ -41,4 +43,15 @@ public class ActivitySplash extends BindableActivity {
 		finish();
 	}
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
 }
