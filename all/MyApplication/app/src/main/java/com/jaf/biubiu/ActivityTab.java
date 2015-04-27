@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import java.util.HashSet;
 import java.util.Set;
 
+import biubiu.jaf.com.libbottomtab.IndicatorRadioButton;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 
@@ -56,6 +57,9 @@ public class ActivityTab extends BaseActionBarActivity
 	private View mActionBarView;
 	private ActionBarViewHolder mHolder;
     private int mFragmentIndex;
+
+    @BindView(id = R.id.tab2)
+    private IndicatorRadioButton mIndicatorRadioButton;
 
     @Override
 	protected int onLoadViewResource() {

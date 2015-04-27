@@ -16,4 +16,5 @@
     <dimen name="tagSize">30dip</dimen>
     <dimen name="colorPading">7dip</dimen>
     <dimen name="smallPading">3dip</dimen>
+    <dimen name="msgTagSize">10dip</dimen>
 </resources>
