@@ -80,42 +80,8 @@ public class FragmentMessage extends BindableFragment {
             public void updateItemUI(final int position,
                                      final BeanMsgItem data, ViewMsgItem itemView) {
                 itemView.setData(data);
-//                itemView.setOnLongClickListener(new View.OnLongClickListener() {
-//                    @Override
-//                    public boolean onLongClick(View v) {
-//                        popup(data, position);
-//                        return true;
-//                    }
-//                });
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
+                itemView.setOnLongClickListener(new DeleteClick(position, data));
             }
-
-            public void popup(final BeanMsgItem data, int position) {
-                LayoutInflater lf = (LayoutInflater) getActivity()
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View v = lf.inflate(R.layout.popup_report_question, null);
-
-                Button btnOK = (Button) v.findViewById(R.id.btnOK);
-                btnOK.setText(R.string.delete);
-                btnOK.setOnClickListener(new DeleteClick(position, data));
-
-                v.findViewById(R.id.btnCancel).setOnClickListener(
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                mDialog.dismiss();
-                            }
-                        });
-
-                mDialog = PopupUtil.makePopup(getActivity(), v);
-                mDialog.show();
-            }
-
             @Override
             public ViewMsgItem makeItem(LayoutInflater inflater, int position,
                                         View convertView, ViewGroup parent) {
@@ -126,12 +92,15 @@ public class FragmentMessage extends BindableFragment {
         mListView.setEmptyView(EmptyHelper.getEmptyView(getActivity(), R.drawable.bg_msg_empty, R.string.emptyMsg));
     }
 
+
+
     private void request() {
         mListView.request(Constant.API, loader,
                 U.buildMsgList(true, Integer.MAX_VALUE));
     }
 
-    public class DeleteClick implements View.OnClickListener {
+
+    public class DeleteClick implements View.OnLongClickListener {
         private int position;
 
         private BeanMsgItem data;
@@ -142,27 +111,52 @@ public class FragmentMessage extends BindableFragment {
         }
 
         @Override
-        public void onClick(View v) {
-            mDialog.dismiss();
-//            v.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mDataSource.remove(position);
-//                    mListView.notifyDataSetChanged();
-//                }
-//            }, 200);
-            Http http = new Http();
-            http.url(Constant.API)
-                    .JSON(U.buildDelete(data.getUllId()))
-                    .post(new HttpCallBack() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            super.onResponse(response);
-                            L.dbg("delete success :" + response);
-                            request();
-                        }
-                    });
+        public boolean onLongClick(View v) {
+            popup(data, position);
+            return true;
+        }
 
+
+        public void popup(final BeanMsgItem data, final int position) {
+            LayoutInflater lf = (LayoutInflater) getActivity()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View v = lf.inflate(R.layout.popup_report_question, null);
+
+            Button btnOK = (Button) v.findViewById(R.id.btnOK);
+            btnOK.setText(R.string.delete);
+            btnOK.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDataSource.remove(position);
+                    L.dbg("on delete click : remove");
+                    mListView.setAdapterData(mDataSource, false);
+                    mDialog.dismiss();
+                    Http http = new Http();
+                    http.url(Constant.API)
+                            .JSON(U.buildDelete(data.getUllId()))
+                            .post(new HttpCallBack() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    super.onResponse(response);
+                                    L.dbg("delete success :" + response);
+                                    request();
+                                }
+                            });
+                }
+            });
+
+                    v.findViewById(R.id.btnCancel).setOnClickListener(
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mDialog.dismiss();
+                                }
+                            });
+
+
+
+            mDialog = PopupUtil.makePopup(getActivity(), v);
+            mDialog.show();
         }
     }
 }
