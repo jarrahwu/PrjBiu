@@ -129,11 +129,7 @@ public class FragmentMe extends BindableFragment{
                         ActivityMyQA.start((Activity) getContext(), ActivityMyQA.Extra.newExtra(isQuestion));
                     }
                     else {
-//                        ActivityUnionTopic.Extra e = new ActivityUnionTopic.Extra();
-//                        e.topicTitle = mBeanUser.getU.getUnionName();
-//                        BeanRequestTopicQuestionList bean = U.buildTopicQuestionListArg(mData.getUnionId());
-//                        e.fromTopic = bean;
-//                        ActivityUnionTopic.start((android.app.Activity) getContext(), e);
+                        ActivityMyUnion.start((Activity) getContext());
                     }
 
                 }

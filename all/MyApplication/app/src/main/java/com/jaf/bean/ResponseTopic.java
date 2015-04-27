@@ -16,13 +16,13 @@ public class ResponseTopic {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ReturnData {
-        private ArrayList<BeanTopicItem> contData;
+        private ArrayList<BeanUnionItem> contData;
 
-        public ArrayList<BeanTopicItem> getContData() {
+        public ArrayList<BeanUnionItem> getContData() {
             return contData;
         }
 
-        public void setContData(ArrayList<BeanTopicItem> contData) {
+        public void setContData(ArrayList<BeanUnionItem> contData) {
             this.contData = contData;
         }
     }

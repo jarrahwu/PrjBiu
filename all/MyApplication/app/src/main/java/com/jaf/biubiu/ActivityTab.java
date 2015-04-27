@@ -17,7 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jaf.bean.BeanTopicItem;
+import com.jaf.bean.BeanUnionItem;
 import com.jaf.bean.ResponseUser;
 import com.jaf.jcore.Application;
 import com.jaf.jcore.BaseActionBarActivity;
@@ -244,9 +244,9 @@ public class ActivityTab extends BaseActionBarActivity
 									JSONObject returnData = response
 											.optJSONObject("returnData");
 									L.dbg("random topic item :" + response);
-									BeanTopicItem item = JacksonWrapper
+									BeanUnionItem item = JacksonWrapper
 											.json2Bean(returnData,
-													BeanTopicItem.class);
+													BeanUnionItem.class);
 									if (item != null) {
 										ActivityUnionTopic.Extra extra = new ActivityUnionTopic.Extra();
 										extra.fromTopic = U

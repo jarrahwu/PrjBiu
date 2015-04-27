@@ -6,7 +6,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  * Created by jarrahwu on 15/4/15.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BeanTopicItem {
+public class BeanUnionItem {
     private long creTime;
     private int distance;
     private int latitude;

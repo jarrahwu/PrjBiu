@@ -92,7 +92,7 @@ public class U implements Constant{
     public static JSONObject buildTopic(boolean fresh, int lastId, int type) {
         BeanRequestTopic brt = new BeanRequestTopic();
         brt.setAppVersion(VER);
-        brt.setCmd(CMD.LIST_TOPIC);
+        brt.setCmd(CMD.LIST_UNION);
         brt.setDvcId(Device.getId(Application.getInstance().getApplicationContext()));
         brt.setLatitude(Application.getInstance().getAppExtraInfo().lat);
         brt.setLongitude(Application.getInstance().getAppExtraInfo().lon);

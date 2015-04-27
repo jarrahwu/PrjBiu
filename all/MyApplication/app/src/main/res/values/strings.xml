@@ -83,4 +83,6 @@
     <string name="emptyMsg">没有消息</string>
     <string name="emptyMyA">没有回答过问题哦~</string>
     <string name="emptyMyQ">没有提出的问题哦~</string>
+    <string name="title_activity_my_union">我的板块</string>
+    <string name="youHasNoUnion">你沒有创建板块哦~</string>
 </resources>

@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.BitmapAjaxCallback;
-import com.jaf.bean.BeanTopicItem;
+import com.jaf.bean.BeanUnionItem;
 import com.jaf.jcore.Application;
 import com.jaf.jcore.BindView;
 import com.jaf.jcore.BindableView;
@@ -22,7 +22,7 @@ import com.jaf.jcore.BindableView;
 /**
  * Created by jarrah on 2015/4/17.
  */
-public class ViewTopicItem extends BindableView{
+public class ViewUnionItemView extends BindableView{
 
     @BindView(id = R.id.topicIcon)
     private ImageView mTopicIcon;
@@ -39,7 +39,7 @@ public class ViewTopicItem extends BindableView{
     @BindView(id = R.id.topicCount)
     private TextView mTopicCount;
 
-    public ViewTopicItem(Context context) {
+    public ViewUnionItemView(Context context) {
         super(context);
     }
 
@@ -52,7 +52,7 @@ public class ViewTopicItem extends BindableView{
         return R.layout.view_topic_item;
     }
 
-    public void setData(BeanTopicItem data) {
+    public void setData(BeanUnionItem data) {
         if (data != null) {
             loadImage(mTopicIcon, data.getPicPath());
             boolean empty = TextUtils.isEmpty(data.getLocDesc());
