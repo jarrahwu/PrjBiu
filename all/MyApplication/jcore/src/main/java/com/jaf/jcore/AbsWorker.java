@@ -42,7 +42,7 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 
 	private WorkerAdapter mAdapter;
 
-	private boolean isLoadMore;
+	public boolean isLoadMore;
 	private boolean isLoading;
 
 	private String mUrl;
@@ -202,6 +202,7 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 			return mLoader.makeItem(getLayoutInflater(), position, convertView,
 					parent);
 		}
+
 	}
 
 	public interface AbsLoader<I extends View, DT> {
@@ -264,6 +265,10 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 		this.isLoadMore = isLoadMore;
 		setAdapterData(data);
 	}
+
+    public void notifyDataSetInvalidated() {
+        mAdapter.notifyDataSetInvalidated();
+    }
 
 	public void notifyDataSetChanged() {
 		mAdapter.notifyDataSetChanged();

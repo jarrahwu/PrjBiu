@@ -1,6 +1,7 @@
 package com.jaf.bean;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.io.Serializable;
 
@@ -28,6 +29,16 @@ public class BeanNearbyItem implements Serializable{
     private int isCreator;
     private int distance;
     private int isYellow;
+
+    private boolean isExpand;
+
+    public boolean isExpand() {
+        return isExpand;
+    }
+
+    public void setExpand(boolean isExpand) {
+        this.isExpand = isExpand;
+    }
 
     public int getAnsId() {
         return ansId;

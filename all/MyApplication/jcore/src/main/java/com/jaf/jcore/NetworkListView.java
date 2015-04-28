@@ -75,4 +75,12 @@ public class NetworkListView<V extends View, DT> extends PullToRefreshListView
         }
 		mWorker.request(url, loader, jo);
 	}
+
+    public void notifyDataSetInvalidated() {
+        mWorker.notifyDataSetInvalidated();
+    }
+
+    public boolean isLoadMore() {
+        return mWorker.isLoadMore;
+    }
 }
