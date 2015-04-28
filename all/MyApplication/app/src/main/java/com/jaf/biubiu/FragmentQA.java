@@ -3,6 +3,7 @@ package com.jaf.biubiu;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,6 +81,7 @@ public class FragmentQA extends BindableFragment {
         mHeaderHolder = new HeaderHolder();
         mHeader = getActivity().getLayoutInflater().inflate(
                 R.layout.layout_question_top, null);
+
         mHeaderHolder.author = (TextView) mHeader.findViewById(R.id.author);
         mHeaderHolder.title = (TextView) mHeader
                 .findViewById(R.id.questionText);
@@ -93,9 +95,15 @@ public class FragmentQA extends BindableFragment {
             mFromNearby = activityDetail.getData().fromNearby;
             if (mFromNearby == null)
                 return;
-            mHeaderHolder.author.setText(mFromNearby.getSign());
+
+            if(!TextUtils.isEmpty(mFromNearby.getSign()))
+                mHeaderHolder.author.setText(mFromNearby.getSign());
+
             mHeaderHolder.title.setText(mFromNearby.getQuest());
-            mHeaderHolder.locDesc.setText(mFromNearby.getLocDesc());
+
+            if(!TextUtils.isEmpty(mFromNearby.getSelfLocDesc()))
+                mHeaderHolder.locDesc.setText(mFromNearby.getSelfLocDesc());
+
             LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
             extra.aid = 0;
             extra.qid = mFromNearby.getQuestId();
@@ -104,6 +112,11 @@ public class FragmentQA extends BindableFragment {
                 @Override
                 public void onPostSuccess(boolean isLike) {
                     super.onPostSuccess(isLike);
+                }
+
+                @Override
+                public void onPrePost(boolean isLike) {
+                    super.onPrePost(isLike);
                     int count = isLike ? Integer.valueOf(like.getText()
                             .toString()) : Integer.valueOf(unLike.getText()
                             .toString());
@@ -253,9 +266,10 @@ public class FragmentQA extends BindableFragment {
                         });
             }
 
-            private void onLikePanelEvent(final int position, BeanAnswerItem data,
+            private void onLikePanelEvent(final int position,final BeanAnswerItem data,
                                           final ViewAnswerItem itemView) {
                 LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
+                extra.qid = data.getQuestId();
                 extra.aid = data.getAnsId();
                 LikePanelHolder likePanelHolder = new LikePanelHolder(extra,
                         itemView) {

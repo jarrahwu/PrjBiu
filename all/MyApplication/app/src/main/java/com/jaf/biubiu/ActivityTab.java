@@ -84,6 +84,10 @@ public class ActivityTab extends BaseActionBarActivity
         registerAlias();
 	}
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.remove("android:fragments");
+    }
 
 	@Override
 	protected View getActionBarView() {
@@ -165,8 +169,13 @@ public class ActivityTab extends BaseActionBarActivity
 		// title
 		String title = getString(textResId);
 		String city = Application.getInstance().getAppExtraInfo().city;
+        String school = Application.getInstance().getAppExtraInfo().school;
+
 		if (index == 0 && !TextUtils.isEmpty(city)) {
 			title = city;
+
+            if (!TextUtils.isEmpty(school))
+                title = school;
 		}
 		mHolder.title.setText(title);
 		// title left

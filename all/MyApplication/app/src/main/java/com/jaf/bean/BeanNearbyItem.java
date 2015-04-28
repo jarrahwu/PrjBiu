@@ -29,6 +29,18 @@ public class BeanNearbyItem implements Serializable{
     private int distance;
     private int isYellow;
 
+    public int getAnsId() {
+        return ansId;
+    }
+
+    public void setAnsId(int ansId) {
+        this.ansId = ansId;
+    }
+
+    private int ansId;
+
+
+
     public int getIsYellow() {
         return isYellow;
     }

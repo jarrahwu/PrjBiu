@@ -173,6 +173,7 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 				setAdapterData(data, isLoadMore);
 				mNextUrl = mLoader.parseNextUrl(response);
 				mNextPostJo = mLoader.parseNextJSON(response);
+                isLoadMore = false;
 			}
 		}
 

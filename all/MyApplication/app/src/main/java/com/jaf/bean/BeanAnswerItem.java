@@ -23,6 +23,15 @@ public class BeanAnswerItem {
     private int likeNum;
     private int unlikeNum;
     private int floorId;
+    private int questId;
+
+    public int getQuestId() {
+        return questId;
+    }
+
+    public void setQuestId(int questId) {
+        this.questId = questId;
+    }
 
     public int getFloorId() {
         return floorId;

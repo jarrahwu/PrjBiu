@@ -172,12 +172,12 @@ public class ViewNearbyItem extends BindableView {
 		}
 
 
-		// like unlike
-		LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
-		extra.aid = 0;
-		extra.qid = mBeanNearbyItem.getQuestId();
-		mLikePanelHolder = new LikePanelHolder(extra, mDanmuContainer);
-		mLikePanelHolder.setData(mBeanNearbyItem);
+//		// like unlike
+//		LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
+//		extra.aid = mBeanNearbyItem.getAnsId();
+//		extra.qid = mBeanNearbyItem.getQuestId();
+//		mLikePanelHolder = new LikePanelHolder(extra, mDanmuContainer);
+//		mLikePanelHolder.setData(mBeanNearbyItem);
 
 		// magic
 		mDanmuContainer.setVisibility(View.GONE);

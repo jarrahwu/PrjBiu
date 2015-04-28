@@ -59,6 +59,7 @@ public class Application extends android.app.Application  {
         public String dvcId;
         public String city;
         public String addrStr;
+        public String school;
     }
 
     public void setAppExtraInfo(String dvcId, double lat, double lon) {

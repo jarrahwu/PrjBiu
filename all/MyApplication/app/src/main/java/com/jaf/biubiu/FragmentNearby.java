@@ -1,5 +1,6 @@
 package com.jaf.biubiu;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -104,7 +105,7 @@ public class FragmentNearby extends BindableFragment implements Constant {
 
 				// like unlike
 				LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
-				extra.aid = 0;
+				extra.aid = data.getAnsId();
 				extra.qid = data.getQuestId();
 				LikePanelHolder holder = new LikePanelHolder(extra, itemView) {
 					@Override
@@ -119,28 +120,33 @@ public class FragmentNearby extends BindableFragment implements Constant {
 			private void setupLikePanel(final int position,
 					BeanNearbyItem data, final View itemView) {
 				LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
-				extra.aid = 0;
+				extra.aid = data.getAnsId();
                 extra.qid = data.getQuestId();
 				LikePanelHolder likePanelHolder = new LikePanelHolder(extra,
 						itemView) {
 
 					@Override
 					public void onPostSuccess(boolean isLike) {
-						int count = isLike ? Integer.valueOf(like.getText()
-								.toString()) : Integer.valueOf(unLike.getText()
-								.toString());
-						count++;
-
-						if (isLike) {
-							mDataSource.get(position).setLikeFlag(1);
-							mDataSource.get(position).setLikeNum(count);
-						} else {
-							mDataSource.get(position).setLikeFlag(2);
-							mDataSource.get(position).setUnlikeNum(count);
-						}
-						mNetworkListView.notifyDataSetChanged();
 					}
-				};
+
+                    @Override
+                    public void onPrePost(boolean isLike) {
+                        super.onPrePost(isLike);
+                        int count = isLike ? Integer.valueOf(like.getText()
+                                .toString()) : Integer.valueOf(unLike.getText()
+                                .toString());
+                        count++;
+
+                        if (isLike) {
+                            mDataSource.get(position).setLikeFlag(1);
+                            mDataSource.get(position).setLikeNum(count);
+                        } else {
+                            mDataSource.get(position).setLikeFlag(2);
+                            mDataSource.get(position).setUnlikeNum(count);
+                        }
+                        mNetworkListView.notifyDataSetChanged();
+                    }
+                };
 				likePanelHolder.listenForChecking();
 			}
 
@@ -214,6 +220,7 @@ public class FragmentNearby extends BindableFragment implements Constant {
                 if(returnData != null && !TextUtils.isEmpty(locDesc)) {
                     ActivityTab activityTab = (ActivityTab) getActivity();
                     L.dbg("locDesc tile : " + locDesc);
+                    Application.getInstance().getAppExtraInfo().school = locDesc;
                     activityTab.setLocTitle(locDesc);
                 }else {
                     L.dbg("refresh title error");
