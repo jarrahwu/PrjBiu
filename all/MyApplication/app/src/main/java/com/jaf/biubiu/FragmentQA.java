@@ -171,12 +171,15 @@ public class FragmentQA extends BindableFragment {
                         response, ResponseQuestion.class);
                 L.dbg("FragmentAnswerList response :" + response);
                 if (responseQuestion != null) {
-                    mDataSource = responseQuestion.getReturnData()
-                            .getContData();
+                    ArrayList<BeanAnswerItem> contData = responseQuestion.getReturnData().getContData();
+                    if(contData != null)
+                        mDataSource = contData;
+                    else
+                        mDataSource = new ArrayList<BeanAnswerItem>();
                     return mDataSource;
                 } else {
                     L.dbg("responseQuestion is null !");
-                    return null;
+                    return new ArrayList<BeanAnswerItem>();
                 }
             }
 
@@ -276,7 +279,7 @@ public class FragmentQA extends BindableFragment {
 
                     @Override
                     public void onPostSuccess(boolean isLike) {
-                        mListView.notifyDataSetChanged();
+//                        mListView.notifyDataSetChanged();
                     }
 
                     @Override
@@ -285,12 +288,19 @@ public class FragmentQA extends BindableFragment {
                                 .toString()) : Integer.valueOf(unLike.getText()
                                 .toString());
                         count++;
+                        BeanAnswerItem item = null;
+                        try {
+                            item = mDataSource.get(position);
+                        }catch (Exception e) {
+                            Toast.makeText(getActivity(), R.string.data_error, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         if (isLike) {
-                            mDataSource.get(position).setLikeFlag(1);
-                            mDataSource.get(position).setLikeNum(count);
+                            item.setLikeFlag(1);
+                            item.setLikeNum(count);
                         } else {
-                            mDataSource.get(position).setLikeFlag(2);
-                            mDataSource.get(position).setUnlikeNum(count);
+                            item.setLikeFlag(2);
+                            item.setUnlikeNum(count);
                         }
                         mListView.notifyDataSetChanged();
                     }
