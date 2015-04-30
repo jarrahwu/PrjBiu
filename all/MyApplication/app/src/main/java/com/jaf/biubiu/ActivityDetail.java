@@ -11,9 +11,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
 import com.jaf.bean.BeanNearbyItem;
 import com.jaf.bean.BeanRequestAnswerList;
+import com.jaf.jcore.Application;
 import com.jaf.jcore.BaseActionBarActivity;
 import com.jaf.jcore.BindView;
 import com.jaf.jcore.Http;
@@ -148,39 +148,50 @@ public class ActivityDetail extends BaseActionBarActivity {
 			Toast.makeText(this, R.string.saySomething, Toast.LENGTH_SHORT)
 					.show();
 		} else {
-			LocationManager.getInstance().requestLocation(
-					new LocationManager.JLsn() {
-						@Override
-						public void onResult(double latitude, double longitude,
-								BDLocation location) {
-							super.onResult(latitude, longitude, location);
-
-                            if(!isReplyComment)
-							    replyQuestion(text.toString(), location);
-                            else
-                                replyComment(text.toString(), location);
-						}
-					});
+//			LocationManager.getInstance().requestLocation(
+//					new LocationManager.JLsn() {
+//						@Override
+//						public void onResult(double latitude, double longitude,
+//								BDLocation location) {
+//							super.onResult(latitude, longitude, location);
+//
+//
+//						}
+//					});
+            String location = Application.getInstance().getAppExtraInfo().addrStr;
+            if(!isReplyComment)
+                replyQuestion(text.toString(), location);
+            else
+                replyComment(text.toString(), location);
 		}
 	}
 
-    private void replyComment(String s, BDLocation location) {
+    private void replyComment(String s, String location) {
         if(extra.fromNearby != null) {
+
+            FragmentQA qa = (FragmentQA) mDisplayFragment;
+            qa.mListView.getWorker().isLoadMore = false;
+
             int qid = extra.fromNearby.getQuestId();
-            JSONObject jo = U.postAnswerComment(s, ansId, qid, location.getAddrStr());
+            JSONObject jo = U.postAnswerComment(s, ansId, qid, location);
             request(jo);
         }else {
             L.dbg("no extra for reply comment");
         }
     }
 
-    public void replyQuestion(String text, BDLocation location) {
+    public void replyQuestion(String text, String location) {
 		if (extra.fromNearby == null)
 			return;
+
+        FragmentQA qa = (FragmentQA) mDisplayFragment;
+        qa.mListView.getWorker().isLoadMore = false;
 		int qid = extra.fromNearby.getQuestId();
-		JSONObject jo = U.buildPostAnswerQuestion(text, location.getAddrStr(),
+		JSONObject jo = U.buildPostAnswerQuestion(text, location,
 				qid);
 		request(jo);
+
+
 	}
 
 	private void request(JSONObject jo) {

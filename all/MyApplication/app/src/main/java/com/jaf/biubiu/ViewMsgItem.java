@@ -118,11 +118,16 @@ public class ViewMsgItem extends BindableView implements View.OnClickListener{
         }
 
         if(mData.getType() == 4) {
-            ActivityUnionTopic.Extra e = new ActivityUnionTopic.Extra();
-            e.topicTitle = mData.getUnionName();
-            BeanRequestTopicQuestionList bean = U.buildTopicQuestionListArg(mData.getUnionId());
-            e.fromTopic = bean;
-            ActivityUnionTopic.start((android.app.Activity) getContext(), e);
+            if(mData.getIsPass() == 1) {
+                ActivityUnionTopic.Extra e = new ActivityUnionTopic.Extra();
+                e.topicTitle = mData.getUnionName();
+                BeanRequestTopicQuestionList bean = U.buildTopicQuestionListArg(mData.getUnionId());
+                e.fromTopic = bean;
+                ActivityUnionTopic.start((android.app.Activity) getContext(), e);
+            } else {
+                ActivityMyUnion.start((android.app.Activity) getContext());
+            }
+
         }
 
     }

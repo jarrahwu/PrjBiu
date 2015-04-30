@@ -69,9 +69,13 @@ public class ActivityTab extends BaseActionBarActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        //push
+        registerAlias();
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		enableTitleDisplayHomeAsUp(false);
 	}
+
+
 
 	@Override
 	protected void onViewDidLoad(Bundle savedInstanceState) {
@@ -79,9 +83,7 @@ public class ActivityTab extends BaseActionBarActivity
 		initFragments();
 		switchFragment(FIRST_TAB);
 
-        //push
         registerMessageReceiver();  // used for receive msg
-        registerAlias();
 	}
 
     @Override
@@ -145,6 +147,9 @@ public class ActivityTab extends BaseActionBarActivity
 		mLastShowing = f;
 		trans.commit();
 
+        if(mFragmentIndex == 2) {
+            mIndicatorRadioButton.showIndicator(false);
+        }
 		updateActionBar(fragmentIndex);
 	}
 
@@ -323,6 +328,9 @@ public class ActivityTab extends BaseActionBarActivity
                 showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
                 if (!ExampleUtil.isEmpty(extras)) {
                     showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
+                    mIndicatorRadioButton.showIndicator(true);
+                    FragmentMessage fmsg = (FragmentMessage) mTabFragments[2];
+                    fmsg.refresh();
                 }
                 L.dbg("push get : " + showMsg.toString());
             }

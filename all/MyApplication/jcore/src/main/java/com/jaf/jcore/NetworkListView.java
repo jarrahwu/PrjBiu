@@ -83,4 +83,9 @@ public class NetworkListView<V extends View, DT> extends PullToRefreshListView
     public boolean isLoadMore() {
         return mWorker.isLoadMore;
     }
+
+    public AbsWorker<V, ListView, DT> getWorker() {
+        return mWorker;
+    }
+
 }

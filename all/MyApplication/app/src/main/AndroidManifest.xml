@@ -69,14 +69,14 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <!-- mac -->
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="IDfIXmuExVeL0nwqGhYCAD4e" />
+        <!--<meta-data-->
+            <!--android:name="com.baidu.lbsapi.API_KEY"-->
+            <!--android:value="IDfIXmuExVeL0nwqGhYCAD4e" />-->
 
         <!-- pc -->
-        <!-- <meta-data -->
-        <!-- android:name="com.baidu.lbsapi.API_KEY" -->
-        <!-- android:value="j2wfd39lV4OipVnqVT4Ehqv3" /> -->
+         <meta-data
+         android:name="com.baidu.lbsapi.API_KEY"
+         android:value="j2wfd39lV4OipVnqVT4Ehqv3" />
 
         <service
             android:name="com.baidu.location.f"

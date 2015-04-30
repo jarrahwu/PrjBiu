@@ -53,6 +53,9 @@ public class LocationManager {
             }
             L.dbg("baidu sdk addr:%s city:%s", bdLocation.getAddrStr(), bdLocation.getCity());
             onResult(bdLocation.getLatitude(), bdLocation.getLongitude(), bdLocation);
+            Application.getInstance().getAppExtraInfo().lat = bdLocation.getLatitude();
+            Application.getInstance().getAppExtraInfo().lon = bdLocation.getLongitude();
+            Application.getInstance().getAppExtraInfo().addrStr = bdLocation.getAddrStr();
             LocationManager.getInstance().mLocationClient.stop();
             LocationManager.getInstance().mLocationClient.unRegisterLocationListener(this);
         }

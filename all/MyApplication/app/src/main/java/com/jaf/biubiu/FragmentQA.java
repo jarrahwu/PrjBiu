@@ -15,7 +15,6 @@ import com.jaf.bean.BeanNearbyItem;
 import com.jaf.bean.BeanRequestAnswerList;
 import com.jaf.bean.ResponseQuestion;
 import com.jaf.jcore.AbsWorker;
-import com.jaf.jcore.Application;
 import com.jaf.jcore.BindView;
 import com.jaf.jcore.BindableFragment;
 import com.jaf.jcore.Http;
@@ -36,7 +35,7 @@ public class FragmentQA extends BindableFragment {
     private static final String KEY_ARGS = "args";
 
     @BindView(id = R.id.questionList)
-    private NetworkListView<ViewAnswerItem, BeanAnswerItem> mListView;
+    public NetworkListView<ViewAnswerItem, BeanAnswerItem> mListView;
 
     private com.jaf.jcore.AbsWorker.AbsLoader<ViewAnswerItem, com.jaf.bean.BeanAnswerItem> mLoader;
     private View mHeader;
@@ -69,6 +68,7 @@ public class FragmentQA extends BindableFragment {
     protected void onViewDidLoad(Bundle savedInstanceState) {
         super.onViewDidLoad(savedInstanceState);
         mData = getData();
+        mDataSource = new ArrayList<BeanAnswerItem>();
         if (mData != null) {
             headerViewFromNearby();
             setupList();
@@ -153,8 +153,6 @@ public class FragmentQA extends BindableFragment {
                 ArrayList<BeanAnswerItem> data = responseQuestion
                         .getReturnData().getContData();
                 if (data.size() > 0) {
-                    final Application.AppExtraInfo info = Application
-                            .getInstance().getAppExtraInfo();
                     int lastId = data.get(data.size() - 1).getAnsId();
                     BeanRequestAnswerList bean = getData();
                     bean.setIdType(1);
@@ -170,17 +168,19 @@ public class FragmentQA extends BindableFragment {
                 ResponseQuestion responseQuestion = JacksonWrapper.json2Bean(
                         response, ResponseQuestion.class);
                 L.dbg("FragmentAnswerList response :" + response);
+                ArrayList<BeanAnswerItem> contData = new ArrayList<>();
                 if (responseQuestion != null) {
-                    ArrayList<BeanAnswerItem> contData = responseQuestion.getReturnData().getContData();
-                    if(contData != null)
-                        mDataSource = contData;
-                    else
-                        mDataSource = new ArrayList<BeanAnswerItem>();
-                    return mDataSource;
-                } else {
-                    L.dbg("responseQuestion is null !");
-                    return new ArrayList<BeanAnswerItem>();
+                    contData = responseQuestion.getReturnData().getContData();
                 }
+
+                if(mListView.isLoadMore()) {
+                    mDataSource.addAll(contData);
+                }else{
+                    mDataSource.clear();
+                    mDataSource.addAll(contData);
+                }
+
+                return contData;
             }
 
             @Override

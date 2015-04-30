@@ -1,6 +1,7 @@
 package com.jaf.jcore;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -163,7 +164,7 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 			super.onResponse(response);
 
 			if (DBG) {
-				Util.e(response);
+				Util.e("[worker : response] :" + response);
 			}
 
 			mPullToRefreshAdapterViewBase.onRefreshComplete();
@@ -173,7 +174,6 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 				setAdapterData(data, isLoadMore);
 				mNextUrl = mLoader.parseNextUrl(response);
 				mNextPostJo = mLoader.parseNextJSON(response);
-                isLoadMore = false;
 			}
 		}
 
@@ -204,6 +204,10 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 		}
 
 	}
+
+    public WorkerAdapter getAdapter() {
+        return mAdapter;
+    }
 
 	public interface AbsLoader<I extends View, DT> {
 
@@ -248,10 +252,15 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 	}
 
 	public void setAdapterData(ArrayList<DT> data) {
+        if(DBG) {
+            String append = data == null ? "data is null" : String.format("data size >> %d", data.size());
+            Log.e("AbsWorker", append);
+        }
 		if (isLoadMore) {
-			if (data.size() == 0) {
+			if (data == null || data.size() == 0) {
 				Toast.makeText(Application.getInstance(), "没有更多数据",
 						Toast.LENGTH_SHORT).show();
+                isLoadMore = false;
 			} else {
 				mAdapter.addAll(data);
 			}
@@ -264,6 +273,11 @@ public class AbsWorker<T extends View, ABS extends AbsListView, DT> {
 	public void setAdapterData(ArrayList<DT> data, boolean isLoadMore) {
 		this.isLoadMore = isLoadMore;
 		setAdapterData(data);
+        if (DBG) {
+            String cur = String.format("current size is : " + mAdapter.getCount());
+            String more = String.format("is load more ? : " + isLoadMore);
+            Log.e("AbsWorker", cur + " | " + more);
+        }
 	}
 
     public void notifyDataSetInvalidated() {

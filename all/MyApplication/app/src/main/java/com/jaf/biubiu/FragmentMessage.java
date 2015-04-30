@@ -33,7 +33,7 @@ public class FragmentMessage extends BindableFragment {
     private NetworkListView<ViewMsgItem, BeanMsgItem> mListView;
     private com.jaf.jcore.AbsWorker.AbsLoader<com.jaf.biubiu.ViewMsgItem, com.jaf.bean.BeanMsgItem> loader;
     private Dialog mDialog;
-    private ArrayList<BeanMsgItem> mDataSource;
+    private static ArrayList<BeanMsgItem> mDataSource;
 
     public static Fragment newInstance(Bundle arg) {
         return new FragmentMessage();
@@ -47,6 +47,7 @@ public class FragmentMessage extends BindableFragment {
     @Override
     protected void onViewDidLoad(Bundle savedInstanceState) {
         super.onViewDidLoad(savedInstanceState);
+        mDataSource = new ArrayList<>();
         loader = new AbsWorker.AbsLoader<ViewMsgItem, BeanMsgItem>() {
             @Override
             public String parseNextUrl(JSONObject response) {
@@ -71,9 +72,17 @@ public class FragmentMessage extends BindableFragment {
                     JSONObject response) {
                 ResponseMsgList responseMsgList = JacksonWrapper.json2Bean(
                         response, ResponseMsgList.class);
-                if (responseMsgList != null)
-                    mDataSource = responseMsgList.getReturnData().getContData();
-                return mDataSource;
+                ArrayList<BeanMsgItem> contData = new ArrayList<>();
+                if (responseMsgList != null) {
+                    contData = responseMsgList.getReturnData().getContData();
+                }
+                if(mListView.isLoadMore()) {
+                    mDataSource.addAll(contData);
+                }else{
+                    mDataSource.clear();
+                    mDataSource.addAll(contData);
+                }
+                return contData;
             }
 
             @Override
@@ -97,6 +106,10 @@ public class FragmentMessage extends BindableFragment {
     private void request() {
         mListView.request(Constant.API, loader,
                 U.buildMsgList(true, Integer.MAX_VALUE));
+    }
+
+    public void refresh() {
+        request();
     }
 
 
@@ -139,7 +152,7 @@ public class FragmentMessage extends BindableFragment {
                                 public void onResponse(JSONObject response) {
                                     super.onResponse(response);
                                     L.dbg("delete success :" + response);
-                                    request();
+//                                    request();
                                 }
                             });
                 }
