@@ -48,6 +48,9 @@ public class FragmentQA extends BindableFragment {
 
     private BeanRequestAnswerList mData;
 
+    //0 qid 1 aid
+    private int[] mCommentParams = new int[2];
+
     public FragmentQA() {
     }
 
@@ -197,6 +200,7 @@ public class FragmentQA extends BindableFragment {
                     @Override
                     public void onClick(View v) {
                         mFloorNum = data.getFloorId();
+                        setReplyCommentParams(mDataSource.get(position).getQuestId(), mDataSource.get(position).getAnsId());
                         popup();
                     }
 
@@ -243,12 +247,13 @@ public class FragmentQA extends BindableFragment {
             }
 
             private void prepareReply() {
-                L.dbg("do prepareReply set prepareReply data aid %d", mBeanAnswerItem.getAnsId());
+//                L.dbg("do prepareReply set prepareReply data aid %d", mBeanAnswerItem.getAnsId());
                 ActivityDetail activityDetail = (ActivityDetail) getActivity();
                 Device.showSoftKeyboard(activityDetail.mEditText, activityDetail);
                 activityDetail.mEditText.setHint(getString(R.string.replyFloor, mFloorNum));
                 activityDetail.isReplyComment = true;
-                activityDetail.ansId = mBeanAnswerItem.getAnsId();
+//                setReplyCommentParams(mBeanAnswerItem.getQuestId(), mBeanAnswerItem.getAnsId());
+//                activityDetail.ansId = mBeanAnswerItem.getAnsId();
             }
 
             private void reportAbuse(BeanAnswerItem item) {
@@ -323,6 +328,20 @@ public class FragmentQA extends BindableFragment {
         L.dbg("refresh detail list : " + mData);
         mListView.request(Constant.API, mLoader, jo);
     }
+
+    //index 0 - qid 1- ansId
+    public int[] getRelyCommentParams() {
+        return mCommentParams;
+    }
+
+    public void setReplyCommentParams(int... params) {
+        if(params.length == mCommentParams.length) {
+            L.dbg(String.format("set replay params qid: %d, aid: %d", params[0], params[1]));
+            mCommentParams[0] = params[0];
+            mCommentParams[1] = params[1];
+        }
+    }
+
 
     public BeanRequestAnswerList getData() {
         return (BeanRequestAnswerList) getArguments().getSerializable(KEY_ARGS);

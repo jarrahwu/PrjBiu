@@ -44,7 +44,6 @@ public class ActivityDetail extends BaseActionBarActivity {
 
     //for reply comment
     boolean isReplyComment = false;
-    int ansId;
 
 	@Override
 	protected View getActionBarView() {
@@ -187,11 +186,14 @@ public class ActivityDetail extends BaseActionBarActivity {
     private void replyComment(String s, String location) {
         if(extra.fromNearby != null) {
 
-            FragmentQA qa = (FragmentQA) mDisplayFragment;
-            qa.mListView.getWorker().isLoadMore = false;
-
-            int qid = extra.fromNearby.getQuestId();
-            JSONObject jo = U.postAnswerComment(s, ansId, qid, location);
+//            FragmentQA qa = (FragmentQA) mDisplayFragment;
+//            qa.mListView.getWorker().isLoadMore = false;
+//
+//            int qid = extra.fromNearby.getQuestId();
+            FragmentQA f = (FragmentQA) mDisplayFragment;
+            int qid = f.getRelyCommentParams()[0];
+            int aid = f.getRelyCommentParams()[1];
+            JSONObject jo = U.postAnswerComment(s, aid, qid, location);
             request(jo);
         }else {
             L.dbg("no extra for reply comment");
@@ -225,7 +227,6 @@ public class ActivityDetail extends BaseActionBarActivity {
 				mEditText.setText("");
 				U.hideSoftKeyboard(ActivityDetail.this);
                 isReplyComment = false;
-                ansId = 0;
                 mEditText.setHint(R.string.bestAnswerHere);
 			}
 		});
