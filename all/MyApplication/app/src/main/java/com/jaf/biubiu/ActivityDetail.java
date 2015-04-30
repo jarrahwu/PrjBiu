@@ -185,11 +185,12 @@ public class ActivityDetail extends BaseActionBarActivity {
 
     private void replyComment(String s, String location) {
         if(extra.fromNearby != null) {
-
 //            FragmentQA qa = (FragmentQA) mDisplayFragment;
 //            qa.mListView.getWorker().isLoadMore = false;
 //
 //            int qid = extra.fromNearby.getQuestId();
+            FragmentQA qa = (FragmentQA) mDisplayFragment;
+            qa.mListView.getWorker().isLoadMore = false;
             FragmentQA f = (FragmentQA) mDisplayFragment;
             int qid = f.getRelyCommentParams()[0];
             int aid = f.getRelyCommentParams()[1];

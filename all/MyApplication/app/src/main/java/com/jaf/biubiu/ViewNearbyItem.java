@@ -226,7 +226,21 @@ public class ViewNearbyItem extends BindableView {
             default:
                 break;
         }
+        setLikePanel(beanNearbyItem);
 
+        // List ITEM INTERVAL COLOR
+        int color = getResources().getColor(R.color.white);
+        if (position % 2 == 1) {
+            color = getResources().getColor(R.color.listItemDark);
+        } else {
+            color = getResources().getColor(R.color.white);
+        }
+        mItemSubContainer.setBackgroundColor(color);
+
+        mItemContainer.setBackgroundColor(getResources().getColor(res));
+    }
+
+    public void setLikePanel(BeanNearbyItem beanNearbyItem) {
         //like unlike
 
         boolean likeEnable = true;
@@ -256,17 +270,6 @@ public class ViewNearbyItem extends BindableView {
 
         mLike.setEnabled(likeEnable);
         mUnLike.setEnabled(likeEnable);
-
-        // List ITEM INTERVAL COLOR
-        int color = getResources().getColor(R.color.white);
-        if (position % 2 == 1) {
-            color = getResources().getColor(R.color.listItemDark);
-        } else {
-            color = getResources().getColor(R.color.white);
-        }
-        mItemSubContainer.setBackgroundColor(color);
-
-        mItemContainer.setBackgroundColor(getResources().getColor(res));
     }
 
     public void onListModeClick(View v) {
@@ -282,5 +285,9 @@ public class ViewNearbyItem extends BindableView {
 
     public void onItemClick(View v) {
         toggleDanmuPanel();
+    }
+
+    public static void resetExpandPosition() {
+        expandPosition = NO_EXPAND;
     }
 }

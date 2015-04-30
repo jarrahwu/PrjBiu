@@ -30,6 +30,8 @@ public class FragmentQATopic extends BindableFragment implements Constant{
     public static final String KEY_REQUEST = "request_json";
     private int mUnionId;
 
+    private ArrayList<BeanNearbyItem> mDataSource;
+
     public FragmentQATopic() {}
 
     @BindView(id = R.id.networkListView)
@@ -58,7 +60,8 @@ public class FragmentQATopic extends BindableFragment implements Constant{
     @Override
     protected void onViewDidLoad(Bundle savedInstanceState) {
         super.onViewDidLoad(savedInstanceState);
-
+        ViewNearbyItem.resetExpandPosition();
+        mDataSource = new ArrayList<BeanNearbyItem>();
         loader = new AbsWorker.AbsLoader<ViewNearbyItem, BeanNearbyItem>() {
             @Override
             public String parseNextUrl(JSONObject response) {
@@ -80,22 +83,37 @@ public class FragmentQATopic extends BindableFragment implements Constant{
             public ArrayList<BeanNearbyItem> parseJSON2ArrayList(JSONObject response) {
                 L.dbg("fragment question  response " + response.toString());
                 ResponseTopicQuestions r = JacksonWrapper.json2Bean(response, ResponseTopicQuestions.class);
-                return r.getReturnData().getContData();
+                ArrayList<BeanNearbyItem> array = new ArrayList<BeanNearbyItem>();
+                if(r.getReturnData() != null && r.getReturnData().getContData() != null) {
+                    array = r.getReturnData().getContData();
+                    if(mNetworkListView.isLoadMore()) {
+                        mDataSource.addAll(array);
+                    }else{
+                        mDataSource.clear();
+                        mDataSource.addAll(array);
+                    }
+                }
+                return array;
             }
 
             @Override
             public void updateItemUI(int position, final BeanNearbyItem data, ViewNearbyItem itemView) {
                 itemView.setData(data, position);
-//                itemView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        ActivityDetail.Extra extra = new ActivityDetail.Extra();
-//                        extra.questId = data.getQuestId();
-//                        extra.fromNearby = data;
-//                        ActivityDetail.start(getActivity(), extra);
-//                    }
-//                });
+                // like unlike
+                LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
+                extra.aid = data.getAnsId();
+                extra.qid = data.getQuestId();
+                LikePanelHolder holder = new LikePanelHolder(extra, itemView) {
+                    @Override
+                    public void onPostSuccess(boolean isLike) {
+                        super.onPostSuccess(isLike);
+                    }
+                };
+                holder.setData(data);
+                setupLikePanel(position, data, itemView);
             }
+
+
 
             @Override
             public ViewNearbyItem makeItem(LayoutInflater inflater, int position, View convertView, ViewGroup parent) {
@@ -104,6 +122,40 @@ public class FragmentQATopic extends BindableFragment implements Constant{
         };
         mNetworkListView.setEmptyView(EmptyHelper.getEmptyView(getActivity(), R.drawable.bg_nearby_empty, R.string.no_topic));
         doRequest();
+    }
+
+    private void setupLikePanel(final int position,
+                                BeanNearbyItem data, final View itemView) {
+        LikePanelHolder.Extra extra = new LikePanelHolder.Extra();
+        extra.aid = data.getAnsId();
+        extra.qid = data.getQuestId();
+        LikePanelHolder likePanelHolder = new LikePanelHolder(extra,
+                itemView) {
+
+            @Override
+            public void onPostSuccess(boolean isLike) {
+            }
+
+            @Override
+            public void onPrePost(boolean isLike) {
+                super.onPrePost(isLike);
+                int count = isLike ? Integer.valueOf(like.getText()
+                        .toString()) : Integer.valueOf(unLike.getText()
+                        .toString());
+                count++;
+
+                if (isLike) {
+                    mDataSource.get(position).setLikeFlag(1);
+                    mDataSource.get(position).setLikeNum(count);
+                } else {
+                    mDataSource.get(position).setLikeFlag(2);
+                    mDataSource.get(position).setUnlikeNum(count);
+                }
+                ViewNearbyItem.expandPosition = position;
+                mNetworkListView.notifyDataSetChanged();
+            }
+        };
+        likePanelHolder.listenForChecking();
     }
 
     private void doRequest() {
@@ -115,5 +167,11 @@ public class FragmentQATopic extends BindableFragment implements Constant{
         }else {
             L.dbg(TAG + " do request but data is null!");
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ViewNearbyItem.resetExpandPosition();
     }
 }
