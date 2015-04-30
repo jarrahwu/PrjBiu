@@ -94,7 +94,6 @@
     <orderEntry type="library" exported="" name="support-v4-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.0.0" level="project" />
     <orderEntry type="module" module-name="libpulltorefresh" exported="" />
-    <orderEntry type="module" module-name="libstkjdlm" exported="" />
     <orderEntry type="module" module-name="libactionbar" exported="" />
   </component>
 </module>

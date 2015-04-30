@@ -58,11 +58,13 @@ public class FragmentMessage extends BindableFragment {
             public JSONObject parseNextJSON(JSONObject response) {
                 ResponseMsgList responseMsgList = JacksonWrapper.json2Bean(
                         response, ResponseMsgList.class);
-                ArrayList<BeanMsgItem> data = responseMsgList.getReturnData()
-                        .getContData();
-                if (data.size() > 0) {
-                    int lastId = data.get(data.size() - 1).getUllId();
-                    return U.buildMsgList(false, lastId);
+                if(responseMsgList.getReturnData() != null) {
+                    ArrayList<BeanMsgItem> data = responseMsgList.getReturnData()
+                            .getContData();
+                    if (data.size() > 0) {
+                        int lastId = data.get(data.size() - 1).getUllId();
+                        return U.buildMsgList(false, lastId);
+                    }
                 }
                 return null;
             }
@@ -73,7 +75,7 @@ public class FragmentMessage extends BindableFragment {
                 ResponseMsgList responseMsgList = JacksonWrapper.json2Bean(
                         response, ResponseMsgList.class);
                 ArrayList<BeanMsgItem> contData = new ArrayList<>();
-                if (responseMsgList != null) {
+                if (responseMsgList != null && responseMsgList.getReturnData() != null) {
                     contData = responseMsgList.getReturnData().getContData();
                 }
                 if(mListView.isLoadMore()) {
