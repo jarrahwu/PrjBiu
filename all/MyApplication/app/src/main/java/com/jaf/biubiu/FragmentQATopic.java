@@ -102,7 +102,7 @@ public class FragmentQATopic extends BindableFragment implements Constant{
                 return new ViewNearbyItem(getActivity());
             }
         };
-
+        mNetworkListView.setEmptyView(EmptyHelper.getEmptyView(getActivity(), R.drawable.bg_nearby_empty, R.string.no_topic));
         doRequest();
     }
 

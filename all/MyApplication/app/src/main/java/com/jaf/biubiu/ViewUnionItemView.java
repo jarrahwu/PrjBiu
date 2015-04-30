@@ -62,7 +62,10 @@ public class ViewUnionItemView extends BindableView{
             mDistanceTag.setText(tagTextId);
             mTopicTitle.setText(data.getUnionName());
             String distance = data.getDistance() < 3 ? "<3" : String.valueOf(data.getDistance());
-            mDistance.setText(getContext().getString(R.string.distance, distance));
+
+            String distanceText = empty ? getContext().getString(R.string.distance, distance) : data.getLocDesc();
+            mDistance.setText(distanceText);
+
             mTopicCount.setText(getContext().getString(R.string.topicCount, data.getQuestionNum()));
         }
     }
