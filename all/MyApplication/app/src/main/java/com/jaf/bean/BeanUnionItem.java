@@ -1,6 +1,7 @@
 package com.jaf.bean;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Created by jarrahwu on 15/4/15.

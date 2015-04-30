@@ -1,6 +1,7 @@
 package com.jaf.bean;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * Created by jarrah on 2015/4/21.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ResponseMsgList implements Serializable{
+public class ResponseMsgList implements Serializable {
     private String statusInfo;
     private int statusCode;
     private ReturnData returnData;
