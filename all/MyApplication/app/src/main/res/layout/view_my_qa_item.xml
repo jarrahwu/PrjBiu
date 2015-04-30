@@ -55,6 +55,8 @@
         android:orientation="horizontal">
 
         <TextView
+            android:drawableLeft="@drawable/ic_msg_count"
+            android:drawablePadding="5dip"
             android:textSize="12sp"
             android:text="@string/zero"
             android:id="@+id/msgCount"

@@ -60,6 +60,8 @@ public class U implements Constant{
         brn.setAppVersion(VER);
         brn.setCmd(CMD.LIST_TOPIC_QUESTION);
         brn.setDvcId(Device.getId(Application.getInstance().getApplicationContext()));
+        brn.setLatitude(Application.getInstance().getAppExtraInfo().lat);
+        brn.setLongitude(Application.getInstance().getAppExtraInfo().lon);
         brn.setIdType(fresh ? 2 : 1);
         brn.setLastId(lastId);
         brn.setUnionId(unionId);

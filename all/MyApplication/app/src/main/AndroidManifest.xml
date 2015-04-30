@@ -227,10 +227,6 @@
 
         <!-- jpush end -->
         <activity
-            android:name=".ActivityTest"
-            android:label="@string/title_activity_activity_test" >
-        </activity>
-        <activity
             android:name=".ActivityMyUnion"
             android:label="@string/title_activity_my_union" >
         </activity>

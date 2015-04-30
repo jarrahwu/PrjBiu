@@ -25,11 +25,9 @@ import com.jaf.jcore.BindView;
 import com.jaf.jcore.Http;
 import com.jaf.jcore.HttpCallBack;
 import com.jaf.jcore.JacksonWrapper;
-import com.jaf.push.ExampleUtil;
 
 import org.json.JSONObject;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import biubiu.jaf.com.libbottomtab.IndicatorRadioButton;
@@ -69,21 +67,22 @@ public class ActivityTab extends BaseActionBarActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
         //push
         registerAlias();
+        registerMessageReceiver();  // used for receive msg
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		enableTitleDisplayHomeAsUp(false);
 	}
 
 
 
-	@Override
+
+    @Override
 	protected void onViewDidLoad(Bundle savedInstanceState) {
 		initBottomBar();
 		initFragments();
 		switchFragment(FIRST_TAB);
-
-        registerMessageReceiver();  // used for receive msg
 	}
 
     @Override
@@ -215,7 +214,9 @@ public class ActivityTab extends BaseActionBarActivity
 				}
 
 				if (index == 3) {
-					ActivitySetting.start(ActivityTab.this);
+                    FragmentMe fragmentMe = (FragmentMe) mTabFragments[index];
+                    boolean isCheck = fragmentMe.mBeanUser == null ? false : fragmentMe.mBeanUser.getIsPush() == 1 ? true : false;
+					ActivitySetting.start(ActivityTab.this, isCheck);
 				}
 			}
 
@@ -292,6 +293,7 @@ public class ActivityTab extends BaseActionBarActivity
     @Override
     protected void onResume() {
         isForeground = true;
+        JPushInterface.onResume(this);
         super.onResume();
     }
 
@@ -299,6 +301,7 @@ public class ActivityTab extends BaseActionBarActivity
     @Override
     protected void onPause() {
         isForeground = false;
+        JPushInterface.onPause(this);
         super.onPause();
     }
 
@@ -321,12 +324,13 @@ public class ActivityTab extends BaseActionBarActivity
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            L.dbg("push get : ");
             if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                 String messge = intent.getStringExtra(KEY_MESSAGE);
                 String extras = intent.getStringExtra(KEY_EXTRAS);
                 StringBuilder showMsg = new StringBuilder();
                 showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
-                if (!ExampleUtil.isEmpty(extras)) {
+                if (!TextUtils.isEmpty(extras)) {
                     showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
                     mIndicatorRadioButton.showIndicator(true);
                     FragmentMessage fmsg = (FragmentMessage) mTabFragments[2];
@@ -338,10 +342,9 @@ public class ActivityTab extends BaseActionBarActivity
     }
 
     public void registerAlias() {
-        Set<String> alias = new HashSet<>();
-        alias.add(Device.getId(this));
+        String alias = Device.getId(this);
         //call back not ui thread
-        JPushInterface.setAliasAndTags(getApplicationContext(), null, alias, new TagAliasCallback() {
+        JPushInterface.setAliasAndTags(getApplicationContext(), alias, null, new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> strings) {
                 switch (i) {

@@ -87,4 +87,5 @@
     <string name="youHasNoUnion">你沒有创建板块哦~</string>
     <string name="data_error">数据异常</string>
     <string name="no_topic">没有话题, 发布一个吧~</string>
+    <string name="pushSwitch">接收推送</string>
 </resources>

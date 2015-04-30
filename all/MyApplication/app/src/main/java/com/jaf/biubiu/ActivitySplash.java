@@ -6,7 +6,10 @@ import android.os.Handler;
 
 import com.jaf.jcore.BindableActivity;
 
+import java.util.Set;
+
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 public class ActivitySplash extends BindableActivity {
 
@@ -21,6 +24,7 @@ public class ActivitySplash extends BindableActivity {
 
 	@Override
 	protected void onViewDidLoad(Bundle savedInstanceState) {
+        registerAlias();
 		mDelayStart = new Runnable() {
 
 			@Override
@@ -53,5 +57,28 @@ public class ActivitySplash extends BindableActivity {
     protected void onPause() {
         super.onPause();
         JPushInterface.onPause(this);
+    }
+
+    public void registerAlias() {
+        String alias = Device.getId(this);
+        //call back not ui thread
+        JPushInterface.setAliasAndTags(getApplicationContext(), alias, null, new TagAliasCallback() {
+            @Override
+            public void gotResult(int i, String s, Set<String> strings) {
+                switch (i) {
+                    case 0:
+                        L.dbg("Set tag and alias success");
+                        break;
+
+                    case 6002:
+                        L.dbg("Failed to set alias and tags due to timeout. Try again after 60s.");
+                        break;
+
+                    default:
+                        L.dbg("Failed with errorCode = " + i);
+                        break;
+                }
+            }
+        });
     }
 }

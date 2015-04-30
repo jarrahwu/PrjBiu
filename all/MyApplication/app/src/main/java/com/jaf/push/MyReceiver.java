@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.jaf.biubiu.ActivityDetail;
 import com.jaf.biubiu.ActivityTab;
+import com.jaf.biubiu.Constant;
+import com.jaf.biubiu.L;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,19 +38,21 @@ public class MyReceiver extends BroadcastReceiver {
                         
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
         	Log.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
-        	processCustomMessage(context, bundle);
-        
+
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
+            processCustomMessage(context, bundle);
         	
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
             
         	//打开自定义的Activity
-        	Intent i = new Intent(context, ActivityTab.class);
-        	i.putExtras(bundle);
+        	Intent i = new Intent(context, ActivityDetail.class);
+            String jsonStr = bundle.getString(JPushInterface.EXTRA_EXTRA);
+        	i.putExtra(Constant.KEY_PUSH_EXTRA, jsonStr);
+            i.putExtra(Constant.KEY_PUSH_DETAIL, true);
         	//i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
         	context.startActivity(i);
@@ -82,7 +87,9 @@ public class MyReceiver extends BroadcastReceiver {
 	
 	//send msg to MainActivity
 	private void processCustomMessage(Context context, Bundle bundle) {
-		if (ActivityTab.isForeground) {
+        L.dbg("processCustomMessage");
+        if (ActivityTab.isForeground) {
+            L.dbg("send to activity Tab");
 			String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
 			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
 			Intent msgIntent = new Intent(ActivityTab.MESSAGE_RECEIVED_ACTION);

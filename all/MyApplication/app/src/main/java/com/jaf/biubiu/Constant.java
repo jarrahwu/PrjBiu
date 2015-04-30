@@ -5,6 +5,8 @@ package com.jaf.biubiu;
  */
 public interface Constant {
 
+    public static final String KEY_PUSH_EXTRA = "push_detail_extra";
+
     public interface BottomTabBar {
         public static final int TAB_COUNT = 4;
         public static final int FIRST_TAB = R.id.tab0;
@@ -12,6 +14,8 @@ public interface Constant {
                 R.string.nearby, R.string.topic, R.string.message, R.string.me
         };
     }
+
+    public static final String KEY_PUSH_DETAIL = "PUSH_START_DETAIL";
 
     public static final String API = "http://183.131.76.109/cgi/user_svc.php";
     public static final String VER = "2.1";
@@ -45,5 +49,7 @@ public interface Constant {
 
         public static final int POST_GET_QUESTION = 0x2009;
         public static final int POST_DELETE_MSG = 0x4303;
+
+        public static final int POST_PUSH_SWITCH = 0x1008;
     }
 }

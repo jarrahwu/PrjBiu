@@ -11,7 +11,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.jaf.bean.BeanRequestTopicQuestionList;
 import com.jaf.bean.BeanUser;
 import com.jaf.bean.ResponseUser;
 import com.jaf.jcore.AdapterWrapper;
@@ -29,7 +28,7 @@ import org.json.JSONObject;
 public class FragmentMe extends BindableFragment{
 
     private static final String TAG = "Fragment Me";
-    private BeanUser mBeanUser;
+    BeanUser mBeanUser;
 
     @BindView(id = R.id.meList)
     private ListView mListView;
@@ -60,10 +59,10 @@ public class FragmentMe extends BindableFragment{
     @Override
     protected void onViewDidLoad(Bundle savedInstanceState) {
         super.onViewDidLoad(savedInstanceState);
-        requestUserInfo();
         initUserInfo();
         setupTop();
         setupMeList();
+        requestUserInfo();
     }
 
     private void initUserInfo() {
@@ -92,6 +91,12 @@ public class FragmentMe extends BindableFragment{
         mAdapter.add(MeItem.newItem(getString(R.string.myUnion), unionNum));
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        requestUserInfo();
+    }
+
     private void requestUserInfo() {
         Http http = new Http(TAG);
         http.url(Constant.API).JSON(U.buildUser()).post(new HttpCallBack() {
@@ -101,8 +106,13 @@ public class FragmentMe extends BindableFragment{
                 ResponseUser responseUser = JacksonWrapper.json2Bean(response, ResponseUser.class);
                 if (responseUser != null) {
                     mBeanUser = responseUser.getReturnData();
+
+                    if(mBeanUser == null) {
+                        initUserInfo();
+                    }
+
                     L.dbg(TAG + " " + response.toString());
-                    setupTop();;
+                    setupTop();
                     setupMeList();
                 }
             }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import com.jaf.jcore.BaseActionBarActivity;
 import com.jaf.jcore.BindView;
 import com.jaf.jcore.Http;
 import com.jaf.jcore.HttpCallBack;
+import com.jaf.jcore.JacksonWrapper;
 import com.jarrah.photo.PopupUtil;
 
 import org.json.JSONObject;
@@ -95,7 +97,17 @@ public class ActivityDetail extends BaseActionBarActivity {
 		mDialog.show();
 	}
 
-	@Override
+    @Override
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+    }
+
+    private boolean fromPushMessage() {
+        boolean ret = getIntent().getBooleanExtra(Constant.KEY_PUSH_DETAIL, false);
+        return ret;
+    }
+
+    @Override
 	protected int onLoadViewResource() {
 		return R.layout.activity_detail;
 	}
@@ -126,6 +138,22 @@ public class ActivityDetail extends BaseActionBarActivity {
 	}
 
 	public Extra getData() {
+        if(fromPushMessage()) {
+            Extra extra = new Extra();
+            L.dbg("from push");
+            String jsonStr = getIntent().getStringExtra(Constant.KEY_PUSH_EXTRA);
+            if(jsonStr != null) {
+                try {
+                    JSONObject jo = new JSONObject(jsonStr);
+                    extra.fromNearby = JacksonWrapper.json2Bean(jo, BeanNearbyItem.class);
+                    extra.questId = extra.fromNearby.getQuestId();
+                } catch (Exception e) {
+                    L.dbg("push start detail error" + e);
+                    return null;
+                }
+            }
+            return extra;
+        }
 		return (Extra) getIntent().getSerializableExtra(KEY_ARGS);
 	}
 
