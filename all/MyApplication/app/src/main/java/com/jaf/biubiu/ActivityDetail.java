@@ -148,16 +148,6 @@ public class ActivityDetail extends BaseActionBarActivity {
 			Toast.makeText(this, R.string.saySomething, Toast.LENGTH_SHORT)
 					.show();
 		} else {
-//			LocationManager.getInstance().requestLocation(
-//					new LocationManager.JLsn() {
-//						@Override
-//						public void onResult(double latitude, double longitude,
-//								BDLocation location) {
-//							super.onResult(latitude, longitude, location);
-//
-//
-//						}
-//					});
             String location = Application.getInstance().getAppExtraInfo().addrStr;
             if(!isReplyComment)
                 replyQuestion(text.toString(), location);

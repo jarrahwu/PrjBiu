@@ -94,7 +94,6 @@ public class ViewAnswerItem extends BindableView {
                     break;
             }
 
-
             mLike.setChecked(isLike);
             mUnLike.setChecked(isUnlike);
 

@@ -58,7 +58,7 @@
     <string name="unionPass">你申请创建的板块已通过审核,快去看看吧</string>
     <string name="unionBlock">你申请创建的板块未能通过审核, 可以重新申请创建</string>
     <string name="title_activity_activity_union_topic">板块</string>
-    <string name="reply">回复</string>
+    <string name="prepareReply">回复</string>
     <string name="reportAbuse">举报</string>
     <string name="reportSuccess">举报成功</string>
     <string name="replyFloor">回复%1$d楼</string>

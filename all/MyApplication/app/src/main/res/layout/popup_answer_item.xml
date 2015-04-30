@@ -11,7 +11,7 @@
         android:layout_marginLeft="@dimen/stdPadding"
         android:layout_marginRight="@dimen/stdPadding"
         android:layout_marginTop="@dimen/midPadding"
-        android:text="@string/reply" />
+        android:text="@string/prepareReply" />
 
     <Button
         android:id="@+id/btnReportAbuse"

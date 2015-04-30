@@ -184,7 +184,7 @@ public class FragmentQA extends BindableFragment {
             }
 
             @Override
-            public void updateItemUI(final int position, BeanAnswerItem data,
+            public void updateItemUI(final int position,final BeanAnswerItem data,
                                      ViewAnswerItem itemView) {
 
                 mBeanAnswerItem = data;
@@ -196,7 +196,7 @@ public class FragmentQA extends BindableFragment {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mFloorNum = position + 1;
+                        mFloorNum = data.getFloorId();
                         popup();
                     }
 
@@ -216,7 +216,7 @@ public class FragmentQA extends BindableFragment {
                                 view.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        reply();
+                                        prepareReply();
                                     }
                                 }, 400);
                             }
@@ -242,8 +242,8 @@ public class FragmentQA extends BindableFragment {
                 mPopupDialog.show();
             }
 
-            private void reply() {
-                L.dbg("do reply set reply data aid %d", mBeanAnswerItem.getAnsId());
+            private void prepareReply() {
+                L.dbg("do prepareReply set prepareReply data aid %d", mBeanAnswerItem.getAnsId());
                 ActivityDetail activityDetail = (ActivityDetail) getActivity();
                 Device.showSoftKeyboard(activityDetail.mEditText, activityDetail);
                 activityDetail.mEditText.setHint(getString(R.string.replyFloor, mFloorNum));

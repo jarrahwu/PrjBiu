@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.jaf.bean.BeanAnswerItem;
@@ -17,7 +18,6 @@ import com.jaf.jcore.JacksonWrapper;
 
 import org.json.JSONObject;
 
-import java.security.AuthProvider;
 import java.util.ArrayList;
 
 import master.flame.danmaku.ui.widget.DanmakuView;
@@ -69,6 +69,13 @@ public class ViewNearbyItem extends BindableView {
     @BindView(id = R.id.listMode, onClick = "onListModeClick")
     View btnListMode;
     private LikePanelHolder mLikePanelHolder;
+
+    @BindView(id = R.id.likeCheck)
+    public CheckBox mLike;
+
+    @BindView(id = R.id.unlikeCheck)
+    public CheckBox mUnLike;
+
 
     @BindView(id = R.id.likePanelContainer, onClick = "doNothing")
 
@@ -219,6 +226,36 @@ public class ViewNearbyItem extends BindableView {
             default:
                 break;
         }
+
+        //like unlike
+
+        boolean likeEnable = true;
+        boolean isUnlike;
+        boolean isLike;
+
+        switch (beanNearbyItem.getLikeFlag()) {
+            case 1://zan
+                likeEnable = false;
+                isLike = true;
+                isUnlike = false;
+                break;
+            case 2://cai
+                likeEnable = false;
+                isUnlike = true;
+                isLike = false;
+                break;
+            default://no status
+                likeEnable= true;
+                isUnlike = false;
+                isLike = false;
+                break;
+        }
+
+        mLike.setChecked(isLike);
+        mUnLike.setChecked(isUnlike);
+
+        mLike.setEnabled(likeEnable);
+        mUnLike.setEnabled(likeEnable);
 
         // List ITEM INTERVAL COLOR
         int color = getResources().getColor(R.color.white);
