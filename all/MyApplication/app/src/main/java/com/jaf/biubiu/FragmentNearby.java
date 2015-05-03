@@ -1,6 +1,5 @@
 package com.jaf.biubiu;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -82,7 +81,7 @@ public class FragmentNearby extends BindableFragment implements Constant {
             @Override
             public ArrayList<BeanNearbyItem> parseJSON2ArrayList(
                     JSONObject response) {
-                // L.dbg(response.toString());
+                L.dbg(TAG + response.toString());
                 ResponseNearby responseNearby = JacksonWrapper.json2Bean(
                         response, ResponseNearby.class);
                 // return responseNearby.getReturnData().getContData();
